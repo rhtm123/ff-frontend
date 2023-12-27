@@ -4,20 +4,20 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-200">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">FlatFolio</a>
+        <Link href="/" className="btn btn-ghost normal-case text-xl">FlatFolio</Link>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/dashboard">Dashboard</Link>
           </li>
           <li>
             <Link href="/contact">Contact</Link>
           </li>
           <li>
-            <Link href="/about">About</Link>
+            <Link href="/login">Login</Link>
           </li>
         </ul>
       </div>
