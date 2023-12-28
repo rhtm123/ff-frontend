@@ -6,21 +6,30 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
+  const [member, setMember] = useState(null);
 
   useEffect(() => {
     // Check if the authentication token exists in the cookie
     const storedToken = getCookie("token");
-    console.log(storedToken);
+    // console.log(storedToken);
+    const storedMember = getCookie("member");
+
+
+
 
     if (storedToken) {
       setToken(storedToken);
+      setMember(storedMember);
     }
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
 
-  const login = (newToken) => {
-    setToken(newToken);
-    setCookie("token",newToken);
+  const login = (value) => {
+    setToken(value.token);
+    setMember(value.member);
+    setCookie("token",value.token);
+    setCookie("member",value.member);
+
   };
 
   const logout = () => {
@@ -31,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, member, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

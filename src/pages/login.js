@@ -43,7 +43,8 @@ export default function Login() {
 
       // Handle the response, e.g., update state or redirect to another page
       console.log('Login successful:', response.data);
-      login(response.data.token);
+      login(response.data);
+
     } catch (error) {
       // Handle error, e.g., display an error message
       console.error('Login error:', error.message);
