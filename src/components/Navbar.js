@@ -1,8 +1,12 @@
 // components/Navbar.tsx
 import React from "react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
+  const {token, login, logout} = useAuth();
+
+
   return (
     <div className="navbar bg-base-200">
       <div className="flex-1">
@@ -16,9 +20,14 @@ const Navbar = () => {
           <li>
             <Link href="/contact">Contact</Link>
           </li>
-          <li>
+          {!token && <li>
             <Link href="/login">Login</Link>
-          </li>
+          </li>}
+
+          {token && <li>
+            <button onClick={logout}>Logout</button>
+          </li>}
+
         </ul>
       </div>
     </div>

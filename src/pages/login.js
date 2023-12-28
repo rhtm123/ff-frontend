@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '@/context/AuthContext';
+
+import { getAuthCookie } from '@/utils/myCookie';
 
 
 export default function Login() {
+  const {token, login, logout} = useAuth();
+
+  // const storedToken = getAuthCookie();
+  // console.log(storedToken);
   // State to keep track of input values
   const [formData, setFormData] = useState({
     username: '',
@@ -22,20 +29,21 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let url = "https://flatfolio.onrender.com/api/members/login";
+    // let url = "https://flatfolio.onrender.com/api/members/login";
 
-
+    let url = process.env.API_URL + "api/members/login"
     // Access the form data (username and password)
     // const { username, password } = formData;
     // Perform actions such as sending data to a server or authentication logic
     // console.log('Form Data:', { username, password });
 
     try {
-      console.log("fdfas")
+      // console.log("fdfas")
       const response = await axios.post(url, formData);
 
       // Handle the response, e.g., update state or redirect to another page
       console.log('Login successful:', response.data);
+      login(response.data.token);
     } catch (error) {
       // Handle error, e.g., display an error message
       console.error('Login error:', error.message);
@@ -46,10 +54,12 @@ export default function Login() {
   };
 
   return (
-    <div className="hero min-h-screen bg-base-200 flex items-center justify-center">
+    <div className="hero min-h-screen bg-base-100 flex items-center justify-center">
       <div className="card w-full max-w-sm shadow-2xl bg-base-100">
+        {!token && 
         <form className="card-body text-center" onSubmit={handleSubmit}>
           <h1 className="text-5xl font-bold mb-6">Login</h1>
+          {/* {token} */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Username</span>
@@ -84,6 +94,11 @@ export default function Login() {
             </button>
           </div>
         </form>
+        }
+
+        {token && <div>
+          <h1>You are already logged in</h1>
+          </div>} 
       </div>
     </div>
   );
