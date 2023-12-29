@@ -3,7 +3,7 @@ import React from "react";
 export default function flat_view() {
   return (
     <div className="my-10 mx-20">
-    <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+    <h2 className="text-2xl font-bold ">
            Flat No: 2A-501
           </h2>
     
@@ -13,7 +13,7 @@ export default function flat_view() {
         {/* Heading */}
         <div className="ps-2 my-2 first:mt-0">
        
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-0.5xl sm:tracking-tight">
+          <h2 className="text-2xl font-bold ">
             Owner Details
           </h2>
           <h3 className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
@@ -87,7 +87,7 @@ export default function flat_view() {
         <div>
           {/* Heading */}
           <div className="ps-2 my-2 first:mt-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+          <h2 className="text-2xl font-bold ">
           Tennat Details
         </h2>
             <h3 className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
