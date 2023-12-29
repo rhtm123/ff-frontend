@@ -1,19 +1,30 @@
 import React from 'react';
+import { useTheme } from 'next-themes';
+
 
 const Footer = () => {
+  const { theme, setTheme } = useTheme();
+
   return (
     <footer className="bg-base-200 w-full p-8 mx-auto">
       {/* Grid */}
       <div className="text-center">
-        <div>
-          <a
-            className="flex-none text-xl font-semibold text-black dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            href="#"
+
+      <div className='py-4'>
+      <span>Select Theme: </span>
+      <select className="select select-sm" value={theme} onChange={e => setTheme(e.target.value)}>
+        <option value="light">light</option>
+        <option value="cupcake">Cupcake</option>
+        <option value="dark">Dark</option>
+      </select>
+      </div>
+
+          <h1
+            className="flex-none text-xl font-semibold"
             aria-label="Brand"
           >
            Team Coding Chaska
-          </a>
-        </div>
+          </h1>
         {/* End Col */}
 
         <div className="mt-3">
@@ -27,7 +38,7 @@ const Footer = () => {
             </a>{' '}
             family.
           </p> */}
-          <p className="text-gray-500">Copyright © 2023 - All right reserved by FlatFolio</p>
+          <p className="">Copyright © 2023 - All right reserved by FlatFolio</p>
         </div>
 
         {/* Social Brands */}

@@ -15,7 +15,7 @@ export default function Dashboard() {
           <input
             type="text"
             placeholder="Search"
-            className="input input-bordered input-info w-full max-w-xs pl-10 relative"
+            className="input input-bordered input-info w-full pl-10 relative"
           />
           <span className="input-group-addon" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
             <svg
@@ -49,7 +49,7 @@ export default function Dashboard() {
             <FlatCard />
 
           </div>
-          <div className="grid grid-cols-4 gap-4 pt-4">
+          <div className="grid pt-8">
          <h1 className="text-2xl font-bold ">Society Members</h1>
           </div>
           <div className="overflow-x-auto">
