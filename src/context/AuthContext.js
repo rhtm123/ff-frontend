@@ -1,12 +1,14 @@
 // context/AuthContext.js
 import { createContext, useContext, useState, useEffect } from 'react';
 import { setCookie, removeCookie, getCookie } from '../utils/myCookie';
+import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [member, setMember] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Check if the authentication token exists in the cookie
@@ -35,6 +37,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     removeCookie("token");
+    router.push("/");
   };
 
 

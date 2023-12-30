@@ -1,12 +1,24 @@
 import login from "./login"
 import Link from "next/link"
+import { useAuth } from "@/context/AuthContext";
+
+import { redirect } from 'next/navigation'
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const {token} = useAuth();
+  const router = useRouter();
+
+  if (token) {
+    router.push('/dashboard');
+  }
+
 
   const youtubeVideoUrl = "https://www.youtube.com/watch?v=OnTDSLzBO8E"
 
   const newWidth = 560 * 1.5;
-const newHeight = 315 * 1.5;
+  const newHeight = 315 * 1.5;
+
 
   return (
     <div>
@@ -295,3 +307,5 @@ const newHeight = 315 * 1.5;
     </div>
   )
 }
+
+

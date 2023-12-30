@@ -15,7 +15,7 @@ export default function Dashboard() {
           <input
             type="text"
             placeholder="Search"
-            className="input input-bordered input-info w-full pl-10 relative"
+            className="input input-bordered w-full pl-10 relative"
           />
           <span className="input-group-addon" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
             <svg
@@ -49,122 +49,92 @@ export default function Dashboard() {
             <FlatCard />
 
           </div>
-          <div className="grid pt-8">
-         <h1 className="text-2xl font-bold ">Society Members</h1>
+          <div className="grid pt-4">
+            <h1 className="text-2xl font-bold py-4">Society Members</h1>
+            <div className="overflow-x-auto">
+    <table className="table">
+      {/* head */}
+      <thead>
+        <tr>
+          <th>Sr.</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Flat details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {/* row 1 */}
+        <tr>
+          <th>1</th>
+          <td>Mr Dhiru Singh</td>
+          <td>Secretary</td>
+          <td>2B-1506</td>
+        </tr>
+        {/* row 2 */}
+        <tr>
+          <th>2</th>
+          <td>Mr Rohit Maurya</td>
+          <td>ChairPerson</td>
+          <td>2A-501</td>
+        </tr>
+        {/* row 3 */}
+      </tbody>
+    </table>
+            </div>
           </div>
-          <div className="overflow-x-auto">
-  <table className="table">
-    {/* head */}
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Role</th>
-        <th>Flat details</th>
-      </tr>
-    </thead>
-    <tbody>
-      {/* row 1 */}
-      <tr>
-        <th>1</th>
-        <td>Mr Dhiru Singh</td>
-        <td>Secretary</td>
-        <td>2B-1506</td>
-      </tr>
-      {/* row 2 */}
-      <tr>
-        <th>2</th>
-        <td>Mr Rohit Maurya</td>
-        <td>ChairPerson</td>
-        <td>2A-501</td>
-      </tr>
-      {/* row 3 */}
-    </tbody>
-  </table>
-</div>
+
 
         </div>
 
         {/* right section */}
 
         <div className="p-8">
-        <div>
-        <div>
-          {/* Heading */}
-          <div className="ps-2 my-2 first:mt-0">
-          <h2 className="text-2xl font-bold ">
-          Recent Activity
-        </h2>
-            <h3 className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
-              1 Aug, 2023
-            </h3>
-          </div>
-          {/* End Heading */}
+        <h2 className="text-xl font-bold pb-4">Recent Activities</h2>
 
-          {/* Item */}
-          <div className="flex gap-x-3">
-            {/* Icon */}
-            <div className="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-gray-700">
-              <div className="relative z-10 w-7 h-7 flex justify-center items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-              </div>
-            </div>
-            {/* End Icon */}
-
-            {/* Right Content */}
-            <div className="grow pt-0.5 pb-8">
-            
-              <h3 className="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white">
-                
-                Created "Preline in React" task
-              </h3>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Find more detailed instructions here.
-              </p>
-            </div>
-            {/* End Right Content */}
-          </div>
-          {/* End Item */}
-
-          {/* Item */}
-          <div className="flex gap-x-3">{/* Icon */}</div>
-          {/* End Item */}
-
-          {/* Item */}
-
-          <div className="ps-2 my-2 first:mt-0">
           
-            <h3 className="text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
-              31 Jul, 2023
-            </h3>
-          </div>
-          {/* End Heading */}
+        
+	<div className="pb-4">
+		<div className="flex">
+			<p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
+			<div className="flex-1 space-y-1">
+				<div className="flex items-center justify-between space-x-4 ">
+					<button rel="noopener noreferrer" className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group ">
+						<span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+						<span className="">Feature</span>
+					</button>
+					<span className="text-xs whitespace-nowrap">10h ago</span>
+				</div>
+				
+			</div>
+		</div>
 
-          {/* Item */}
-          <div className="flex gap-x-3">
-            {/* Icon */}
-            <div className="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-gray-700">
-              <div className="relative z-10 w-7 h-7 flex justify-center items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-              </div>
-            </div>
-            {/* End Icon */}
+    <div>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt nunc ipsum tempor purus vitae id. Morbi in vestibulum nec varius. Et diam cursus quis sed purus nam. Scelerisque amet elit non sit ut tincidunt condimentum. Nisl ultrices eu venenatis diam.</p>
+		</div>
+		
+	</div>
 
-            {/* Right Content */}
-            <div className="grow pt-0.5 pb-8">
-              <h3 className="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white">
-                Take a break
-              </h3>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Just chill for now...
-              </p>
-            </div>
-            {/* End Right Content */}
-          </div>
-          {/* End Item */}
-        </div>
-        {/* End Timeline */}
-      </div>
+  <div className="pb-4">
+		<div className="flex">
+			<p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
+			<div className="flex-1 space-y-1">
+				<div className="flex items-center justify-between space-x-4 ">
+					<button rel="noopener noreferrer" className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group ">
+						<span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+						<span className="">Feature</span>
+					</button>
+					<span className="text-xs whitespace-nowrap">10h ago</span>
+				</div>
+				
+			</div>
+		</div>
+
+    <div>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt nunc ipsum tempor purus vitae id. Morbi in vestibulum nec varius. Et diam cursus quis sed purus nam. Scelerisque amet elit non sit ut tincidunt condimentum. Nisl ultrices eu venenatis diam.</p>
+		</div>
+		
+	</div>
+
         </div>
       </div>
     </div>
