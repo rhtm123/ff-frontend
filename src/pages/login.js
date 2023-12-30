@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';
 
-import { getAuthCookie } from '@/utils/myCookie';
+import { useRouter } from "next/router";
 
 
 export default function Login() {
-  const {token, login, logout} = useAuth();
+  const {token, login} = useAuth();
+  const router = useRouter();
 
-  // const storedToken = getAuthCookie();
-  // console.log(storedToken);
-  // State to keep track of input values
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -24,6 +23,13 @@ export default function Login() {
       [name]: value,
     }));
   };
+
+
+  React.useEffect(() => {
+    if (token) {
+      router.push('/dashboard');
+    } 
+  }, [token]);
 
   // Handle form submission
   const handleSubmit = async (e) => {

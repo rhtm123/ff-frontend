@@ -14,11 +14,13 @@ export const AuthProvider = ({ children }) => {
     // Check if the authentication token exists in the cookie
     const storedToken = getCookie("token");
     // console.log(storedToken);
-    const storedMember = JSON.parse(getCookie("member"));
+    if (getCookie("member")){
+    }
+    // const storedMember = JSON.parse(getCookie("member"));
 
-    if (storedToken) {
+    if (storedToken ) {
       setToken(storedToken);
-      setMember(storedMember);
+      setMember(JSON.parse(getCookie("member")));
     }
   }, []); // Empty dependency array ensures this effect runs only once on mount
 

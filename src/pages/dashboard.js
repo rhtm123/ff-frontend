@@ -5,21 +5,28 @@ import axios from "axios";
 
 
 import Loading from "@/components/Loading";
+import { getCookie } from '../utils/myCookie';
 
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
+
 
 
 export default function Dashboard() {
   const [flats, setFlats] = React.useState([]);
   const [totalPages, setTotalPages] = React.useState(0);
+  const router = useRouter();
   const {token, member} = useAuth();
-  // const router = useRouter();
 
 
 
-  // if (!token) {
-  //   return router.push("/login");
-  // }
+  React.useEffect(() => {
+    // console.log("token", token);
+    const token = getCookie("token");
+
+    if (!token) {
+      router.push('/login');
+    } 
+  }, []);
 
   // const router = useRouter();
   const [loading, setLoading] = React.useState(true);
