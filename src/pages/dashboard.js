@@ -32,7 +32,7 @@ export default function Dashboard() {
           );
         // console.log(response);
         setFlats(response.data.flats);
-        // console.log(response.data);
+        console.log(response.data);
         setTotalPages(response.data.totalPages);
         setLoading(false)
       } catch (error) {
