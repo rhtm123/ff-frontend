@@ -1,7 +1,50 @@
 import React from "react";
 import FlatCard from "@/components/FlatCard";
+import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
+
+import { useRouter } from "next/router";
+
+import Loading from "@/components/Loading";
+
 
 export default function Dashboard() {
+  const [flats, setFlats] = React.useState([]);
+  const [totalPages, setTotalPages] = React.useState(0);
+  const {token, member} = useAuth();
+  const router = useRouter();
+  const [loading, setLoading] = React.useState(true);
+
+  if (!token) {
+    router.push('/dashboard');
+  }
+
+
+  React.useEffect(() => {
+    setLoading(true)
+    // console.log("Dashboard");
+    // console.log(member);
+    const fetchFlats = async () => {
+      try {
+        const response = await axios.get(
+          process.env.API_URL + `api/flats?societyId=${member.societyId}`,
+          { headers: {"Authorization" : `${token}`} }
+          );
+        // console.log(response);
+        setFlats(response.data.flats);
+        // console.log(response.data);
+        setTotalPages(response.data.totalPages);
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching flats:', error);
+      }
+    };
+    if (member){
+      fetchFlats();
+    }
+  }, [member]);
+  
+
   return (
     <div>
      
@@ -36,17 +79,9 @@ export default function Dashboard() {
 
 
           <div className="grid grid-cols-6 gap-4">
-            <FlatCard />
-            <FlatCard />
-            <FlatCard />
-            <FlatCard />
-            <FlatCard />
-
-            <FlatCard />
-            <FlatCard />
-            <FlatCard />
-            <FlatCard />
-            <FlatCard />
+            
+            {loading && <Loading />}
+            {flats.map((flat, i)=> <FlatCard key={i} flat={flat} />)}
 
           </div>
           <div className="grid pt-4">

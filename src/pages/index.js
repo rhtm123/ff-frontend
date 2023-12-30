@@ -2,7 +2,6 @@ import login from "./login"
 import Link from "next/link"
 import { useAuth } from "@/context/AuthContext";
 
-import { redirect } from 'next/navigation'
 import { useRouter } from "next/router";
 
 export default function Home() {
