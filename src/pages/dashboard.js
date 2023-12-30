@@ -3,21 +3,30 @@ import FlatCard from "@/components/FlatCard";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 
-import { useRouter } from "next/router";
 
 import Loading from "@/components/Loading";
+
+// import { useRouter } from "next/router";
 
 
 export default function Dashboard() {
   const [flats, setFlats] = React.useState([]);
   const [totalPages, setTotalPages] = React.useState(0);
   const {token, member} = useAuth();
-  const router = useRouter();
+  // const router = useRouter();
+
+
+
+  // if (!token) {
+  //   return router.push("/login");
+  // }
+
+  // const router = useRouter();
   const [loading, setLoading] = React.useState(true);
 
-  if (!token) {
-    router.push('/dashboard');
-  }
+  // if (!token) {
+  //   router.push('/login');
+  // }
 
 
   React.useEffect(() => {
