@@ -6,9 +6,7 @@ import axios from "axios";
 
 import Loading from "@/components/Loading";
 import { getCookie } from '../utils/myCookie';
-
 import { useRouter } from "next/router";
-
 
 
 export default function Dashboard() {
@@ -16,6 +14,7 @@ export default function Dashboard() {
   const [totalPages, setTotalPages] = React.useState(0);
   const router = useRouter();
   const {token, member} = useAuth();
+  const [searchText, setSearchText] = React.useState("");
 
 
 
@@ -31,19 +30,18 @@ export default function Dashboard() {
   // const router = useRouter();
   const [loading, setLoading] = React.useState(true);
 
-  // if (!token) {
-  //   router.push('/login');
-  // }
 
 
   React.useEffect(() => {
-    setLoading(true)
+    setLoading(true);
+    setFlats([]);
+
     // console.log("Dashboard");
     // console.log(member);
     const fetchFlats = async () => {
       try {
         const response = await axios.get(
-          process.env.API_URL + `api/flats?societyId=${member.societyId}`,
+          process.env.API_URL + `api/flats?societyId=${member.societyId}&search=${searchText}`,
           { headers: {"Authorization" : `${token}`} }
           );
         // console.log(response);
@@ -58,7 +56,7 @@ export default function Dashboard() {
     if (member){
       fetchFlats();
     }
-  }, [member]);
+  }, [member, searchText]);
   
 
   return (
@@ -73,7 +71,8 @@ export default function Dashboard() {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search by flat number"
+            onChange={(e)=>setSearchText(e.target.value)}
             className="input input-bordered w-full pl-10 relative"
           />
           <span className="input-group-addon" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
@@ -94,7 +93,7 @@ export default function Dashboard() {
     </form>
 
 
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
             
             {loading && <Loading />}
             {flats.map((flat, i)=> <FlatCard key={i} flat={flat} />)}
@@ -102,35 +101,35 @@ export default function Dashboard() {
           </div>
           <div className="grid pt-4">
             <h1 className="text-2xl font-bold py-4">Society Members</h1>
-            <div className="overflow-x-auto">
-    <table className="table">
-      {/* head */}
-      <thead>
-        <tr>
-          <th>Sr.</th>
-          <th>Name</th>
-          <th>Role</th>
-          <th>Flat details</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* row 1 */}
-        <tr>
-          <th>1</th>
-          <td>Mr Dhiru Singh</td>
-          <td>Secretary</td>
-          <td>2B-1506</td>
-        </tr>
-        {/* row 2 */}
-        <tr>
-          <th>2</th>
-          <td>Mr Rohit Maurya</td>
-          <td>ChairPerson</td>
-          <td>2A-501</td>
-        </tr>
-        {/* row 3 */}
-      </tbody>
-    </table>
+            <div className="">
+              <table className="table">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>Sr.</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Flat details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* row 1 */}
+                  <tr>
+                    <th>1</th>
+                    <td>Mr Dhiru Singh</td>
+                    <td>Secretary</td>
+                    <td>2B-1506</td>
+                  </tr>
+                  {/* row 2 */}
+                  <tr>
+                    <th>2</th>
+                    <td>Mr Rohit Maurya</td>
+                    <td>ChairPerson</td>
+                    <td>2A-501</td>
+                  </tr>
+                  {/* row 3 */}
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -145,14 +144,17 @@ export default function Dashboard() {
           
         
 	<div className="pb-4">
-		<div className="flex">
+		<div className="flex items-baseline">
 			<p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
 			<div className="flex-1 space-y-1">
 				<div className="flex items-center justify-between space-x-4 ">
-					<button rel="noopener noreferrer" className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group ">
-						<span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
-						<span className="">Feature</span>
-					</button>
+
+
+          <div class="badge badge-info gap-2">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+            info
+          </div>
+          
 					<span className="text-xs whitespace-nowrap">10h ago</span>
 				</div>
 				
