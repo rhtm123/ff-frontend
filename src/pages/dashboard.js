@@ -143,7 +143,7 @@ export default function Dashboard() {
                     <th>Sr.</th>
                     <th>Name</th>
                     <th>Role</th>
-                    <th>Flat details</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -165,25 +165,27 @@ export default function Dashboard() {
         {/* right section */}
 
         <div className="p-8">
-          <h2 className="text-xl font-bold pb-4">Recent Activities</h2>
+        <h2 className="text-xl font-bold pb-4">Recent Activities</h2>
 
-          <div className="pb-4">
-            <div className="flex items-baseline">
-              <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between space-x-4 ">
-                  <div class="badge badge-info gap-2">
-                    <span
-                      aria-hidden="true"
-                      className="h-1.5 w-1.5 rounded-full bg-primary"
-                    ></span>
-                    info
-                  </div>
+          
+        
+	<div className="pb-4">
+		<div className="flex items-center">
+			<p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
+			<div className="flex-1 space-y-1">
+				<div className="flex items-center justify-between space-x-4 ">
 
-                  <span className="text-xs whitespace-nowrap">10h ago</span>
-                </div>
-              </div>
-            </div>
+
+          <div class="badge badge-info gap-2">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+            info
+          </div>
+          
+					<span className="text-xs whitespace-nowrap">10h ago</span>
+				</div>
+				
+			</div>
+		</div>
 
             <div>
               <p>

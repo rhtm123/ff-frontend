@@ -3,11 +3,15 @@ import AddMember from "@/components/AddMember";
 import Error from "@/components/Error";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import OwnerCard from "@/components/OwnerCard";
 
 export default function FlatView({data, error}) {
 
   const [owners, setOwners] = React.useState([]);
   const {token} = useAuth();
+
+  const [tenants, setTenants] = React.useState([]);
+
 
   if (error) {
     return( 
@@ -28,7 +32,7 @@ export default function FlatView({data, error}) {
           { headers: {"Authorization" : `${token}`} }
           );
         // console.log(response);
-        console.log(response.data);
+        // console.log(response.data);
         setOwners(response.data.owners);
         // setLoading(false)
       } catch (error) {
@@ -37,6 +41,33 @@ export default function FlatView({data, error}) {
     };
     if (true){
       fetchOwners();
+    }
+  }, []);
+
+
+
+  React.useEffect(() => {
+    // setLoading(true);
+    setTenants([]);
+
+    // console.log("Dashboard");
+    // console.log(member);
+    const fetchTenants = async () => {
+      try {
+        const response = await axios.get(
+          process.env.API_URL + `api/tenants?flatId=${data._id}`,
+          { headers: {"Authorization" : `${token}`} }
+          );
+        // console.log(response);
+        console.log(response.data);
+        setTenants(response.data.tenants);
+        // setLoading(false)
+      } catch (error) {
+        console.error('Error fetching flats:', error);
+      }
+    };
+    if (true){
+      fetchTenants();
     }
   }, []);
 
@@ -60,29 +91,23 @@ export default function FlatView({data, error}) {
     <h2 className="text-xl font-bold py-4">
       Owner Details
     </h2>
-    <div className="py-4">
 
-    
-
+      
+  
         
-        <div className="relative col-span-12 px-4 space-y-6 sm:col-span-9">
-          <div className="col-span-12 space-y-12 relative px-4 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
-            <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:bg-secondary">
-              <h3 className="text-xl font-semibold tracki">Sunteck West World</h3>
-              <time className="text-xs tracki uppercase ">2 Dec 2020</time>
-              <p className="mt-3">Pellentesque feugiat ante at nisl efficitur, in mollis orci scelerisque. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-            </div>
-            <div className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:bg-secondary">
-              <h3 className="text-xl font-semibold tracki">Ramashankar Maurya</h3>
-              <time className="text-xs tracki uppercase dark:text-gray-400">2 Jul 2019</time>
-              <p className="mt-3">Morbi vulputate aliquam libero non dictum. Aliquam sit amet nunc ut diam aliquet tincidunt nec nec dui. Donec mollis turpis eget egestas sodales.</p>
-            </div>
+        <div className="relative col-span-12 px-4 space-y-6 ">
+          <div className="space-y-12 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
+            
+      {owners.map((owner,index)=>
+        <OwnerCard owner={owner} />
+      )}
+
             
           </div>
         </div>
-    </div>
 
-    <button className="btn" onClick={()=>document.getElementById('my_modal_1').showModal()}>Add Owner</button>
+    
+    <button className="btn mt-6" onClick={()=>document.getElementById('my_modal_1').showModal()}>Add Owner</button>
 
     <dialog id="my_modal_1" className="modal">
       <AddMember />
@@ -98,6 +123,37 @@ export default function FlatView({data, error}) {
       <h2 className="text-xl font-bold py-4">
         Tenant Details
       </h2>
+
+      <div className="relative col-span-12 px-4 space-y-6 ">
+          <div className="space-y-12 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
+
+          {tenants.map((tenant,index)=>
+       <div key={index} className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:bg-secondary">
+       <h3 className="text-xl font-semibold tracki">{tenant.memberId?.name}</h3>
+       <span className="text-xs tracki">{new Date(tenant.moveInDate).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })}
+    -
+    {tenant.moveOutDate ?
+      <span className="text-xs tracki">{new Date(tenant.moveOutDate).toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })}</span>: <span>Currently</span>
+      }
+
+  </span>
+
+      
+       {/* <p className="mt-3">Pellentesque feugiat ante at nisl efficitur, in mollis orci scelerisque. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p> */}
+     </div>
+      )}
+
+      
+          </div>
+      </div>
 
       <button className="btn" onClick={()=>document.getElementById('my_modal_2').showModal()}>Add Tenant</button>
 

@@ -1,0 +1,6 @@
+function TenantCard({owner}) {
+
+    return(
+
+    )
+}
