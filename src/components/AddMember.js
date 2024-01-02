@@ -1,16 +1,167 @@
+import React, { useState } from 'react';
+import axios from 'axios';
 
-export default function AddMember(){
+const AddMember = ({ societyId, token, flatId, flatMembers, setFlatMembers }) => {
+  const [newOwner, setNewOwner] = useState({
+    name: '',
+    mobileNo: '',
+    role: '',
+    dob: '',
+  });
 
-    return (
-        <div className="modal-box">
-        <h3 className="font-bold text-lg">Hello!</h3>
-        <p className="py-4">Press ESC key or click the button below to close</p>
-        <div className="modal-action">
-          <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn">Close</button>
-          </form>
-        </div>
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewOwner((prevOwner) => ({
+      ...prevOwner,
+      [name]: value,
+    }));
+  };
+
+  const addToFlat = async (addedMember) => {
+    try {
+      const response = await fetch('https://flatfolio.onrender.com/api/owners', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`, // Assuming a Bearer token
+        },
+        body: JSON.stringify({
+          // societyId: societyId,
+          flatId: flatId,  // Assuming you have access to flatId
+          memberId: addedMember._id,  // Use the actual property name based on your API
+        }),
+      });
+  
+      if (response.ok) {
+        const newFlatOwner = await response.json();
+        console.log('Member added to flat successfully:', newFlatOwner);
+
+        setFlatMembers((flatMembers) => [...flatMembers, newFlatOwner]);
+
+        // You can perform further actions if needed
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to add member to flat:', errorData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
+  const handleAddOwner = async () => {
+    try {
+      const response = await fetch('https://flatfolio.onrender.com/api/members', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`, // Assuming a Bearer token
+        },
+        body: JSON.stringify({
+          societyId: societyId,
+          username: newOwner.mobileNo,
+          name: newOwner.name,
+          mobile: newOwner.mobileNo,
+          role: newOwner.role,
+          dob: newOwner.dob,
+        }),
+      });
+
+      if (response.ok) {
+        const addedMember = await response.json();
+        console.log('Owner added successfully:', addedMember);
+
+       
+        addToFlat(addedMember);
+
+        setNewOwner({
+          name: '',
+          mobileNo: '',
+          role: '',
+          dob: '',
+        });
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to add owner:', errorData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
+
+  return (
+    <div className="modal-box">
+      <h3 className="font-bold text-lg">Enter Owner Details!</h3>
+      <div className="modal-action flex items-center justify-center">
+        <form className="w-full max-w-xs">
+          <div className="mb-4">
+            <label>
+              Name:
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered input-xs w-full"
+                name="name"
+                value={newOwner.name}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="mb-4">
+            <label>
+              Mobile No:
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered input-xs w-full"
+                name="mobileNo"
+                value={newOwner.mobileNo}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="mb-4">
+            <label>
+              Role:
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered input-xs w-full"
+                name="role"
+                value={newOwner.role}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="mb-4">
+            <label>
+              Date of Birth:
+              <input
+                type="date"
+                className="input input-bordered input-xs w-full"
+                name="dob"
+                value={newOwner.dob}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="modal-action">
+            <button type="button" className="btn" onClick={handleAddOwner}>
+              Add Owner
+            </button>
+            <button type="button" className="btn">
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
-    )
-}
+
+      {/* Display added owners */}
+    
+    </div>
+  );
+};
+
+export default AddMember;
