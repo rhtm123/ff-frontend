@@ -1,11 +1,10 @@
 import React from "react";
 import AddMember from "@/components/AddMember";
 import Error from "@/components/Error";
-import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import OwnerCard from "@/components/OwnerCard";
 
-export default function FlatView({ data, error }) {
+export default function FlatView({ flat, error }) {
   const [owners, setOwners] = React.useState([]);
   const { token, member } = useAuth();
 
@@ -23,18 +22,30 @@ export default function FlatView({ data, error }) {
     // console.log(member);
     const fetchOwners = async () => {
       try {
-        const response = await axios.get(
-          process.env.API_URL + `api/owners?flatId=${data._id}`,
-          { headers: { Authorization: `${token}` } }
+        const response = await fetch(
+          process.env.API_URL + `api/owners?flatId=${flat._id}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
         );
-        // console.log(response);
-        // console.log(response.data);
-        setOwners(response.data.owners);
-        // setLoading(false)
+    
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        setOwners(data.owners);
+        // setLoading(false);
       } catch (error) {
         console.error("Error fetching flats:", error);
       }
     };
+
+    
     if (true) {
       fetchOwners();
     }
@@ -48,18 +59,30 @@ export default function FlatView({ data, error }) {
     // console.log(member);
     const fetchTenants = async () => {
       try {
-        const response = await axios.get(
-          process.env.API_URL + `api/tenants?flatId=${data._id}`,
-          { headers: { Authorization: `${token}` } }
+        const response = await fetch(
+          process.env.API_URL + `api/tenants?flatId=${flat._id}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
         );
-        // console.log(response);
-        console.log(response.data);
-        setTenants(response.data.tenants);
-        // setLoading(false)
+    
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        setTenants(data.tenants);
+        // setLoading(false);
       } catch (error) {
         console.error("Error fetching flats:", error);
       }
     };
+
+    
     if (true) {
       fetchTenants();
     }
@@ -84,7 +107,7 @@ export default function FlatView({ data, error }) {
         </svg>
 
         <h2 className="text-2xl font-bold">
-          {data.wingId?.name} {data.name}
+          {flat.wingId?.name} {flat.name}
         </h2>
       </div>
 
@@ -96,7 +119,7 @@ export default function FlatView({ data, error }) {
           <div className="relative col-span-12 px-4 space-y-6 ">
             <div className="space-y-12 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
               {owners.map((owner, index) => (
-                <OwnerCard owner={owner} />
+                <OwnerCard key={index} owner={owner} />
               ))}
             </div>
           </div>
@@ -107,17 +130,19 @@ export default function FlatView({ data, error }) {
           >
             Add Owner
           </button>
+          
 
-          <dialog id="my_modal_1" className="modal">
+          
             <AddMember
               societyId={member?.societyId}
               token={token}
-              flatId={data._id}
+              flatId={flat._id}
               flatMembers={owners}
               setFlatMembers={setOwners}
+              modalName={"my_modal_1"}
             />
-          </dialog>
-        </div>
+
+          </div>
 
         {/* owner */}
 
@@ -171,9 +196,8 @@ export default function FlatView({ data, error }) {
             Add Tenant
           </button>
 
-          <dialog id="my_modal_2" className="modal">
-            <AddMember />
-          </dialog>
+            <AddMember modalName={"my_modal_2"} />
+
         </div>
         {/* end Tenant  */}
       </div>
@@ -193,7 +217,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      data: data,
+      flat: data,
       error: error,
     },
   };

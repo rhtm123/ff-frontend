@@ -1,7 +1,6 @@
 import React from "react";
 import FlatCard from "@/components/FlatCard";
 import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
 
 import Loading from "@/components/Loading";
 import { getCookie } from "../utils/myCookie";
@@ -38,21 +37,31 @@ export default function Dashboard() {
     // console.log(member);
     const fetchFlats = async () => {
       try {
-        const response = await axios.get(
-          process.env.API_URL +
-            `api/flats?societyId=${member.societyId}&search=${searchText}`,
-          { headers: { Authorization: `${token}` } }
+        const response = await fetch(
+          `${process.env.API_URL}api/flats?societyId=${member.societyId}&search=${searchText}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
         );
-        // console.log(response);
-        setFlats(response.data.flats);
-
-        console.log(response.data);
-        setTotalPages(response.data.totalPages);
+    
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        setFlats(data.flats);
+        setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching flats:", error);
       }
     };
+
+    
     if (member) {
       fetchFlats();
     }
@@ -66,26 +75,34 @@ export default function Dashboard() {
     setMemberLoading(true);
     setCommitteeMembers([]);
 
-    const fetchmembers = async () => {
+    const fetchMembers = async () => {
       try {
-        const response = await axios.get(
-          process.env.API_URL +
-            `api/members?canAccess=true&societyId=${member.societyId}`,
-          { headers: { Authorization: `${token}` } }
+        const response = await fetch(
+          `${process.env.API_URL}api/members?canAccess=true&societyId=${member.societyId}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
         );
-        // console.log(response);
-
-        setCommitteeMembers(response.data.members);
-
-        console.log(response.data);
-        // setTotalPages(response.data.totalPages);
-        setMemberLoading(false)
+    
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+        setCommitteeMembers(data.members);
+        // setTotalPages(data.totalPages); // Uncomment this line if needed
+        setMemberLoading(false);
       } catch (error) {
-        console.error("Error fetching flats:", error);
+        console.error("Error fetching members:", error);
       }
     };
+    
 
-    fetchmembers();
+    fetchMembers();
   }, []);
 
   return (

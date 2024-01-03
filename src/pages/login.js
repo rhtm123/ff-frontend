@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from "next/router";
 
@@ -32,34 +31,41 @@ export default function Login() {
     }
   }, [token]);
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
- // let url = "https://flatfolio.onrender.com/api/members/login";
-
-    let url = process.env.API_URL + "api/members/login";
-
-     // Access the form data (username and password)
-    // const { username, password } = formData;
-    // Perform actions such as sending data to a server or authentication logic
-    // console.log('Form Data:', { username, password });
-
+  
+    // let url = "https://flatfolio.onrender.com/api/members/login";
+    let url = `${process.env.API_URL}api/members/login`;
+  
     try {
-
       setLoading(true); // Start loading
-      const response = await axios.post(url, formData);
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Login failed. Status: ${response.status}`);
+      }
+  
       // Handle the response, e.g., update state or redirect to another page
-      console.log('Login successful:', response.data);
-      login(response.data);
+      const data = await response.json();
+      console.log('Login successful:', data);
+      login(data);
       setErrorMessage(null); // Reset error message on successful login
     } catch (error) {
       console.error('Login error:', error.message);
       setErrorMessage('Wrong username or password'); // Set error message for wrong login details
+    } finally {
+      setLoading(false); // Stop loading, regardless of success or failure
     }
-  finally {
-    setLoading(false); // Stop loading, regardless of success or failure
-  }
   };
+  
 
 // You can perform further actions like making an API request here
   return (

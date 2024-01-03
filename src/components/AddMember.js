@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-const AddMember = ({ societyId, token, flatId, flatMembers, setFlatMembers }) => {
+const AddMember = ({ societyId, token, flatId, flatMembers, setFlatMembers, modalName }) => {
   const [newOwner, setNewOwner] = useState({
     name: '',
     mobileNo: '',
@@ -92,10 +91,19 @@ const AddMember = ({ societyId, token, flatId, flatMembers, setFlatMembers }) =>
 
 
   return (
+    <dialog id={modalName} className="modal">
+
     <div className="modal-box">
+      <form method="dialog" className="modal-backdrop">
+      {/* if there is a button in form, it will close the modal */}
+      <button className="btn btn-sm btn-circle absolute right-2 top-2">
+        ✕
+        </button>
+      </form>
+
       <h3 className="font-bold text-lg">Enter Owner Details!</h3>
       <div className="modal-action flex items-center justify-center">
-        <form className="w-full max-w-xs">
+        <form className="w-full">
           <div className="mb-4">
             <label>
               Name:
@@ -151,16 +159,23 @@ const AddMember = ({ societyId, token, flatId, flatMembers, setFlatMembers }) =>
             <button type="button" className="btn" onClick={handleAddOwner}>
               Add Owner
             </button>
-            <button type="button" className="btn">
-              Cancel
-            </button>
           </div>
         </form>
       </div>
 
       {/* Display added owners */}
+
+
+      
     
     </div>
+
+    {/* Dont delete this - modal will be closed when outside clicked*/}
+    <form method="dialog" className="modal-backdrop">
+      <button>close</button>
+    </form>
+    {/*  */}
+    </dialog>
   );
 };
 
