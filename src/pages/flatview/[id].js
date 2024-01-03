@@ -3,6 +3,7 @@ import AddMember from "@/components/AddMember";
 import Error from "@/components/Error";
 import { useAuth } from "@/context/AuthContext";
 import OwnerCard from "@/components/OwnerCard";
+import AddTenant from '@/components/AddTenant';
 
 export default function FlatView({ flat, error }) {
   const [owners, setOwners] = React.useState([]);
@@ -146,6 +147,8 @@ export default function FlatView({ flat, error }) {
 
         {/* owner */}
 
+
+
         {/* Tenant */}
         <div>
           <h2 className="text-xl font-bold py-4">Tenant Details</h2>
@@ -196,7 +199,13 @@ export default function FlatView({ flat, error }) {
             Add Tenant
           </button>
 
-            <AddMember modalName={"my_modal_2"} />
+            <AddTenant 
+            societyId={member?.societyId}
+              token={token}
+              flatId={flat._id}
+              flatMembers={tenants}
+              setFlatMembers={setTenants}
+            modalName={"my_modal_2"} />
 
         </div>
         {/* end Tenant  */}
