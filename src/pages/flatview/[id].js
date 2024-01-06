@@ -1,24 +1,31 @@
 import React from "react";
-import AddMember from "@/components/AddMember";
+import AddUpdateOwnerModal from "@/components/AddUpdateOwnerModal";
 import Error from "@/components/Error";
 import { useAuth } from "@/context/AuthContext";
 import OwnerCard from "@/components/OwnerCard";
-import AddTenant from '@/components/AddTenant';
+import AddUpdateTenantModal from '@/components/AddUpdateTenantModal';
+import Loading from "@/components/Loading";
+
+import TenantCard from "@/components/TenantCard";
 
 export default function FlatView({ flat, error }) {
   const [owners, setOwners] = React.useState([]);
   const { token, member } = useAuth();
 
   const [tenants, setTenants] = React.useState([]);
+  const [loadingOwners, setLoadingOwners] = React.useState(true);
+  const [loadingTenants, setLoadingTenants] = React.useState(true);
+  const [deletedOwnersCount, setDeletedOwnersCount] = React.useState(0);
+  const [deletedTenantsCount, setDeletedTenantsCount] = React.useState(0);
+
 
   if (error) {
     return <Error />;
   }
 
   React.useEffect(() => {
-    // setLoading(true);
+    setLoadingOwners(true);
     setOwners([]);
-
     // console.log("Dashboard");
     // console.log(member);
     const fetchOwners = async () => {
@@ -40,6 +47,7 @@ export default function FlatView({ flat, error }) {
     
         const data = await response.json();
         setOwners(data.owners);
+        setLoadingOwners(false);
         // setLoading(false);
       } catch (error) {
         console.error("Error fetching flats:", error);
@@ -50,9 +58,11 @@ export default function FlatView({ flat, error }) {
     if (true) {
       fetchOwners();
     }
-  }, []);
+  }, [deletedOwnersCount]);
 
   React.useEffect(() => {
+    setLoadingTenants(true);
+
     // setLoading(true);
     setTenants([]);
 
@@ -77,6 +87,7 @@ export default function FlatView({ flat, error }) {
     
         const data = await response.json();
         setTenants(data.tenants);
+        setLoadingTenants(false);
         // setLoading(false);
       } catch (error) {
         console.error("Error fetching flats:", error);
@@ -87,7 +98,7 @@ export default function FlatView({ flat, error }) {
     if (true) {
       fetchTenants();
     }
-  }, []);
+  }, [deletedTenantsCount]);
 
   return (
     <div className="p-8">
@@ -118,9 +129,16 @@ export default function FlatView({ flat, error }) {
           <h2 className="text-xl font-bold py-4">Owner Details</h2>
 
           <div className="relative col-span-12 px-4 space-y-6 ">
-            <div className="space-y-12 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
+            <div className="space-y-6 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
+              {loadingOwners && <Loading />}
               {owners.map((owner, index) => (
-                <OwnerCard key={index} owner={owner} />
+                <OwnerCard key={index} 
+                owner_={owner}
+                flatOwners={owners}
+                setFlatOwners={setOwners}
+                deletedOwnersCount={deletedOwnersCount}
+                setDeletedOwnersCount={setDeletedOwnersCount} 
+                />
               ))}
             </div>
           </div>
@@ -131,15 +149,13 @@ export default function FlatView({ flat, error }) {
           >
             Add Owner
           </button>
-          
 
-          
-            <AddMember
+            <AddUpdateOwnerModal
               societyId={member?.societyId}
               token={token}
               flatId={flat._id}
-              flatMembers={owners}
-              setFlatMembers={setOwners}
+              flatOwners={owners}
+              setFlatOwners={setOwners}
               modalName={"my_modal_1"}
             />
 
@@ -154,58 +170,37 @@ export default function FlatView({ flat, error }) {
           <h2 className="text-xl font-bold py-4">Tenant Details</h2>
 
           <div className="relative col-span-12 px-4 space-y-6 ">
-            <div className="space-y-12 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
-              {tenants.map((tenant, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:bg-secondary"
-                >
-                  <h3 className="text-xl font-semibold tracki">
-                    {tenant.memberId?.name}
-                  </h3>
-                  <span className="text-xs tracki">
-                    {new Date(tenant.moveInDate).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                    -
-                    {tenant.moveOutDate ? (
-                      <span className="text-xs tracki">
-                        {new Date(tenant.moveOutDate).toLocaleDateString(
-                          "en-US",
-                          {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}
-                      </span>
-                    ) : (
-                      <span>Currently</span>
-                    )}
-                  </span>
+            <div className="space-y-6 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
+              {loadingTenants && <Loading />}
 
-                  {/* <p className="mt-3">Pellentesque feugiat ante at nisl efficitur, in mollis orci scelerisque. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p> */}
-                </div>
+              {tenants.map((tenant, index) => (
+                <TenantCard 
+                key={index} 
+                tenant_={tenant}
+                flatTenants={tenants}
+                setFlatTenants={setTenants}
+                deletedTenantsCount={deletedTenantsCount}
+                setDeletedTenantsCount={setDeletedTenantsCount}   
+                />
+                
               ))}
             </div>
           </div>
 
           <button
-            className="btn"
+            className="btn mt-6"
             onClick={() => document.getElementById("my_modal_2").showModal()}
           >
             Add Tenant
           </button>
 
-            <AddTenant 
-            societyId={member?.societyId}
+            <AddUpdateTenantModal 
+              societyId={member?.societyId}
               token={token}
               flatId={flat._id}
               flatMembers={tenants}
               setFlatMembers={setTenants}
-            modalName={"my_modal_2"} />
+              modalName={"my_modal_2"} />
 
         </div>
         {/* end Tenant  */}
