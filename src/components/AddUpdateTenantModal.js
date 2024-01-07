@@ -52,11 +52,13 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
       });
 
       if (response.ok) {
-        const newFlatTenant = await response.json();
-        console.log('Tenant added to flat successfully:', newFlatTenant);
+        const savedTenant = await response.json();
+        console.log('Tenant added to flat successfully:', savedTenant);
 
         if(!tenant){
-          setTenantMembers((tenantMembers) => [...tenantMembers, newFlatTenant]);
+          setTenantMembers((tenantMembers) => [...tenantMembers, savedTenant]);
+        } else {
+          setTenant(savedTenant);
         }
         document.getElementById(modalName).close();
 

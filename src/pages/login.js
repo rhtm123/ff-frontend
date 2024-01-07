@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from "next/router";
+import { myFetch } from '@/utils/myFetch';
 
 export default function Login() {
   const { token, login } = useAuth();
@@ -39,25 +40,28 @@ export default function Login() {
     let url = `${process.env.API_URL}api/members/login`;
   
     try {
+
       setLoading(true); // Start loading
+
+      let data = await myFetch(url, formData, 'POST');
+
+      // const response = await fetch(url, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
   
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Login failed. Status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`Login failed. Status: ${response.status}`);
+      // }
   
       // Handle the response, e.g., update state or redirect to another page
-      const data = await response.json();
+      // const data = await response.json();
       console.log('Login successful:', data);
       login(data);
-      setErrorMessage(null); // Reset error message on successful login
+      // setErrorMessage(null); // Reset error message on successful login
     } catch (error) {
       console.error('Login error:', error.message);
       setErrorMessage('Wrong username or password'); // Set error message for wrong login details

@@ -14,8 +14,6 @@ export const AuthProvider = ({ children }) => {
     // Check if the authentication token exists in the cookie
     const storedToken = getCookie("token");
     // console.log(storedToken);
-    if (getCookie("member")){
-    }
     // const storedMember = JSON.parse(getCookie("member"));
 
     if (storedToken ) {

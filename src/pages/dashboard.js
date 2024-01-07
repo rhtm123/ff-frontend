@@ -6,6 +6,8 @@ import Loading from "@/components/Loading";
 import { getCookie } from "../utils/myCookie";
 import { useRouter } from "next/router";
 
+import { myFetch } from "@/utils/myFetch";
+
 export default function Dashboard() {
   const [flats, setFlats] = React.useState([]);
   const [committeeMembers, setCommitteeMembers] = React.useState([]);
@@ -33,29 +35,14 @@ export default function Dashboard() {
     setLoading(true);
     setFlats([]);
 
-    // console.log("Dashboard");
-    // console.log(member);
     const fetchFlats = async () => {
       try {
-        const response = await fetch(
-          `${process.env.API_URL}api/flats?societyId=${member.societyId}&search=${searchText}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-    
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
-    
-        const data = await response.json();
+        let url = `${process.env.API_URL}api/flats?societyId=${member.societyId}&search=${searchText}`
+        let data = await myFetch(url);
         setFlats(data.flats);
         setTotalPages(data.totalPages);
         setLoading(false);
+        
       } catch (error) {
         console.error("Error fetching flats:", error);
       }
@@ -76,28 +63,15 @@ export default function Dashboard() {
     setCommitteeMembers([]);
 
     const fetchMembers = async () => {
+
       try {
-        const response = await fetch(
-          `${process.env.API_URL}api/members?canAccess=true&societyId=${member.societyId}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-    
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
-    
-        const data = await response.json();
-        setCommitteeMembers(data.members);
-        // setTotalPages(data.totalPages); // Uncomment this line if needed
-        setMemberLoading(false);
-      } catch (error) {
-        console.error("Error fetching members:", error);
+      let data = await myFetch(`${process.env.API_URL}api/members?canAccess=true&societyId=${member.societyId}`)
+      // console.log(data);
+      setCommitteeMembers(data.members);
+      setMemberLoading(false);
+      }
+      catch(error){
+        console.log(error);
       }
     };
     
