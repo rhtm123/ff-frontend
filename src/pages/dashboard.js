@@ -92,7 +92,7 @@ export default function Dashboard() {
 
   const [totalPages, setTotalPages] = React.useState(0);
   const router = useRouter();
-  const { token, member } = useAuth();
+  const { token, authMember } = useAuth();
   const [searchText, setSearchText] = React.useState("");
 
   React.useEffect(() => {
@@ -115,7 +115,7 @@ export default function Dashboard() {
 
     const fetchFlats = async () => {
       try {
-        let url = `${process.env.API_URL}api/flats?societyId=${member.societyId}&search=${searchText}`
+        let url = `${process.env.API_URL}api/flats?societyId=${authMember.societyId}&search=${searchText}`
         let data = await myFetch(url);
         setFlats(data.flats);
         setTotalPages(data.totalPages);
@@ -126,10 +126,10 @@ export default function Dashboard() {
       }
     };
  
-    if (member) {
+    if (authMember) {
       fetchFlats();
     }
-  }, [member, searchText]);
+  }, [authMember, searchText]);
 
 
 
@@ -142,7 +142,7 @@ export default function Dashboard() {
     const fetchMembers = async () => {
 
       try {
-      let data = await myFetch(`${process.env.API_URL}api/members?canAccess=true&societyId=${member.societyId}`)
+      let data = await myFetch(`${process.env.API_URL}api/members?canAccess=true&societyId=${authMember.societyId}`)
       // console.log(data);
       setCommitteeMembers(data.members);
       setMemberLoading(false);

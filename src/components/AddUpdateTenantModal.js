@@ -5,7 +5,7 @@ import { myFetch } from '@/utils/myFetch';
 const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatTenants, modalName }) => {
   const [newTenant, setNewTenant] = useState();
   const [submitting, setSubmitting] = useState(false);
-  const {token, member} = useAuth();
+  const {token, authMember} = useAuth();
 
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
       
         tenant?'PUT':'POST',
         {
-          societyId: member.societyId,
+          societyId: authMember.societyId,
           name: newTenant.name,
           mobile: newTenant.mobile,
         }

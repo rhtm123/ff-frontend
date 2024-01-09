@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMembers, setFamilyMembers }) => {
   // console.log(flatMemberId);
   // console.log(ownerId);
-  const {token, member} = useAuth();
+  const {token, authMember} = useAuth();
   const [submitting, setSubmitting] = useState(false);
 
 
@@ -75,7 +75,7 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
           Authorization: `${token}`,
         },
         body: JSON.stringify({
-          societyId: member?.societyId,
+          societyId: authMember?.societyId,
           username: newFamily.mobile,
           name: newFamily.name,
           mobile: newFamily.mobile,

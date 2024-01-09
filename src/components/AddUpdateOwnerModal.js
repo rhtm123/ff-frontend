@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 
 const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwners, modalName }) => {
 
-  const {token, member} = useAuth();
+  const {token, authMember} = useAuth();
   const [newOwner, setNewOwner] = useState();
   const [submitting, setSubmitting] = useState(false);
 
@@ -89,7 +89,7 @@ const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwner
           Authorization: `${token}`, // Assuming a Bearer token
         },
         body: JSON.stringify({
-          societyId: member.societyId,
+          societyId: authMember.societyId,
           name: newOwner.name,
           mobile: newOwner.mobile,
           email: newOwner.email,

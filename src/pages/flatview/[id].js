@@ -13,7 +13,7 @@ import AlertCard from "@/components/AlertCard";
 
 export default function FlatView({ flat, error }) {
   const [owners, setOwners] = React.useState([]);
-  const { token, member } = useAuth();
+  const { token, authMember } = useAuth();
 
   const [tenants, setTenants] = React.useState([]);
   const [loadingOwners, setLoadingOwners] = React.useState(true);
@@ -164,7 +164,7 @@ export default function FlatView({ flat, error }) {
           </button>
 
             <AddUpdateOwnerModal
-              societyId={member?.societyId}
+              societyId={authMember?.societyId}
               token={token}
               flatId={flat._id}
               flatOwners={owners}
@@ -213,7 +213,7 @@ export default function FlatView({ flat, error }) {
           </button>
 
             <AddUpdateTenantModal 
-              societyId={member?.societyId}
+              societyId={authMember?.societyId}
               token={token}
               flatId={flat._id}
               flatTenants={tenants}
