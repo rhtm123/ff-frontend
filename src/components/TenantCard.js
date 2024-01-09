@@ -16,7 +16,7 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
 
     try {
       
-      let deletedTenant = await myFetch(url, {}, "DELETE")
+      let deletedTenant = await myFetch(url, "DELETE", {})
 
       console.log(deletedTenant);
       let dataArray = flatTenants.filter(item => item._id !== deletedTenant.tenant._id);

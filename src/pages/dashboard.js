@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FlatCard from "@/components/FlatCard";
 import { useAuth } from "@/context/AuthContext";
 
@@ -7,6 +7,84 @@ import { getCookie } from "../utils/myCookie";
 import { useRouter } from "next/router";
 
 import { myFetch } from "@/utils/myFetch";
+
+
+function CommitteeMember({ member, index }){
+  const [member_, setMember_] = useState(member);
+  const [editMode, setEditMode_] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(member_.role);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [formData, setFormData] = useState(
+    {"role": member.role}
+  )
+
+  const changeMember = async () => {
+    setSubmitting(true);
+    let url = process.env.API_URL + "api/members/" + member._id;
+    console.log(formData);
+    try {
+    let data = await myFetch(url, "PUT", formData);
+    console.log("done",data);
+    setEditMode_(false);
+    setMember_(data);
+    setSubmitting(false);
+    } catch (err) { 
+      console.log("error",err);
+    }
+  }
+
+
+ 
+  const handleChange = (event, key) => {
+    const selectedValue = event.target.value;
+    setSelectedRole(selectedValue);
+    formData[key] = selectedValue;
+    setFormData(formData);
+    // You can perform additional actions based on the selected value if needed
+    // console.log('Selected Role:', selectedValue);
+  };
+
+  if (member_.role === "member")  return null;
+
+
+  return (
+      <tr key={index}>
+          <th>{index + 1}</th>
+          <td>
+            {editMode ? <span>{member_.name}</span>:
+            <span>{member_.name}</span>
+            }
+            </td>
+          <td>
+            {editMode ? 
+            
+            
+            <select value={selectedRole} onChange={(e)=>handleChange(e, "role")} className="select select-sm select-info w-full">
+              <option value="member">Member</option>
+              <option value="chairmain">Chairman</option>
+              <option value="secretary">Secretary</option>
+            </select>
+            : 
+            <spa>{member_.role}</spa>
+            }
+          </td>
+          <td>
+
+          {!editMode ? <svg onClick={()=> setEditMode_(true)}
+          className="cursor-pointer h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"></path></svg>
+            : <button onClick={changeMember} class="btn btn-sm">
+              
+              {submitting ? <span className="loading loading-spinner"></span>: <span>Save</span>}
+
+              </button>
+        }
+          </td>
+      </tr>
+  )
+
+}
+
 
 export default function Dashboard() {
   const [flats, setFlats] = React.useState([]);
@@ -47,8 +125,7 @@ export default function Dashboard() {
         console.error("Error fetching flats:", error);
       }
     };
-
-    
+ 
     if (member) {
       fetchFlats();
     }
@@ -74,7 +151,6 @@ export default function Dashboard() {
         console.log(error);
       }
     };
-    
 
     fetchMembers();
   }, []);
@@ -141,12 +217,7 @@ export default function Dashboard() {
                 {memberLoading && <Loading />}
                   {committeeMembers.map((member, index) => (
                     /* row */
-                    <tr key={index}>
-                      <th>{index + 1}</th>
-                      <td>{member.name}</td>
-                      <td>{member.role}</td>
-                      <td>{}</td>
-                    </tr>
+                    <CommitteeMember member={member}  index={index} />
                   ))}
                 </tbody>
               </table>
