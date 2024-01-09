@@ -7,6 +7,9 @@ import AddUpdateTenantModal from '@/components/AddUpdateTenantModal';
 import Loading from "@/components/Loading";
 
 import TenantCard from "@/components/TenantCard";
+import { myFetch } from "@/utils/myFetch";
+import AlertCard from "@/components/AlertCard";
+
 
 export default function FlatView({ flat, error }) {
   const [owners, setOwners] = React.useState([]);
@@ -26,26 +29,29 @@ export default function FlatView({ flat, error }) {
   React.useEffect(() => {
     setLoadingOwners(true);
     setOwners([]);
-    // console.log("Dashboard");
-    // console.log(member);
+
+
     const fetchOwners = async () => {
       try {
-        const response = await fetch(
-          process.env.API_URL + `api/owners?flatId=${flat._id}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+
+        let data = await myFetch(process.env.API_URL + `api/owners?flatId=${flat._id}`)
+
+        // const response = await fetch(
+        //   process.env.API_URL + `api/owners?flatId=${flat._id}`,
+        //   {
+        //     method: 'GET',
+        //     headers: {
+        //       Authorization: `${token}`,
+        //       'Content-Type': 'application/json',
+        //     },
+        //   }
+        // );
     
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        // }
     
-        const data = await response.json();
+        // const data = await response.json();
         setOwners(data.owners);
         setLoadingOwners(false);
         // setLoading(false);
@@ -70,22 +76,25 @@ export default function FlatView({ flat, error }) {
     // console.log(member);
     const fetchTenants = async () => {
       try {
-        const response = await fetch(
-          process.env.API_URL + `api/tenants?flatId=${flat._id}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+        let url = process.env.API_URL + `api/tenants?flatId=${flat._id}`
+        
+        let data = await myFetch(url);
+        // const response = await fetch(
+        //   process.env.API_URL + `api/tenants?flatId=${flat._id}`,
+        //   {
+        //     method: 'GET',
+        //     headers: {
+        //       Authorization: `${token}`,
+        //       'Content-Type': 'application/json',
+        //     },
+        //   }
+        // );
     
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        // }
     
-        const data = await response.json();
+        // const data = await response.json();
         setTenants(data.tenants);
         setLoadingTenants(false);
         // setLoading(false);
@@ -131,6 +140,10 @@ export default function FlatView({ flat, error }) {
           <div className="relative col-span-12 px-4 space-y-6 ">
             <div className="space-y-6 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
               {loadingOwners && <Loading />}
+
+              {(!loadingOwners && owners.length==0) && 
+              <div className="py-6">No owner available</div>
+              }
               {owners.map((owner, index) => (
                 <OwnerCard key={index} 
                 owner_={owner}
@@ -167,11 +180,16 @@ export default function FlatView({ flat, error }) {
 
         {/* Tenant */}
         <div>
+        
           <h2 className="text-xl font-bold py-4">Tenant Details</h2>
 
           <div className="relative col-span-12 px-4 space-y-6 ">
             <div className="space-y-6 relative px-4 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:bg-secondary">
               {loadingTenants && <Loading />}
+
+              {(!loadingTenants && tenants.length==0) && 
+              <div className="py-6">No tenant available</div>
+              }
 
               {tenants.map((tenant, index) => (
                 <TenantCard 
@@ -198,8 +216,8 @@ export default function FlatView({ flat, error }) {
               societyId={member?.societyId}
               token={token}
               flatId={flat._id}
-              flatMembers={tenants}
-              setFlatMembers={setTenants}
+              flatTenants={tenants}
+              setFlatTenants={setTenants}
               modalName={"my_modal_2"} />
 
         </div>

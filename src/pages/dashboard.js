@@ -167,7 +167,7 @@ export default function Dashboard() {
 				<div className="flex items-center justify-between space-x-4 ">
 
 
-          <div class="badge badge-info gap-2">
+          <div className="badge badge-info gap-2">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
             info
           </div>

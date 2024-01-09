@@ -6,12 +6,12 @@ export function myFetchFile(url = ``, token="", data = {}, method='POST'){
 }
 
 
-export async function myFetch(url='',data={}, method='GET'){
+export async function myFetch(url='',method='GET', formData={}){
     
     try {
         const token = getCookie("token");
         var headers = {"Authorization":token}
-        
+
         headers["Content-Type"] = "application/json"
 
         let response;
@@ -32,7 +32,7 @@ export async function myFetch(url='',data={}, method='GET'){
                 // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
                 // credentials: "same-origin", // include, *same-origin, omit
                 headers: headers,
-                body: JSON.stringify(data), // body data type must match "Content-Type" header
+                body: JSON.stringify(formData), // body data type must match "Content-Type" header
             });
             }
 

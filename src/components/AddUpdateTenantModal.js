@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { myFetch } from '@/utils/myFetch';
 
 const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatTenants, modalName }) => {
   const [newTenant, setNewTenant] = useState();
@@ -39,34 +40,43 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
     let url = tenant? 'https://flatfolio.onrender.com/api/tenants/'+tenant._id:'https://flatfolio.onrender.com/api/tenants'
 
     try {
-      const response = await fetch(url, {
-        method: tenant ? 'PUT':'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`, 
-        },
-        body: JSON.stringify({
-          flatId: flatId,
-          memberId: addedMember._id,
-        }),
-      });
+      const savedTenant = await myFetch(
+        url, 
+        tenant ? 'PUT':'POST',
+        {flatId: flatId,
+          memberId: addedMember._id,}
+        )
 
-      if (response.ok) {
-        const savedTenant = await response.json();
-        console.log('Tenant added to flat successfully:', savedTenant);
+      console.log('Tenant added to flat successfully:', savedTenant);
 
-        if(!tenant){
-          setTenantMembers((tenantMembers) => [...tenantMembers, savedTenant]);
+      if(!tenant){
+          setFlatTenants((flatTenants) => [...flatTenants, savedTenant]);
         } else {
           setTenant(savedTenant);
         }
-        document.getElementById(modalName).close();
+      document.getElementById(modalName).close();
+      setSubmitting(false);
 
-        // You can perform further actions if needed
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to add tenant to flat:', errorData);
-      }
+
+      // const response = await fetch(url, {
+      //   method: tenant ? 'PUT':'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `${token}`, 
+      //   },
+      //   body: JSON.stringify({
+      //     flatId: flatId,
+      //     memberId: addedMember._id,
+      //   }),
+      // });
+
+      // if (response.ok) {
+        
+      //   // You can perform further actions if needed
+      // } else {
+      //   const errorData = await response.json();
+      //   console.error('Failed to add tenant to flat:', errorData);
+      // }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -78,21 +88,17 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
     let url = tenant? "https://flatfolio.onrender.com/api/members/"+tenant.memberId._id: "https://flatfolio.onrender.com/api/members"
 
     try {
-      const response = await fetch(url, {
-        method: tenant?'PUT':'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
-        },
-        body: JSON.stringify({
+
+      const addedTenant = await myFetch(url,
+      
+        tenant?'PUT':'POST',
+        {
           societyId: member.societyId,
           name: newTenant.name,
           mobile: newTenant.mobile,
-        }),
-      });
+        }
+        )
 
-      if (response.ok) {
-        const addedTenant = await response.json();
         console.log('Tenant added successfully:', addedTenant);
 
         addUpdateToFlat(addedTenant);
@@ -105,10 +111,38 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
             birthYear: "",
             gender:"",
         });
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to add tenant:', errorData);
-      }
+
+      // const response = await fetch(url, {
+      //   method: tenant?'PUT':'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `${token}`,
+      //   },
+      //   body: JSON.stringify({
+      //     societyId: member.societyId,
+      //     name: newTenant.name,
+      //     mobile: newTenant.mobile,
+      //   }),
+      // });
+
+      // if (response.ok) {
+      //   const addedTenant = await response.json();
+      //   console.log('Tenant added successfully:', addedTenant);
+
+      //   addUpdateToFlat(addedTenant);
+
+      //   setNewTenant({
+      //       name: '',
+      //       mobile: '',
+      //       email: '',
+      //       moveInDate: "",
+      //       birthYear: "",
+      //       gender:"",
+      //   });
+      // } else {
+      //   const errorData = await response.json();
+      //   console.error('Failed to add tenant:', errorData);
+      // }
     } catch (error) {
       console.error('Error:', error);
     }

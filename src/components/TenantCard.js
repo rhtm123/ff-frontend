@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddUpdateTenantModal from "./AddUpdateTenantModal";
 import { useAuth } from "@/context/AuthContext";
 import Family from "./Family";
+import { myFetch } from "@/utils/myFetch";
 export default function TenantCard({tenant_, flatTenants, setFlatTenants, deletedTenantsCount, setDeletedTenantsCount}) {
 
   const [tenant, setTenant] = useState(tenant_);
@@ -14,26 +15,32 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
     let url = "https://flatfolio.onrender.com/api/tenants/"+tenant._id;
 
     try {
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`, // Assuming a Bearer token
-        },
-      });
+      
+      let deletedTenant = await myFetch(url, {}, "DELETE")
 
-      if (response.ok) {
-        const deletedTenant = await response.json();       
-        console.log(deletedTenant);
-        let dataArray = flatTenants.filter(item => item._id !== deletedTenant.tenant._id);
-        setFlatTenants(dataArray);
-        setDeletedTenantsCount(deletedTenantsCount+1);
-        setDeletedLoading(false);
+      console.log(deletedTenant);
+      let dataArray = flatTenants.filter(item => item._id !== deletedTenant.tenant._id);
+      setFlatTenants(dataArray);
+      setDeletedTenantsCount(deletedTenantsCount+1);
+      setDeletedLoading(false);
 
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to add tenant:', errorData);
-      }
+      
+      // const response = await fetch(url, {
+      //   method: "DELETE",
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `${token}`, // Assuming a Bearer token
+      //   },
+      // });
+
+      // if (response.ok) {
+      //   const deletedTenant = await response.json();       
+        
+
+      // } else {
+      //   const errorData = await response.json();
+      //   console.error('Failed to add tenant:', errorData);
+      // }
     } catch (error) {
       console.error('Error:', error);
     }

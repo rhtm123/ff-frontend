@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import AddUpdateFamilyModal from "./AddUpdateFamilyModal";
 import { useAuth } from "@/context/AuthContext";
 import Loading from "./Loading";
+import { myFetch } from "@/utils/myFetch";
+import { deleteMember } from "@/utils/deleteMember";
 
 export default function Family({flatMember, type="owner"}) {
     const {token} = useAuth();
@@ -13,61 +15,64 @@ export default function Family({flatMember, type="owner"}) {
 
 
     const deleteFamilyMember = async (_id)=>{
-      console.log(_id);
+      // console.log(_id);
       setLoading(true);
       let url2 = type=="owner"?`ownerFamilies`:`tenantFamilies`
 
       let url = process.env.API_URL + `api/${url2}/${_id}`;
       try {
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${token}`, // Assuming a Bearer token
-          },
-        });
-  
-        if (response.ok) {
-          const deletedFamilyMember = await response.json();       
+        const deletedFamilyMember = await myFetch(url, "DELETE");
+
+        //  const deletedFamilyMember = await response.json();       
           console.log(deletedFamilyMember);
           setLoading(false);
           setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
           setFetched(false);
-        } else {
-          const errorData = await response.json();
-          console.error('Failed to add owner:', errorData);
-          setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
+          if (type=="owner"){
+            deleteMember(deletedFamilyMember.ownerFamily.memberId);
+          } else {
+            deleteMember(deletedFamilyMember.tenantFamily.memberId)
+          }
 
-        }
+        // const response = await fetch(url, {
+        //   method: "DELETE",
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     Authorization: `${token}`, // Assuming a Bearer token
+        //   },
+        // });
+  
+        // if (response.ok) {
+        //   const deletedFamilyMember = await response.json();       
+        //   console.log(deletedFamilyMember);
+        //   setLoading(false);
+        //   setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
+        //   setFetched(false);
+        // } else {
+        //   const errorData = await response.json();
+        //   console.error('Failed to add owner:', errorData);
+        //   setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
+
+        // }
       } catch (error) {
         console.error('Error:', error);
+        setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
+
       }
 
     }
 
     useEffect(() => {
+        
+        const fetchfamilies = async () => {
         setLoading(true);
         setFamilyMembers([]);
-
-        const fetchfamilies = async () => {
           let url2 = type=="owner"?`ownerFamilies?ownerId`:`tenantFamilies?tenantId`
+          console.log(url2);
+
           try {
-            const response = await fetch(
-              process.env.API_URL + `api/${url2}=${flatMember._id}`,
-              {
-                method: 'GET',
-                headers: {
-                  Authorization: `${token}`,
-                  'Content-Type': 'application/json',
-                },
-              }
-            );
-        
-            if (!response.ok) {
-              throw new Error(`Failed to fetch data. Status: ${response.status}`);
-            }
-        
-            const data = await response.json();
+            let data = await myFetch( process.env.API_URL + `api/${url2}=${flatMember._id}`,)
+            console.log(process.env.API_URL + `api/${url2}=${flatMember._id}`)
             console.log("families: ", data);
             if (type=="owner"){
             setFamilyMembers(data.ownerFamilies);
@@ -75,9 +80,24 @@ export default function Family({flatMember, type="owner"}) {
             setFamilyMembers(data.tenantFamilies);
 
             }
-
             setFetched(true);
             setLoading(false);
+            // const response = await fetch(
+            //   {
+            //     method: 'GET',
+            //     headers: {
+            //       Authorization: `${token}`,
+            //       'Content-Type': 'application/json',
+            //     },
+            //   }
+            // );
+        
+            // if (!response.ok) {
+            //   throw new Error(`Failed to fetch data. Status: ${response.status}`);
+            // }
+        
+            // const data = await response.json();
+            
             // setLoading(false);
           } catch (error) {
             console.error("Error fetching flats:", error);
@@ -87,7 +107,7 @@ export default function Family({flatMember, type="owner"}) {
         if (show && !fetched) {
             fetchfamilies();
         }
-      }, [show, deletedfamilyMemberCount]);
+      }, [ show, deletedfamilyMemberCount]);
 
 
     return (

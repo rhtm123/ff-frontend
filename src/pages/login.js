@@ -43,7 +43,7 @@ export default function Login() {
 
       setLoading(true); // Start loading
 
-      let data = await myFetch(url, formData, 'POST');
+      let data = await myFetch(url, 'POST', formData);
 
       // const response = await fetch(url, {
       //   method: 'POST',

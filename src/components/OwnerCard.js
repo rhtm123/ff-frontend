@@ -2,6 +2,7 @@ import Family from "./Family";
 import AddUpdateOwnerModal from "./AddUpdateOwnerModal";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { myFetch } from "@/utils/myFetch";
 export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwnersCount, setDeletedOwnersCount}) {
 
    
@@ -18,26 +19,32 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
     let url = "https://flatfolio.onrender.com/api/owners/"+owner._id;
 
     try {
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`, // Assuming a Bearer token
-        },
-      });
 
-      if (response.ok) {
-        const deletedOwner = await response.json();       
-        console.log(deletedOwner);
+      let deletedOwner = await myFetch(url, "DELETE", {});
+
+      console.log(deletedOwner);
         let dataArray = flatOwners.filter(item => item._id !== deletedOwner.owner._id);
         setFlatOwners(dataArray);
         setDeletedOwnersCount(deletedOwnersCount+1);
         setDeletedLoading(false);
 
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to add owner:', errorData);
-      }
+
+      // const response = await fetch(url, {
+      //   method: "DELETE",
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `${token}`, // Assuming a Bearer token
+      //   },
+      // });
+
+      // if (response.ok) {
+      //   const deletedOwner = await response.json();       
+        
+
+      // } else {
+      //   const errorData = await response.json();
+      //   console.error('Failed to add owner:', errorData);
+      // }
     } catch (error) {
       console.error('Error:', error);
     }
