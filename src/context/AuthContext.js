@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     // const storedMember = JSON.parse(getCookie("member"));
 
     if (storedToken && storedAuthMember) {
+      console.log(storedToken, storedAuthMember)
       setToken(storedToken);
       setAuthMember(JSON.parse(storedAuthMember));
     }
@@ -28,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     setToken(value.token);
     setAuthMember(value.member);
     setCookie("token",value.token);
-    setCookie("authMember",JSON.stringify(value.authMember));
+    setCookie("authMember",JSON.stringify(value.member));
   };
 
   const logout = () => {
