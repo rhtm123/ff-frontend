@@ -21,6 +21,7 @@ export default function Home() {
   return (
     <div>
 
+
     {/* hero section */}
     <div className="hero mx-auto px-4 min-h-screen sm:px-6 lg:px-8">
       <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
@@ -297,6 +298,7 @@ export default function Home() {
       {/* <button className="btn btn-primary">Get Started</button> */}
     </div>
   </div>
+  
 </div>
 
 

@@ -38,7 +38,7 @@ const Footer = () => {
             </a>{' '}
             family.
           </p> */}
-          <p className="">Copyright © 2023 - All right reserved by FlatFolio</p>
+          <p className="">Copyright © 2024 - All right reserved by societysathi</p>
         </div>
 
         {/* Social Brands */}
