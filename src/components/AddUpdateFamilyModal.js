@@ -56,7 +56,6 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
         const errorData = await response.json();
         console.error('Failed to add member to flat:', errorData);
         setSubmitting(false);
-
       }
     } catch (error) {
       console.error('Error:', error);
