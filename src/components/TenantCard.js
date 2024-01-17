@@ -101,8 +101,7 @@ year: 'numeric',
 </span>
 
 <div className="card-actions justify-end">
-{!tenant.moveOutDate && <div className="badge badge-outline">Living</div> }
-  <div className="badge badge-outline">Products</div>
+{!tenant.moveOutDate && <div className="badge badge-outline badge-success">Living</div> }
 </div>
 
 

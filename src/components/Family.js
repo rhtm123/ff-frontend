@@ -112,13 +112,13 @@ export default function Family({flatMember, type="owner"}) {
 
     return (
         <div>
-            <button className="btn btn-sm mr-2" onClick={()=> setShow(!show)}>
+            <button className="btn btn-sm mr-2 btn-outline" onClick={()=> setShow(!show)}>
             
             {show ? "Hide Family": "Show Family"}
      
             </button>
 
-            <button className="btn btn-sm" 
+            <button className="btn btn-sm btn-outline" 
               onClick={() => document.getElementById(flatMember._id).showModal()}
             >
             

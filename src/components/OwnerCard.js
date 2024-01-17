@@ -1,18 +1,13 @@
 import Family from "./Family";
 import AddUpdateOwnerModal from "./AddUpdateOwnerModal";
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
 import { myFetch } from "@/utils/myFetch";
+
 export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwnersCount, setDeletedOwnersCount}) {
 
-   
-  const {token} = useAuth();
-    
+   console.log(owner_);
    const [owner, setOwner] = useState(owner_);
    const [deletedLoading, setDeletedLoading] =  useState(false);
-  //  console.log(owner_);
-
-
 
   const deleteOwner = async () => {
     setDeletedLoading(true);
@@ -27,24 +22,6 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
         setFlatOwners(dataArray);
         setDeletedOwnersCount(deletedOwnersCount+1);
         setDeletedLoading(false);
-
-
-      // const response = await fetch(url, {
-      //   method: "DELETE",
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     Authorization: `${token}`, // Assuming a Bearer token
-      //   },
-      // });
-
-      // if (response.ok) {
-      //   const deletedOwner = await response.json();       
-        
-
-      // } else {
-      //   const errorData = await response.json();
-      //   console.error('Failed to add owner:', errorData);
-      // }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -101,7 +78,7 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
   </span>
 
     <div className="card-actions py-4">
-    {owner.isLiving && <div className="badge badge-outline">Living</div> }
+    {owner.isLiving && <div className="badge badge-success badge-outline">Living</div> }
     </div>
 
 

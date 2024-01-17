@@ -112,6 +112,7 @@ const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwner
             possessionDate: "",
             birthYear: "",
             gender:"",
+            isLiving:""
           });
         }
       } else {
@@ -213,6 +214,7 @@ const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwner
                 type="checkbox"
                 className="toggle toggle-primary" 
                 name="isLiving"
+                checked={newOwner?.isLiving}
                 onChange={handleInputChange}
               />
             </label>

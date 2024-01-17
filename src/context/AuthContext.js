@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     // const storedMember = JSON.parse(getCookie("member"));
 
     if (storedToken && storedAuthMember) {
-      console.log(storedToken, storedAuthMember)
+      // console.log(storedToken, storedAuthMember)
       setToken(storedToken);
       setAuthMember(JSON.parse(storedAuthMember));
     }
