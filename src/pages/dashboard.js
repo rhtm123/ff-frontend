@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import Loading from "@/components/Loading";
 import { getCookie } from "../utils/myCookie";
 import { useRouter } from "next/router";
+import Submenu from "@/components/Submenu";
 
 import { myFetch } from "@/utils/myFetch";
 import AddCommitteeMemberModal from "@/components/AddCommitteeMemberModal";
@@ -85,6 +86,9 @@ export default function Dashboard() {
 
   return (
     <div>
+      <div className="grid lg:grid-cols-3">
+        <Submenu />
+      </div>
       <div className="grid lg:grid-cols-3">
         {/* left section */}
         <div className="col-span-2 p-8">
