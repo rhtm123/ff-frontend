@@ -37,7 +37,7 @@ export default function Penalty() {
         setSubmitting(true);
         try {
             let url = process.env.API_URL + "api/penalties";
-            postData.societyId = authMember.societyId;
+            postData.societyId = authMember?.societyId;
             let data = await myFetch(url, "POST", postData);
             setPenalties((penalties) => [...penalties, data]);
             console.log(data);

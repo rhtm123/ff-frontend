@@ -1,14 +1,20 @@
 import React from "react";
-import AddUpdateOwnerModal from "@/components/AddUpdateOwnerModal";
+// import AddUpdateOwnerModal from "@/components/AddUpdateOwnerModal";
 import Error from "@/components/Error";
 import { useAuth } from "@/context/AuthContext";
 import OwnerCard from "@/components/OwnerCard";
-import AddUpdateTenantModal from '@/components/AddUpdateTenantModal';
+// import AddUpdateTenantModal from '@/components/AddUpdateTenantModal';
 import Loading from "@/components/Loading";
 
 import TenantCard from "@/components/TenantCard";
 import { myFetch } from "@/utils/myFetch";
 import AlertCard from "@/components/AlertCard";
+
+import dynamic from "next/dynamic";
+
+const AddUpdateOwnerModal = dynamic(() => import('@/components/AddUpdateOwnerModal'));
+const AddUpdateTenantModal = dynamic(() => import('@/components/AddUpdateTenantModal'));
+
 
 
 export default function FlatView({ flat, error }) {

@@ -1,7 +1,14 @@
 import Family from "./Family";
-import AddUpdateOwnerModal from "./AddUpdateOwnerModal";
+// import AddUpdateOwnerModal from "./AddUpdateOwnerModal";
 import { useState } from "react";
 import { myFetch } from "@/utils/myFetch";
+// import SocietyLetterModal from "./SocietyLetterModal";
+
+import dynamic from "next/dynamic";
+
+const AddUpdateOwnerModal = dynamic(() => import("./AddUpdateOwnerModal"));
+const SocietyLetterModal = dynamic(() => import("./SocietyLetterModal"));
+
 
 export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwnersCount, setDeletedOwnersCount}) {
 
@@ -35,12 +42,14 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
     <div key={owner.id} className="p-4 flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:bg-secondary">
       
       <div className="flex justify-between align-middle">
-       <h3 className="text-xl font-semibold tracki">{owner.memberId?.name}</h3>
+       <h3 className="text-xl font-semibold tracki">{owner.memberId?.name} {owner.memberId?.birthYear && `(${new Date().getFullYear()- owner.memberId.birthYear} years old)`}</h3>
 
        <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn btn-sm btn-primary">Action</div>
         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+
           <li><button onClick={() => document.getElementById("modal#"+owner._id).showModal()}>Update</button></li>
+          <li><button onClick={() => document.getElementById("modalnoc#"+owner._id).showModal()}>NOC & Letters</button></li>
           
           <li>
             {deletedLoading ?
@@ -51,14 +60,24 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
             :<button onClick={deleteOwner}>Delete</button>
             }
           </li>
+
+
         </ul>
 
         <AddUpdateOwnerModal
               owner={owner}
               setOwner={setOwner}
               modalName={"modal#"+owner._id}
-            />
+         />
+
+         <SocietyLetterModal 
+            owner={owner}
+            modalName={"modalnoc#"+owner._id}
+         />
+         
       </div>
+
+      
 
       </div>
 
@@ -79,7 +98,14 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
 
     <div className="card-actions py-4">
     {owner.isLiving && <div className="badge badge-success badge-outline">Living</div> }
+
+    {owner.memberId?.mobile && 
+    <div className="badge badge-outline badge-info">
+      {owner.memberId.mobile}
+    </div> }
+
     </div>
+
 
 
     <Family flatMember={owner} type={"owner"} />

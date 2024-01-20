@@ -89,12 +89,13 @@ const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwner
           Authorization: `${token}`, // Assuming a Bearer token
         },
         body: JSON.stringify({
-          societyId: authMember.societyId,
+          societyId: authMember?.societyId,
           name: newOwner.name,
           mobile: newOwner.mobile,
           email: newOwner.email,
           birthYear: newOwner.birthYear,
           role: "member",
+          isOwner: true,
         }),
       });
 

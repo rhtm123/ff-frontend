@@ -1,14 +1,37 @@
-import { useState } from "react";
-import AddUpdateTenantModal from "./AddUpdateTenantModal";
-import { useAuth } from "@/context/AuthContext";
+import { useState, useEffect } from "react";
+// import AddUpdateTenantModal from "./AddUpdateTenantModal";
 import Family from "./Family";
 import { myFetch } from "@/utils/myFetch";
+import dynamic from "next/dynamic";
+
+const AddUpdateTenantModal = dynamic(() => import('./AddUpdateTenantModal'));
+
+
+
 export default function TenantCard({tenant_, flatTenants, setFlatTenants, deletedTenantsCount, setDeletedTenantsCount}) {
 
   const [tenant, setTenant] = useState(tenant_);
-  const {token} = useAuth();
 
   const [deletedLoading, setDeletedLoading] =  useState(false);
+
+  const [monthsLeft, setMonthsLeft] = useState(0);
+
+  useEffect(() => {
+    const moveInDate = new Date(tenant.moveInDate);
+    const currentDate = new Date();
+
+    // Calculate the difference in milliseconds
+    const timeDifference = currentDate - moveInDate;
+
+    // Calculate the number of months
+    const monthsPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30.44));
+
+    if (tenant?.agreementMonth){
+      setMonthsLeft(tenant?.agreementMonth-monthsPassed);
+    } else {
+      setMonthsLeft(11-monthsPassed);
+    }
+  }, [tenant.moveInDate]);
 
   const deleteTenant = async () => {
     setDeletedLoading(true);
@@ -24,23 +47,6 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
       setDeletedTenantsCount(deletedTenantsCount+1);
       setDeletedLoading(false);
 
-      
-      // const response = await fetch(url, {
-      //   method: "DELETE",
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     Authorization: `${token}`, // Assuming a Bearer token
-      //   },
-      // });
-
-      // if (response.ok) {
-      //   const deletedTenant = await response.json();       
-        
-
-      // } else {
-      //   const errorData = await response.json();
-      //   console.error('Failed to add tenant:', errorData);
-      // }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -54,7 +60,7 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
 
 
    <div className="flex justify-between align-middle">
-       <h3 className="text-xl font-semibold tracki">{tenant.memberId?.name}</h3>
+       <h3 className="text-xl font-semibold tracki">{tenant.memberId?.name} {tenant.memberId?.birthYear && `(${new Date().getFullYear()- tenant.memberId.birthYear} years old)`}</h3>
 
        <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn btn-sm btn-primary">Action</div>
@@ -100,8 +106,37 @@ year: 'numeric',
 
 </span>
 
-<div className="card-actions justify-end">
-{!tenant.moveOutDate && <div className="badge badge-outline badge-success">Living</div> }
+<div className="card-actions py-4">
+
+{tenant?.policeVerified && 
+<div className="badge badge-outline badge-success">
+  Police Verified
+</div>
+}
+
+
+{tenant.memberId?.mobile && 
+<div className="badge badge-outline badge-info">
+  {tenant.memberId.mobile}
+</div> }
+
+{tenant?.agreementMonth && 
+<div className="badge badge-outline badge-info">
+  {tenant.agreementMonth} months Agreement
+</div>
+}
+
+{!tenant.moveOutDate && 
+<div className="badge badge-outline badge-info">
+  Living
+</div> }
+
+
+{tenant?.moveInDate && 
+<div className="badge badge-outline badge-info">
+  {monthsLeft} months left
+</div>
+}
 </div>
 
 

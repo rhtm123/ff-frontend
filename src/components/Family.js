@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
-import AddUpdateFamilyModal from "./AddUpdateFamilyModal";
-import { useAuth } from "@/context/AuthContext";
+// import AddUpdateFamilyModal from "./AddUpdateFamilyModal";
+// import { useAuth } from "@/context/AuthContext";
 import Loading from "./Loading";
 import { myFetch } from "@/utils/myFetch";
 import { deleteMember } from "@/utils/deleteMember";
 
+import dynamic from "next/dynamic";
+
+const AddUpdateFamilyModal = dynamic(() => import('./AddUpdateFamilyModal'));
+
+
 export default function Family({flatMember, type="owner"}) {
-    const {token} = useAuth();
     const [show, setShow] = useState(false);
     const [familyMembers, setFamilyMembers ] = useState([]);
     const [fetched, setFetched] = useState(false);
@@ -34,26 +38,7 @@ export default function Family({flatMember, type="owner"}) {
             deleteMember(deletedFamilyMember.tenantFamily.memberId)
           }
 
-        // const response = await fetch(url, {
-        //   method: "DELETE",
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     Authorization: `${token}`, // Assuming a Bearer token
-        //   },
-        // });
-  
-        // if (response.ok) {
-        //   const deletedFamilyMember = await response.json();       
-        //   console.log(deletedFamilyMember);
-        //   setLoading(false);
-        //   setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
-        //   setFetched(false);
-        // } else {
-        //   const errorData = await response.json();
-        //   console.error('Failed to add owner:', errorData);
-        //   setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
 
-        // }
       } catch (error) {
         console.error('Error:', error);
         setDeletedFamilyMemberCount(deletedfamilyMemberCount+1);
@@ -82,23 +67,7 @@ export default function Family({flatMember, type="owner"}) {
             }
             setFetched(true);
             setLoading(false);
-            // const response = await fetch(
-            //   {
-            //     method: 'GET',
-            //     headers: {
-            //       Authorization: `${token}`,
-            //       'Content-Type': 'application/json',
-            //     },
-            //   }
-            // );
-        
-            // if (!response.ok) {
-            //   throw new Error(`Failed to fetch data. Status: ${response.status}`);
-            // }
-        
-            // const data = await response.json();
-            
-            // setLoading(false);
+
           } catch (error) {
             console.error("Error fetching flats:", error);
           }
@@ -146,6 +115,7 @@ export default function Family({flatMember, type="owner"}) {
       <tr>
         <th>Name</th>
         <th>Age</th>
+        <th>Relation</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -166,7 +136,8 @@ export default function Family({flatMember, type="owner"}) {
       {familyMembers.map((familyMember, index)=>
       <tr key={index}>
         <td>{familyMember?.memberId.name}</td>
-        <td>23</td>
+        <td>{familyMember?.relation}</td>
+        <td>{`${new Date().getFullYear()- familyMember?.memberId.birthYear} years old`}</td>
         <td>
             <button onClick={()=>deleteFamilyMember(familyMember._id)}>Delete</button>
         </td>

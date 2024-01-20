@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { myFetch } from '@/utils/myFetch';
 
 const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMembers, setFamilyMembers }) => {
   // console.log(flatMemberId);
   // console.log(ownerId);
-  const {token, authMember} = useAuth();
+  const {authMember} = useAuth();
   const [submitting, setSubmitting] = useState(false);
 
 
@@ -12,6 +13,7 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
     name: '',
     birthYear:"",
     mobile: "",
+    relation:"",
   });
 
   const handleInputChange = (e) => {
@@ -23,12 +25,13 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
   };
 
 
-  const addToOwner = async (addedMember) => {
+  const addToOwnerTenant = async (addedMember) => {
     let url = type=="owner" ? 'https://flatfolio.onrender.com/api/ownerFamilies':'https://flatfolio.onrender.com/api/tenantFamilies'
     // let ownerOrTenantId = type=="owner"?"ownerId":"tenantId"
     // console.log(ownerOrTenantId)
     let data = {
-      memberId: addedMember._id
+      memberId: addedMember._id,
+      relation: newFamily.relation
     }
     if (type=="owner"){
       data.ownerId = flatMemberId
@@ -36,27 +39,15 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
       data.tenantId = flatMemberId
     }
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`, // Assuming a Bearer token
-        },
-        body: JSON.stringify(data),
-      });
-  
-      if (response.ok) {
-        const newOwnerFamily = await response.json();
+
+      const newOwnerFamily = await myFetch(url, "POST", data);
+      
         console.log('Member added to owner successfully:', newOwnerFamily);
         setFamilyMembers((familyMembers) => [...familyMembers, newOwnerFamily])
         document.getElementById(modalName).close();
         setSubmitting(false);
 
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to add member to flat:', errorData);
-        setSubmitting(false);
-      }
+      
     } catch (error) {
       console.error('Error:', error);
       setSubmitting(false);
@@ -67,36 +58,45 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
   const handleAddFamily = async () => {
     setSubmitting(true);
     try {
-      const response = await fetch('https://flatfolio.onrender.com/api/members', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
-        },
-        body: JSON.stringify({
+      const addedMember = await myFetch(
+        'https://flatfolio.onrender.com/api/members',
+        "POST",
+        {
           societyId: authMember?.societyId,
-          username: newFamily.mobile,
           name: newFamily.name,
           mobile: newFamily.mobile,
           birthYear: newFamily.birthYear
-        }),
-      });
+        }
 
-      if (response.ok) {
-        const addedMember = await response.json();
-        console.log('Tenant added successfully:', addedMember);
-        addToOwner(addedMember);
+      );
+
+      // const response = await fetch('https://flatfolio.onrender.com/api/members', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `${token}`,
+      //   },
+      //   body: JSON.stringify({
+      //     societyId: authMember?.societyId,
+      //     username: newFamily.mobile,
+      //     name: newFamily.name,
+      //     mobile: newFamily.mobile,
+      //     birthYear: newFamily.birthYear
+      //   }),
+      // });
+
+      // if (response.ok) {
+      //   const addedMember = await response.json();
+        // console.log('Tenant added successfully:', addedMember);
+        addToOwnerTenant(addedMember);
 
         setNewFamily({
           name: '',
           mobile: '',
           birthYear: '',
+          relation:"",
         });
-      } else {
-        const errorData = await response.json();
-        console.error('Failed to add tenant:', errorData);
-        setSubmitting(false);
-      }
+      
     } catch (error) {
       console.error('Error:', error);
     }
@@ -153,6 +153,20 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
                 />
               </label>
             </div>
+
+            <div className="mb-4">
+              <label>
+              relation:
+                <input
+                  type="text"
+                  className="input input-bordered input-xs w-full"
+                  name="relation"
+                  value={newFamily.relation}
+                  onChange={handleInputChange}
+                />
+              </label>
+            </div>
+
             <div className="modal-action">
               {!submitting && <button type="button" className="btn" onClick={handleAddFamily}>
                 Add Family

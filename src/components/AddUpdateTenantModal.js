@@ -15,10 +15,16 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
       name: tenant ? tenant.memberId?.name : '',
       mobile: tenant ? tenant.memberId?.mobile : '',
       email: tenant ? tenant.memberId?.email : '',
-      possessionDate: tenant ? (tenant.possessionDate ? new Date(tenant.possessionDate).toISOString().slice(0, 10) : "") : "",
+      moveInDate: tenant ? (tenant.moveInDate ? new Date(tenant.moveInDate).toISOString().slice(0, 10) : "") : "",
+      moveOutDate: tenant ? (tenant.moveOutDate ? new Date(tenant.moveOutDate).toISOString().slice(0, 10) : "") : "",
+      
+      policeVerified: tenant ? Boolean(tenant.policeVerified) : false,
+      agreementMonth: tenant ? tenant.agreementMonth : 11,
+
       birthYear: tenant ? tenant.memberId?.birthYear : "",
       gender: tenant ? tenant.memberId?.gender : "",
-      isLiving: tenant ? tenant?.isLiving : false,
+      // isLiving: tenant ? tenant?.isLiving : false,
+      
     });
   }, [modalName]);
 
@@ -26,7 +32,7 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
 
   const handleInputChange = (e) => {
     let { name, value, checked } = e.target;
-    if (name=="isLiving") {
+    if (name=="policeVerified") {
       value = checked;
     } 
 
@@ -44,7 +50,12 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
         url, 
         tenant ? 'PUT':'POST',
         {flatId: flatId,
-          memberId: addedMember._id,}
+          memberId: addedMember._id,
+          moveInDate: newTenant.moveInDate,
+          moveOutDate: newTenant.moveOutDate,
+          policeVerified: newTenant.policeVerified,
+          agreementMonth: Number(newTenant.agreementMonth),
+        }
         )
 
       console.log('Tenant added to flat successfully:', savedTenant);
@@ -93,24 +104,33 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
       
         tenant?'PUT':'POST',
         {
-          societyId: authMember.societyId,
+          societyId: authMember?.societyId,
           name: newTenant.name,
           mobile: newTenant.mobile,
+          birthYear: newTenant.birthYear,
+          gender: newTenant.gender,
+          isTenant: true,
+          role: "member"
         }
         )
 
         console.log('Tenant added successfully:', addedTenant);
 
         addUpdateToFlat(addedTenant);
-
-        setNewTenant({
-            name: '',
-            mobile: '',
-            email: '',
-            moveInDate: "",
-            birthYear: "",
-            gender:"",
+        if (!tenant) {
+          setNewTenant({
+            name:"",
+      mobile: '',
+      email: '',
+      moveInDate:  "",
+      moveOutDate: "",
+      policeVerified: false,
+      agreementMonth: 11,
+      birthYear:  "",
+      gender:"",
         });
+        }
+        
 
       // const response = await fetch(url, {
       //   method: tenant?'PUT':'POST',
@@ -189,7 +209,7 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
             
             <div className="mb-4">
               <label>
-                Date of Birth:
+                Birth Year:
                 <input
                   type="text"
                   className="input input-bordered input-xs w-full"
@@ -199,6 +219,60 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
                 />
               </label>
             </div>
+
+            <div className="mb-4">
+            <label>
+              moveInDate:
+              <input
+                type="date"
+                className="input input-bordered input-xs w-full"
+                name="moveInDate"
+                value={newTenant?.moveInDate}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+
+          <div className="mb-4">
+            <label>
+              moveOutDate:
+              <input
+                type="date"
+                className="input input-bordered input-xs w-full"
+                name="moveOutDate"
+                value={newTenant?.moveOutDate}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+
+          <div className="mb-4">
+            <label className='cursor-pointer label'>
+            policeVerified ?
+              <input
+                type="checkbox"
+                className="toggle toggle-primary" 
+                name="policeVerified"
+                checked={newTenant?.policeVerified}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+
+          <div className="mb-4">
+            <label className='cursor-pointer label'>
+            agreementMonth : 
+              <input
+                type="number"
+                className="input input-bordered input-sm"
+
+                name="agreementMonth"
+                value={newTenant?.agreementMonth}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+
             <div className="modal-action">
               {!submitting && <button type="button" className="btn" onClick={handleAddUpdateTenant}>
                 Submit

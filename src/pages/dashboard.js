@@ -8,15 +8,21 @@ import { useRouter } from "next/router";
 import Submenu from "@/components/Submenu";
 
 import { myFetch } from "@/utils/myFetch";
-import AddCommitteeMemberModal from "@/components/AddCommitteeMemberModal";
-import MemberInfoCard from "@/components/MemberInfoCard";
+// import AddCommitteeMemberModal from "@/components/AddCommitteeMemberModal";
+import OwnerTenantInfoCard from "@/components/OwnerTenantInfoCard";
+
+
+import dynamic from "next/dynamic";
+
+const AddCommitteeMemberModal = dynamic(() => import('@/components/AddCommitteeMemberModal'));
+// const AddUpdateTenantModal = dynamic(() => import('@/components/AddUpdateTenantModal'));
 
 
 
 
 export default function Dashboard() {
   const [flats, setFlats] = React.useState([]);
-  const [committeeMembers, setCommitteeMembers] = React.useState([]);
+  const [committeeOwners, setCommitteeOwners] = React.useState([]);
 
   const [totalPages, setTotalPages] = React.useState(0);
   const router = useRouter();
@@ -44,7 +50,7 @@ export default function Dashboard() {
 
     const fetchFlats = async () => {
       try {
-        let url = `${process.env.API_URL}api/flats?societyId=${authMember.societyId}&search=${searchText}`
+        let url = `${process.env.API_URL}api/flats?societyId=${authMember?.societyId}&search=${searchText}`
         let data = await myFetch(url);
         setFlats(data.flats);
         setTotalPages(data.totalPages);
@@ -66,14 +72,14 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     setMemberLoading(true);
-    setCommitteeMembers([]);
+    setCommitteeOwners([]);
 
     const fetchMembers = async () => {
 
       try {
-      let data = await myFetch(`${process.env.API_URL}api/members?isCommitteeMember=true&societyId=${authMember.societyId}`)
+      let data = await myFetch(`${process.env.API_URL}api/owners?isCommitteeMember=true&societyId=${authMember?.societyId}`)
       // console.log(data);
-      setCommitteeMembers(data.members);
+      setCommitteeOwners(data.owners);
       setMemberLoading(false);
       }
       catch(error){
@@ -81,8 +87,10 @@ export default function Dashboard() {
       }
     };
 
-    fetchMembers();
-  }, [committeeRefreshCount]);
+    if (authMember){
+      fetchMembers();
+    }
+  }, [committeeRefreshCount, authMember]);
 
   return (
     <div>
@@ -133,14 +141,37 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="grid pt-4">
-            <h1 className="text-2xl font-bold py-4">Society Members</h1>
-            <div className="">
-            {memberLoading && <Loading />}
-            {committeeMembers.map((member, index) => (
-              /* row */
-              <MemberInfoCard refreshCount={committeeRefreshCount} setRefreshCount={setCommitteeRefreshCount} member={member} key={index} />
-            ))}
+            <h1 className="text-2xl font-bold py-4">Committee Members</h1>
+            <div className="overflow-x-auto">
 
+            <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Committee Member</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {committeeOwners.map((owner,i)=> 
+                <OwnerTenantInfoCard 
+                key={i} 
+                data={owner}  
+                type={"owner"}
+                refreshCount={committeeRefreshCount}
+                setRefreshCount={setCommitteeRefreshCount}
+                />
+            )}
+            </tbody>
+
+            </table>
+
+            {memberLoading && <Loading />}
+
+
+            
             </div>
 
             <button 

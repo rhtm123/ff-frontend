@@ -2,13 +2,16 @@
 
 import ComplaintCard from "@/components/ComplaintCard";
 import { myFetch } from "@/utils/myFetch";
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import Loading from "@/components/Loading";
+import { useAuth } from "@/context/AuthContext";
 
 const ComplaintList = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { authMember } = useAuth();
+  // console.log(authMember);
 
   useEffect(() => {
     // Fetch complaints when the component mounts
@@ -18,7 +21,7 @@ const ComplaintList = () => {
 
   const fetchComplaints = async () => {
     try {
-      const data = await myFetch(process.env.API_URL+"api/complaints");
+      const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember._id);
       console.log(data);
       
       setComplaints(data.complaints);
