@@ -1,8 +1,51 @@
-import Navbar from '@/components/Navbar';
-import React from 'react';
-import Footer from '@/components/Footer';
+import React, { useState } from 'react';
+import { myFetch } from '@/utils/myFetch';
 
 function contact(){
+    
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        mobile: '',
+        message: '',
+      });
+      const [submitting, setSubmitting] = useState(false); // New state for loading
+      const [submitSuccess, setSubmitSuccess] = useState(false);
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        let url = `${process.env.API_URL}api/contacts`;
+        // Call your backend API here
+        try {
+            setSubmitting(true); // Start loading
+
+            let data = await myFetch(url, 'POST', formData);
+            console.log('Successful:', data);
+            setSubmitSuccess(true);
+
+        //   const response = await fetch(url, {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(formData),
+        //   });
+    
+        //   const data = await response.json();
+        //   console.log(data); // Assuming your API returns a message
+    
+          // Handle success message display or other logic
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          // Handle error state or display error message
+        } finally{
+            setSubmitting(false)
+        }
+      };
+
     return(
         
         <div>
@@ -10,7 +53,7 @@ function contact(){
             <section className="min-h-screen">
     <div className="container px-6 py-10 mx-auto">
         <div className="lg:flex lg:items-center lg:-mx-10">
-            <div className="lg:w-1/2 lg:mx-10">
+            {!submitSuccess && <div className="lg:w-1/2 lg:mx-10">
                 <h1 className="text-2xl font-semibold lg:text-3xl">Let’s talk</h1>
 
                 <p className="mt-4 ">
@@ -18,29 +61,52 @@ function contact(){
                     to hear from you
                 </p>
 
-                <form className="mt-12">
-                    <div className="-mx-2 md:items-center md:flex">
+                <form className="mt-12" onSubmit={handleSubmit}>
+                    <div className="-mx-3 md:items-center md:flex">
                         <div className="flex-1 px-2">
                             <label className="block mb-2 text-sm ">Full Name</label>
-                            <input type="text" placeholder="" className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="" className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
 
                         <div className="flex-1 px-2 mt-4 md:mt-0">
                             <label className="block mb-2 text-sm">Email address</label>
-                            <input type="email" placeholder="" className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900  dark:border-gray-700 focus:border-blue-400 dark:focus:border-b" />
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="" className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900  dark:border-gray-700 focus:border-blue-400 dark:focus:border-b" />
+                        </div>
+
+                        <div className="flex-1 px-2 mt-4 md:mt-0">
+                            <label className="block mb-2 text-sm">Mobile No</label>
+                            <input type="text" name="mobile" value={formData.mobile} onChange={handleChange}  placeholder="" className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900  dark:border-gray-700 focus:border-blue-400 dark:focus:border-b" />
                         </div>
                     </div>
 
                     <div className="w-full mt-4">
                         <label className="block mb-2 text-sm">Message</label>
-                        <textarea className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-56 dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Message"></textarea>
+                        <textarea name="message" value={formData.message} onChange={handleChange} className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-56 dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Message"></textarea>
                     </div>
 
-                    <button className="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                    {!submitting && <button type="submit" className="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                         get in touch
-                    </button>
+                    </button> }
+
+                    {submitting && <button className="btn w-full">
+                    <span className="loading loading-spinner"></span>
+                    Submitting
+                    </button>}
+
                 </form>
-            </div>
+            </div>}
+            
+            {submitSuccess && <div className="lg:w-1/2 lg:mx-10">
+                
+            <p className="mt-4 ">
+                    <h3>Thank you.. Out Team will contact you soon.</h3>
+                </p>
+                
+            </div>}
+
+            <></>
+
+
 
             <div className="mt-12 lg:flex lg:mt-0 lg:flex-col lg:items-center lg:w-1/2 lg:mx-10">
 
