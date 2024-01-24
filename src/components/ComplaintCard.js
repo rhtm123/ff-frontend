@@ -1,37 +1,34 @@
 import React from 'react';
-import { myFetch } from '@/utils/myFetch';
+import ComplaintEditModal from './ComplaintEditModal';
 
 export default function ComplaintCard({ complaint }) {
-    const [status, setStatus] = React.useState(complaint.status);
+    const [complaint_, setComplaint_] = React.useState(complaint);
+    
 
-    const handleStatus = async (event) => {
-        let newStatus = event.target.value;
-        setStatus(newStatus);
-        let url = process.env.API_URL+"api/complaints/" + complaint._id;
-
-        try {
-           let data = await myFetch(url, "PUT", { status: newStatus});
-            console.log(data);
-        } catch (e){
-            console.log("Error", e);
-        }
-
-
-
-    }
   return (
-    <div key={complaint._id} className="card w-96 bg-base-100 shadow-xl">
-      <div className="card-body">
-        <select onChange={handleStatus} className="select select-bordered w-full max-w-xs" value={status}>
-          {/* Set the default option based on the complaint status from the backend */}
-          <option value="pending">Pending</option>
-          <option value="in-progress">In Progress</option>
-          <option value="resolved">Resolved</option>
-        </select>
+    <div key={complaint_._id} className="card bg-base-200">
+      <div className="card-body p-4">
 
-        <h2 className="card-title text-lg font-semibold mb-2">{complaint.title}</h2>
-        <p className="text-gray-700">{complaint.details}</p>
-        <p className="text-blue-500">Mobile Number: {complaint.mobile}</p>
+        <div className="flex justify-between">
+
+        <div>
+
+        <h2 className="card-title text-lg font-semibold">{complaint_.title}</h2>
+        <div className={complaint_==="resolved"?"badge badge-outline badge-success":"badge badge-outline badge-info"}>{complaint_.status}</div>
+
+        <p className="text-gray-700">{complaint_.details}</p>
+
+        </div>
+
+        <button className="btn btn-sm btn-secondary" onClick={()=>document.getElementById(complaint_._id).showModal()}>Edit</button>
+
+        <ComplaintEditModal modalName={complaint_._id} complaint_={complaint_} setComplaint_={setComplaint_} />
+
+       
+
+        </div>
+
+        
         {/* Add other complaint details as needed */}
       </div>
     </div>

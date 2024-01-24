@@ -16,10 +16,12 @@ const ComplaintList = () => {
   useEffect(() => {
     // Fetch complaints when the component mounts
     // In this example, fetching from an API
+    
     fetchComplaints();
-  }, []);
+  }, [authMember]);
 
   const fetchComplaints = async () => {
+    setLoading(true);
     try {
       const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember._id);
       console.log(data);
@@ -34,20 +36,21 @@ const ComplaintList = () => {
   };
 
   return (
-    <div className="container mx-auto my-8">
-      <h2 className="text-2xl font-semibold mb-4">Complaint List</h2>
+    <div className="mx-auto px-16 py-4">
+      <h2 className="text-2xl font-semibold mb-4">Complaints</h2>
       
-      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 ">
 
 
       {loading && <Loading />}
       
         {complaints.map(
           (complaint) => (
-            <ComplaintCard complaint={complaint}/>
+            <ComplaintCard key={complaint._id} complaint={complaint}/>
           )
         )}
       </div>
+      <br />
     </div>
   );
 };

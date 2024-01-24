@@ -6,12 +6,21 @@ const Submenu = () => {
 
 
   return (
-    <div>
-        <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-            <li>
-                <Link href="/penalty">Penalty</Link>
-            </li>
-        </ul>
+    <div className="px-8 py-2">
+
+    <ul className="menu menu-horizontal rounded-box bg-base-200">
+      <li>
+        <Link href="/penalties">
+              Penalties
+        </Link>
+      </li>
+      <li>
+         <Link href="/complaints">
+              Complaints
+            </Link>
+      </li>
+    </ul>
+
     </div>
   );
 };
