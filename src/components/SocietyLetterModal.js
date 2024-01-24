@@ -2,6 +2,9 @@ import { useState } from "react";
 import dynamic from 'next/dynamic';
 
 const Passport = dynamic(() => import('./letters/Passport'));
+const Domicile = dynamic(() => import('./letters/Domicile'));
+const NOCLOAN = dynamic(() => import('./letters/NOC-LOAN'));
+const Nominee = dynamic(() => import('./letters/Nominee'));
 
 export default function SocietyLetterModal({modalName,owner,ownerFamily}){
 
@@ -23,9 +26,14 @@ export default function SocietyLetterModal({modalName,owner,ownerFamily}){
         <option disabled selected>Select letter type</option>
         <option value="passport">Passport</option>
         <option value="domicile-certificate">Domicile Certificate</option>
+        <option value="noc-bankloan">NOC for Bank Loan</option>
+        <option value="nominee">Nominee</option>
     </select>
 
     {selected==="passport" && <Passport />}
+    {selected==="domicile-certificate" && <Domicile />}
+    {selected==="noc-bankloan" && <NOCLOAN />}
+    {selected==="nominee" && <Nominee />}
 
 
   </div>
