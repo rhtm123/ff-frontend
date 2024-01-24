@@ -128,49 +128,7 @@ export default function OwnerTenantInfoCard({
             </button>
           )}
         </td>
-<<<<<<< Updated upstream
-
-        <td>
-        {editMode ?
-                <div>
-                  <div className="form-control">
-                    <label className="cursor-pointer label">
-                      <span className="label-text">Is Committee Member? </span>
-                      <input checked={formData.isCommitteeMember}
-                              onChange={handleCheckboxChange}
-                      type="checkbox" 
-                      className="checkbox checkbox checkbox-info" />
-                    </label>
-                  </div>
-                </div>
-                : 
-                <div>{
-                  member.isCommitteeMember? 
-                  <div className="badge badge-success badge-outline">Yes</div>: 
-                  <div className="badge badge-outline">No</div>
-                  
-                }</div>
-                }
-        </td>
-
-      {editAllow && <td>
-        {!editMode ? <svg onClick={()=> setEditMode_(true)}
-              className="cursor-pointer h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"></path></svg>
-                : <button onClick={changeMember} className="btn btn-sm">
-                  
-                  {submitting ? <span className="loading loading-spinner"></span>: <span>Save</span>}
-
-                  </button>
-            }
-        </td>}
-
-      </tr>
-
-    )
-}
-=======
       )}
     </tr>
   );
 }
->>>>>>> Stashed changes
