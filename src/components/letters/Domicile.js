@@ -12,7 +12,7 @@ const PDFDownloadLink = dynamic(() => import('@react-pdf/renderer').then((module
 });
 
 
-export default function Passport() {
+export default function Domicile() {
 
 
     const PDF = () =>   <Document>
@@ -49,7 +49,7 @@ export default function Passport() {
         </Text>
 
         <Text style={{ textAlign:"left", fontSize:"14px", margin:"4px 0px" }}>
-        This certificate is issued to HIM_HER on HIS_HER request to enable HIM_HER to apply for the passport from Regional Passport Office, SOCIETY_CITY.
+        This certificate is issued to HIM_HER on HIS_HER request to enable HIM_HER to apply for domicile certificate.
         </Text>
 
 
@@ -79,7 +79,7 @@ export default function Passport() {
     return (
         <div className="grid grid-cols-2">
             <div className='py-2'>
-                This is passport
+                This is Domicile
             </div>
 
 
