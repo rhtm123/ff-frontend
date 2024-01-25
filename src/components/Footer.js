@@ -38,7 +38,7 @@ const Footer = () => {
             </a>{' '}
             family.
           </p> */}
-          <p className="">Copyright © 2024 - All right reserved by societysathi</p>
+          <p className="">Copyright © 2024 - All right reserved by Society Sathi</p>
         </div>
 
         {/* Social Brands */}

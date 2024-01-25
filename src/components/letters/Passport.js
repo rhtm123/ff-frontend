@@ -1,6 +1,7 @@
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 import dynamic from 'next/dynamic';
+import { useAuth } from '@/context/AuthContext';
 
 // Dynamically import PDFViewer
 const PDFViewer = dynamic(() => import('@react-pdf/renderer').then((module) => module.PDFViewer), {
@@ -12,14 +13,17 @@ const PDFDownloadLink = dynamic(() => import('@react-pdf/renderer').then((module
 });
 
 
-export default function Passport() {
+export default function Passport({ flatMember, isOwner }) {
 
+    const { authSociety } = useAuth();
+    console.log(flatMember);
+    // console.log(authSociety);
 
     const PDF = () =>   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={{ margin:"4px 0px", textAlign:"center", fontSize:"16px", textTransform:"uppercase" }}>
-            Sunteck Tower 2 Society
+            {authSociety?.name}
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>

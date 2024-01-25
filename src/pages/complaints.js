@@ -16,7 +16,6 @@ const ComplaintList = () => {
   useEffect(() => {
     // Fetch complaints when the component mounts
     // In this example, fetching from an API
-    
     fetchComplaints();
   }, [authMember]);
 

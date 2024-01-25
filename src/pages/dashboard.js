@@ -135,6 +135,10 @@ export default function Dashboard() {
           </form>
 
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+
+            {(!loading && flats.length == 0) &&
+            <p className="text-base-content">No Flat found</p>
+            }
             {loading && <Loading />}
             {flats.map((flat, i) => (
               <FlatCard key={i} flat={flat} />

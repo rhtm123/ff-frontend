@@ -14,7 +14,7 @@ export default function ComplaintCard({ complaint }) {
         <div>
 
         <h2 className="card-title text-lg font-semibold">{complaint_.title}</h2>
-        <div className={complaint_==="resolved"?"badge badge-outline badge-success":"badge badge-outline badge-info"}>{complaint_.status}</div>
+        <div className={complaint_.status==="resolved"?"badge badge-outline badge-success":"badge badge-outline badge-info"}>{complaint_.status}</div>
 
         <p className="text-gray-700">{complaint_.details}</p>
 

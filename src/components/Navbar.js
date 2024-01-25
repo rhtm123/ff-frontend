@@ -16,7 +16,7 @@ const Navbar = () => {
           href={token ? "/dashboard" : "/"}
           className="btn btn-ghost normal-case text-xl"
         >
-          FlatFolio
+          Society Sathi
         </Link>
       </div>
       <div className="flex-none">

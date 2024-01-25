@@ -6,7 +6,7 @@ const Domicile = dynamic(() => import('./letters/Domicile'));
 const NOCLOAN = dynamic(() => import('./letters/NOC-LOAN'));
 const Nominee = dynamic(() => import('./letters/Nominee'));
 
-export default function SocietyLetterModal({modalName,owner,ownerFamily}){
+export default function SocietyLetterModal({modalName,flatMember, isOwner}){
 
     const [selected, setSelected] = useState();
 
@@ -30,7 +30,9 @@ export default function SocietyLetterModal({modalName,owner,ownerFamily}){
         <option value="nominee">Nominee</option>
     </select>
 
-    {selected==="passport" && <Passport />}
+    {selected==="passport" && <Passport 
+            flatMember={flatMember}
+            isOwner={isOwner} />}
     {selected==="domicile-certificate" && <Domicile />}
     {selected==="noc-bankloan" && <NOCLOAN />}
     {selected==="nominee" && <Nominee />}

@@ -12,7 +12,7 @@ const SocietyLetterModal = dynamic(() => import("./SocietyLetterModal"));
 
 export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwnersCount, setDeletedOwnersCount}) {
 
-   console.log(owner_);
+  //  console.log(owner_);
    const [owner, setOwner] = useState(owner_);
    const [deletedLoading, setDeletedLoading] =  useState(false);
 
@@ -71,7 +71,8 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
          />
 
          <SocietyLetterModal 
-            owner={owner}
+            flatMember={owner}
+            isOwner={true}
             modalName={"modalnoc#"+owner._id}
          />
          
