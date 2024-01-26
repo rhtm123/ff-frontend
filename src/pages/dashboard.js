@@ -44,53 +44,83 @@ export default function Dashboard() {
   const [memberLoading, setMemberLoading] = React.useState(true);
 
 
-  React.useEffect(() => {
+  const fetchFlats = async () => {
+    // console.log("Function called");
     setLoading(true);
+    try {
+      let url = `${process.env.API_URL}api/flats?societyId=${authMember?.societyId}&search=${searchText}`
+      let data = await myFetch(url);
+      setFlats(data.flats);
+      setTotalPages(data.totalPages);
+      setLoading(false);
+      localStorage.setItem("flats", JSON.stringify(data.flats));
+      
+    } catch (error) {
+      console.error("Error fetching flats:", error);
+    }
+  };
+
+
+  React.useEffect(()=>{
     setFlats([]);
 
-    const fetchFlats = async () => {
-      try {
-        let url = `${process.env.API_URL}api/flats?societyId=${authMember?.societyId}&search=${searchText}`
-        let data = await myFetch(url);
-        setFlats(data.flats);
-        setTotalPages(data.totalPages);
-        setLoading(false);
-        
-      } catch (error) {
-        console.error("Error fetching flats:", error);
-      }
-    };
- 
-    if (authMember) {
+    if (searchText.length > 0) {
       fetchFlats();
     }
-  }, [authMember, searchText]);
-
-
-
+  },[searchText])
 
 
   React.useEffect(() => {
+    setFlats([]);
+
+    if (authMember) {
+      let storageFlats = localStorage.getItem("flats");
+      if (storageFlats) {
+        setFlats(JSON.parse(storageFlats));
+        setLoading(false);
+      } else {
+      fetchFlats();
+      }
+    }
+  }, [authMember]);
+
+
+  const fetchMembers = async () => {
     setMemberLoading(true);
     setCommitteeOwners([]);
+    // console.log("Fetching members...");
 
-    const fetchMembers = async () => {
+    try {
+    let data = await myFetch(`${process.env.API_URL}api/owners?isCommitteeMember=true&societyId=${authMember?.societyId}`)
+    // console.log(data);
+    setCommitteeOwners(data.owners);
+    localStorage.setItem("committeeOwners", JSON.stringify(data.owners));
+    setMemberLoading(false);
+    }
+    catch(error){
+      console.log(error);
+    }
+  };
 
-      try {
-      let data = await myFetch(`${process.env.API_URL}api/owners?isCommitteeMember=true&societyId=${authMember?.societyId}`)
-      // console.log(data);
-      setCommitteeOwners(data.owners);
-      setMemberLoading(false);
-      }
-      catch(error){
-        console.log(error);
-      }
-    };
-
-    if (authMember){
+  React.useEffect(() => {
+    if (committeeRefreshCount>0){
       fetchMembers();
     }
-  }, [committeeRefreshCount, authMember]);
+  }, [committeeRefreshCount]);
+
+
+  React.useEffect(() => {
+
+    if (authMember){
+      let storageCommitteeOwners = localStorage.getItem("committeeOwners");
+      if (storageCommitteeOwners) {
+        setCommitteeOwners(JSON.parse(storageCommitteeOwners));
+        setMemberLoading(false);
+      } else{
+      fetchMembers();
+      }
+    }
+  }, [authMember]);
 
   return (
     <div>
@@ -189,12 +219,15 @@ export default function Dashboard() {
         </div>
         {/* right section */}
 
-        <div className="p-8">
-        <h2 className="text-xl font-bold pb-4">Recent Activities</h2>
+        <div className="col-span-1 p-8">
 
-          
+        <h2 className="text-xl font-bold pb-4">Recent Complaints</h2>
+
+
+        <div className="max-h-96 overflow-y-auto">
+
         
-	<div className="pb-4">
+	        <div className="pb-4">
 		<div className="flex items-center">
 			<p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
 			<div className="flex-1 space-y-1">
@@ -215,10 +248,6 @@ export default function Dashboard() {
             <div>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Tincidunt nunc ipsum tempor purus vitae id. Morbi in vestibulum
-                nec varius. Et diam cursus quis sed purus nam. Scelerisque amet
-                elit non sit ut tincidunt condimentum. Nisl ultrices eu
-                venenatis diam.
               </p>
             </div>
           </div>
@@ -246,13 +275,67 @@ export default function Dashboard() {
             <div>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Tincidunt nunc ipsum tempor purus vitae id. Morbi in vestibulum
-                nec varius. Et diam cursus quis sed purus nam. Scelerisque amet
-                elit non sit ut tincidunt condimentum. Nisl ultrices eu
-                venenatis diam.
               </p>
             </div>
           </div>
+
+          <div className="pb-4">
+            <div className="flex">
+              <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
+              <div className="flex-1 space-y-1">
+                <div className="flex items-center justify-between space-x-4 ">
+                  <button
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group "
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 rounded-full bg-primary"
+                    ></span>
+                    <span className="">Feature</span>
+                  </button>
+                  <span className="text-xs whitespace-nowrap">10h ago</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+          </div>
+
+          <div className="pb-4">
+            <div className="flex">
+              <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
+              <div className="flex-1 space-y-1">
+                <div className="flex items-center justify-between space-x-4 ">
+                  <button
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group "
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 rounded-full bg-primary"
+                    ></span>
+                    <span className="">Feature</span>
+                  </button>
+                  <span className="text-xs whitespace-nowrap">10h ago</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+          </div>
+
+          </div>
+
+
         </div>
       </div>
     </div>

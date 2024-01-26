@@ -15,7 +15,7 @@ export default function OwnerTenantInfoCard({
   // const [tenants, setTenants] = useState([]);
 
   const [editMode, setEditMode_] = useState(false);
-  const [selectedRole, setSelectedRole] = useState(data.memberId);
+  const [selectedRole, setSelectedRole] = useState(data.memberId?.role);
   const [submitting, setSubmitting] = useState(false);
 
   const { authMemebr } = useAuth();
