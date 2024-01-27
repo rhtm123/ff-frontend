@@ -221,54 +221,27 @@ export default function Dashboard() {
 
         <div className="col-span-1 p-8">
 
-        <h2 className="text-xl font-bold pb-4">Recent Complaints</h2>
+        <h2 className="text-xl font-bold pb-4">Recent Penalties</h2>
 
 
         <div className="max-h-96 overflow-y-auto">
 
         
 	        <div className="pb-4">
-		<div className="flex items-center">
-			<p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
-			<div className="flex-1 space-y-1">
-				<div className="flex items-center justify-between space-x-4 ">
-
-
-          <div className="badge badge-info gap-2">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
-            info
-          </div>
-          
-					<span className="text-xs whitespace-nowrap">10h ago</span>
-				</div>
-				
-			</div>
-		</div>
-
-            <div>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-          </div>
-
-          <div className="pb-4">
-            <div className="flex">
+            <div className="flex items-center">
               <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between space-x-4 ">
-                  <button
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group "
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="h-1.5 w-1.5 rounded-full bg-primary"
-                    ></span>
-                    <span className="">Feature</span>
-                  </button>
+
+
+                  <div className="badge badge-info gap-2">
+                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    info
+                  </div>
+                  
                   <span className="text-xs whitespace-nowrap">10h ago</span>
                 </div>
+                
               </div>
             </div>
 
@@ -280,22 +253,20 @@ export default function Dashboard() {
           </div>
 
           <div className="pb-4">
-            <div className="flex">
+            <div className="flex items-center">
               <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between space-x-4 ">
-                  <button
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group "
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="h-1.5 w-1.5 rounded-full bg-primary"
-                    ></span>
-                    <span className="">Feature</span>
-                  </button>
+
+
+                  <div className="badge badge-info gap-2">
+                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    info
+                  </div>
+                  
                   <span className="text-xs whitespace-nowrap">10h ago</span>
                 </div>
+                
               </div>
             </div>
 
@@ -306,32 +277,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="pb-4">
-            <div className="flex">
-              <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between space-x-4 ">
-                  <button
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1 my-1 space-x-2 text-sm border rounded-full group "
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="h-1.5 w-1.5 rounded-full bg-primary"
-                    ></span>
-                    <span className="">Feature</span>
-                  </button>
-                  <span className="text-xs whitespace-nowrap">10h ago</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-          </div>
 
           </div>
 

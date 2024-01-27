@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 
 const AddUpdateOwnerModal = dynamic(() => import("./AddUpdateOwnerModal"));
 const SocietyLetterModal = dynamic(() => import("./SocietyLetterModal"));
+const ImposeEditPenaltyModal = dynamic(() => import("./ImposeEditPenaltyModal"));
 
 
 export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwnersCount, setDeletedOwnersCount}) {
@@ -50,6 +51,8 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
 
           <li><button onClick={() => document.getElementById("modal#"+owner._id).showModal()}>Update</button></li>
           <li><button onClick={() => document.getElementById("modalnoc#"+owner._id).showModal()}>NOC & Letters</button></li>
+          <li><button onClick={() => document.getElementById("modalpenatly#"+owner._id).showModal()}>Impose Penalty</button></li>
+
           
           <li>
             {deletedLoading ?
@@ -64,6 +67,7 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
 
         </ul>
 
+        
         <AddUpdateOwnerModal
               owner={owner}
               setOwner={setOwner}
@@ -74,6 +78,11 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
             flatMember={owner}
             isOwner={true}
             modalName={"modalnoc#"+owner._id}
+         />
+
+         <ImposeEditPenaltyModal 
+          owner={owner}
+          modalName={"modalpenatly#"+owner._id}
          />
          
       </div>

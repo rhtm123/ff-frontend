@@ -5,6 +5,9 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function Penalty() {
   const [penalties, setPenalties] = React.useState([]);
+  const [imposedPenalties, setImposedPenalties ] = React.useState([]);
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
   const { authMember } = useAuth();
   const initialPostData = {
     amount: "",
@@ -53,7 +56,6 @@ export default function Penalty() {
   };
 
   React.useEffect(() => {
-
     let storedPenalties = localStorage.getItem("penalties")
     if (storedPenalties) {
       setPenalties(JSON.parse(storedPenalties));
@@ -79,91 +81,29 @@ export default function Penalty() {
     }
   };
 
+  const getImposePenalties = async () => {
+    let url = process.env.API_URL + "api/ownerPenalties?societyId="+authMember?.societyId;
+    let data = await myFetch(url); 
+    setImposedPenalties(data.OwnerPenalties);
+    setPage(data.page);
+    setTotalPages(data.page);
+    localStorage.setItem('imposedPenalties', data);
+    console.log(data);
+  }
+
+  React.useEffect(()=>{
+    
+    getImposePenalties();
+  }, [])
+
   return (
     <div>
       <div className="grid lg:grid-cols-2">
         {/* left section */}
         <div className="p-8">
-          {/* Open the modal using document.getElementById('ID').showModal() method */}
-          <button
-            className="btn"
-            onClick={() => document.getElementById("my_modal_3").showModal()}
-          >
-            Impose Penalty
-          </button>
-          <dialog id="my_modal_3" className="modal">
-            <div className="modal-box">
-              <form method="dialog" className="modal-backdrop">
-                <button className="btn btn-sm btn-circle absolute right-2 top-2">
-                  ✕
-                </button>
-              </form>
-
-              <h3 className="font-bold text-lg">Impose Penalty!</h3>
-              <div className="modal-action flex items-center justify-center">
-                <form className="w-full">
-                  <div className="mb-4">
-                    <label>
-                      Wing :
-                      <input
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered input-xs w-full"
-                        name="name"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-4">
-                    <label>
-                      Flat Number:
-                      <input
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered input-xs w-full"
-                        name="name"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-4">
-                    <label>
-                      Name:
-                      <input
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered input-xs w-full"
-                        name="name"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-4">
-                    <label>
-                      Price:
-                      <input
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered input-xs w-full"
-                        name="mobile"
-                      />
-                    </label>
-                  </div>
-
-                  <div className="modal-action">
-                    <button type="button" className="btn">
-                      Add Family
-                    </button>
-
-                    {/* <button className="btn">
-                                            <span className="loading loading-spinner"></span>
-                                            Submitting
-                                        </button> */}
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            {/* Display added tenants */}
-          </dialog>
-          <p className="text-4xl py-4">Flat Number</p>
+          
+          
+          <p className="text-3xl py-4">Impose Penalties</p>
           <div className="container mx-auto">
             <div className="card w-100 bg-base-100 shadow-xl border my-4">
               <div className="card-body justify-between flex-row">
