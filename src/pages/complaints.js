@@ -5,13 +5,27 @@ import { myFetch } from "@/utils/myFetch";
 import React, { useState, useEffect } from "react";
 import Loading from "@/components/Loading";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
+import { getCookie } from "@/utils/myCookie";
+import { useRouter } from "next/router";
 
 const ComplaintList = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
 
   const { authMember } = useAuth();
   // console.log(authMember);
+
+  useEffect(() => {
+    // console.log("token", token);
+    const token = getCookie("token");
+
+    if (!token) {
+      router.push("/login");
+    }
+  }, []);
 
   useEffect(() => {
     // Fetch complaints when the component mounts
@@ -22,7 +36,7 @@ const ComplaintList = () => {
   const fetchComplaints = async () => {
     setLoading(true);
     try {
-      const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember._id);
+      const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember?._id);
       console.log(data);
       
       setComplaints(data.complaints);
@@ -35,7 +49,15 @@ const ComplaintList = () => {
   };
 
   return (
-    <div className="mx-auto px-16 py-4">
+    <>
+    <div className="text-sm px-8 breadcrumbs">
+        <ul>
+          <li><Link href="/dashboard">Dashboard</Link></li> 
+          <li>Complaints</li>
+        </ul>
+      </div>
+    <div className="mx-auto px-8 py-4">
+      
       <h2 className="text-2xl font-semibold mb-4">Complaints</h2>
       
       <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 ">
@@ -51,6 +73,7 @@ const ComplaintList = () => {
       </div>
       <br />
     </div>
+    </>
   );
 };
 

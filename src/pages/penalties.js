@@ -2,23 +2,29 @@ import React from "react";
 
 import { myFetch } from "@/utils/myFetch";
 import { useAuth } from "@/context/AuthContext";
+import OwnerPenanlty from "@/components/OwnerPenalty";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { getCookie } from "@/utils/myCookie";
 
 export default function Penalty() {
   const [penalties, setPenalties] = React.useState([]);
-  const [imposedPenalties, setImposedPenalties ] = React.useState([]);
+  const [ownerPenalties, setOwnerPenanlties ] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
   const { authMember } = useAuth();
+  const router = useRouter();
+
+
   const initialPostData = {
     amount: "",
     name: "",
   };
 
   const [postData, setPostData] = React.useState(initialPostData);
-
   const [submitting, setSubmitting] = React.useState(false);
-
   const [deletedLoading, setDeletedLoading] = React.useState(false);
+  
 
   const getAllPenalties = async () => {
     let url = process.env.API_URL + "api/penalties";
@@ -81,85 +87,70 @@ export default function Penalty() {
     }
   };
 
-  const getImposePenalties = async () => {
-    let url = process.env.API_URL + "api/ownerPenalties?societyId="+authMember?.societyId;
+  const getImposePenalties = async (page) => {
+    let url = process.env.API_URL + `api/ownerPenalties?page=${page}societyId=`+authMember?.societyId;
     let data = await myFetch(url); 
-    setImposedPenalties(data.OwnerPenalties);
+    // setOwnerPenanlties(data.OwnerPenalties);
+    setOwnerPenanlties((ownerPenalties) => [...ownerPenalties, ...data.OwnerPenalties]);
+
     setPage(data.page);
-    setTotalPages(data.page);
-    localStorage.setItem('imposedPenalties', data);
+    setTotalPages(data.totalPages);
+    // localStorage.setItem('ownerPenalties', data);
     console.log(data);
   }
 
-  React.useEffect(()=>{
+  const loadMoreOwnerPenalties = async () => {
     
-    getImposePenalties();
+    getImposePenalties(page+1);
+  }
+
+  React.useEffect(()=>{
+    getImposePenalties(1);
   }, [])
+
+  React.useEffect(() => {
+    // console.log("token", token);
+    const token = getCookie("token");
+
+    if (!token) {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <div>
+      <div className="text-sm px-8 breadcrumbs">
+        <ul>
+          <li><Link href="/dashboard">Dashboard</Link></li> 
+          <li>Penalties</li>
+        </ul>
+      </div>
       <div className="grid lg:grid-cols-2">
         {/* left section */}
         <div className="p-8">
           
           
-          <p className="text-3xl py-4">Impose Penalties</p>
-          <div className="container mx-auto">
-            <div className="card w-100 bg-base-100 shadow-xl border my-4">
-              <div className="card-body justify-between flex-row">
-                <p className="card-title">
-                  <span>2A</span> <span>903</span>
-                </p>
-                <p className="text-lg">Penalty 1</p>
-                <div className="justify-end">
-                  <span className="">Rs. 100</span>
-                </div>
-              </div>
-            </div>
-            <div className="card w-100 bg-base-100 shadow-xl border my-4">
-              <div className="card-body justify-between flex-row">
-                <p className="card-title">
-                  <span>2A</span> <span>101</span>
-                </p>
-                <p className="text-lg">Penalty 2</p>
-                <div className="justify-end">
-                  <span className="">Rs. 200</span>
-                </div>
-              </div>
-            </div>
-            <div className="card w-100 bg-base-100 shadow-xl border my-4">
-              <div className="card-body justify-between flex-row">
-                <p className="card-title">
-                  <span>2A</span> <span>1106</span>
-                </p>
-                <p className="text-lg">Penalty 3</p>
-                <div className="justify-end">
-                  <span className="">Rs. 300</span>
-                </div>
-              </div>
-            </div>
-            <div className="card w-100 bg-base-100 shadow-xl border my-4">
-              <div className="card-body justify-between flex-row">
-                <p className="card-title">
-                  <span>2A</span> <span>1204</span>
-                </p>
-                <p className="text-lg">Penalty 4</p>
-                <div className="justify-end">
-                  <span className="">Rs. 400</span>
-                </div>
-              </div>
-            </div>
-            <div className="card w-100 bg-base-100 shadow-xl border my-4">
-              <div className="card-body justify-between flex-row">
-                <p className="card-title">
-                  <span>2A</span> <span>2201</span>
-                </p>
-                <p className="text-lg">Penalty 5</p>
-                <div className="justify-end">
-                  <span className="">Rs. 500</span>
-                </div>
-              </div>
-            </div>
+          <p className="text-3xl py-4">Imposed Penalties</p>
+          <div className="mx-auto">
+
+          <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Flat</th>
+              <th>Penalty</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+            <tbody>
+              {ownerPenalties.map((ownerPenanlty)=> <OwnerPenanlty ownerPenalty={ownerPenanlty} />)}
+            </tbody>
+          </table>
+            
+            {(page<totalPages) && 
+            <button onClick={loadMoreOwnerPenalties} className="btn btn-sm mt-2">Load More</button>
+            }
+            
           </div>
         </div>
 
