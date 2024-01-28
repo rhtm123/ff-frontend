@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { myFetch } from '@/utils/myFetch';
 
 const ProfilePage = () => {
-  const [societie, setSocietie] = useState([]);
+  const [society, setSociety] = useState([]);
   const router = useRouter();
   const { authMember, token } = useAuth();
 //   console.log("authmember is:" + authMember);
@@ -31,7 +31,7 @@ const ProfilePage = () => {
     try {
         let data = await myFetch(`${process.env.API_URL}api/societies/${authMember?.societyId}`);
 
-        setSocietie(data);
+        setSociety(data);
        // console.log(data);
     //   const response = await axios.get('https://flatfolio.onrender.com/api/societies');
     //   setSocieties(response.data);
@@ -49,14 +49,14 @@ const ProfilePage = () => {
         </ul>
       </div>
       <h2 className="text-2xl font-bold mb-4">Profile Page</h2>
-      {Object.keys(societie).length > 0 ? (
+      {Object.keys(society).length > 0 ? (
         <div className="bg-white p-8 rounded shadow">
-          <p className="text-lg font-semibold mb-2">Name: {societie.name}</p>
-          <p className="text-gray-600 mb-2">Builder ID: {societie.builderId}</p>
-          <p className="text-gray-600 mb-2">Formation Date: {new Date(societie.formationDate).toLocaleDateString()}</p>
-          <p className="text-gray-600 mb-2">Registration Number: {societie.registrationNumber}</p>
+          <p className="text-lg font-semibold mb-2">Name: {society.name}</p>
+          <p className="text-gray-600 mb-2">Builder ID: {society.builderId}</p>
+          <p className="text-gray-600 mb-2">Formation Date: {new Date(society.formationDate).toLocaleDateString()}</p>
+          <p className="text-gray-600 mb-2">Registration Number: {society.registrationNumber}</p>
           {/* ... Display other properties as needed */}
-          <p className="text-gray-600 mb-2">Address: {societie.address.address1}, {societie.address.address2}, {societie.address.city}, {societie.address.state} - {societie.address.pin}</p>
+          <p className="text-gray-600 mb-2">Address: {society.address.address1}, {society.address.address2}, {society.address.city}, {society.address.state} - {society.address.pin}</p>
         </div>
       ) : (
         <p className="text-red-500">No data available</p>
