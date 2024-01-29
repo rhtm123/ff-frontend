@@ -26,23 +26,25 @@ export default function Home() {
     <div className="hero mx-auto px-4 min-h-screen sm:px-6 lg:px-8">
       <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
         <div>
-          <h1 className="block text-3xl font-bold sm:text-4xl lg:text-6xl lg:leading-tight">
-            Hey Society, <span className="text-primary">
-              FlatFolio</span> will make your job easy
+          <h1 className="block text-3xl font-bold sm:text-4xl lg:text-5xl lg:leading-tight">
+            Hey Committee Members, <span className="text-primary">
+              SocietySathi</span> will make your job easy
           </h1>
 
           <div className="mt-7 grid gap-3 w-full sm:inline-flex">
-            <button className="btn btn-primary">
+            {/* <button className="btn btn-primary">
             <Link className="" href="#">
               Try it out
             </Link>
             <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 
-            </button>
+            </button> */}
             <button className="btn btn-secondary">
-            <Link className="" href="#">
+            <Link className="" href="/contact">
               Contact sales team
             </Link>
+            <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+
             </button>
             
           </div>
@@ -106,20 +108,48 @@ export default function Home() {
     </div>
     {/* video section */}
 
-
-    <div className="overflow-hidden bg-base">
+{/* Testimonials  */}
+   
+    {/* <div className="overflow-hidden bg-base">
       <div className="relative max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        {/* Title */}
         <div className="max-w-2xl w-3/4 lg:w-1/2 mb-6 sm:mb-10 md:mb-16">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
             Loved by all societies
           </h2>
         </div>
-        {/* End Title */}
 
-        {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card */}
+          <div className="flex h-auto">
+            <div className="flex flex-col bg-base-200 rounded-xl">
+              <div className="flex-auto p-4 md:p-6">
+                <p className="text-base italic md:text-lg">
+                  "With Preline, we're able to easily track our performance in full detail. It's become an essential tool for us to grow and engage with our audience. "
+                </p>
+              </div>
+
+              <div className="p-4 bg-base-300 rounded-b-xl md:px-7">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <img
+                      className="h-8 w-8 rounded-full sm:h-[2.875rem] sm:w-[2.875rem]"
+                      src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                      alt="Image Description"
+                    />
+                  </div>
+
+                  <div className="grow ms-3">
+                    <p className="text-sm sm:text-base font-semibold">
+                      Josh Tyson
+                    </p>
+                    <p className="text-xs">
+                      Product Manager | Capsule
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="flex h-auto">
             <div className="flex flex-col bg-base-200 rounded-xl">
               <div className="flex-auto p-4 md:p-6">
@@ -150,9 +180,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* End Card */}
 
-          {/* Card */}
           <div className="flex h-auto">
             <div className="flex flex-col bg-base-200 rounded-xl">
               <div className="flex-auto p-4 md:p-6">
@@ -183,75 +211,29 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* End Card */}
 
-          {/* Card */}
-          <div className="flex h-auto">
-            <div className="flex flex-col bg-base-200 rounded-xl">
-              <div className="flex-auto p-4 md:p-6">
-                <p className="text-base italic md:text-lg">
-                  " With Preline, we're able to easily track our performance in full detail. It's become an essential tool for us to grow and engage with our audience. "
-                </p>
-              </div>
-
-              <div className="p-4 bg-base-300 rounded-b-xl md:px-7">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="h-8 w-8 rounded-full sm:h-[2.875rem] sm:w-[2.875rem]"
-                      src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
-                      alt="Image Description"
-                    />
-                  </div>
-
-                  <div className="grow ms-3">
-                    <p className="text-sm sm:text-base font-semibold">
-                      Josh Tyson
-                    </p>
-                    <p className="text-xs">
-                      Product Manager | Capsule
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* End Card */}
-
-
-  
         </div>
-        {/* End Grid */}
 
-        {/* Grid */}
         <div className="mt-20 grid gap-6 grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:gap-8">
-          {/* Stats */}
           <div>
             <h4 className="text-lg sm:text-xl font-semibold">Accuracy rate</h4>
             <p className="mt-2 sm:mt-3 text-4xl sm:text-6xl font-bold text-primary">99.95%</p>
             <p className="mt-1">in fulfilling orders</p>
           </div>
-          {/* End Stats */}
 
-          {/* Stats */}
           <div>
             <h4 className="text-lg sm:text-xl font-semibold">Startup businesses</h4>
             <p className="mt-2 sm:mt-3 text-4xl sm:text-6xl font-bold  text-primary">2,000+</p>
             <p className="mt-1">partner with Preline</p>
           </div>
-          {/* End Stats */}
 
-          {/* Stats */}
           <div>
             <h4 className="text-lg sm:text-xl font-semibold">Happy customer</h4>
             <p className="mt-2 sm:mt-3 text-4xl sm:text-6xl font-bold text-primary">85%</p>
             <p className="mt-1">this year alone</p>
           </div>
-          {/* End Stats */}
         </div>
-        {/* End Grid */}
 
-        {/* SVG Element */}
         <div className="absolute bottom-0 end-0 transform lg:translate-x-32" aria-hidden="true">
           <svg
             className="w-40 h-auto sm:w-72"
@@ -278,21 +260,286 @@ export default function Home() {
             />
           </svg>
         </div>
-        {/* End SVG Element */}
+      </div>
+    </div> */}
+
+
+<section className="text-gray-600 body-font">
+  <div className="container px-5 py-24 mx-auto">
+    <div className="text-center mb-20">
+      <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">
+        Every Society loves these features
+      </h1>
+      {/* <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
+        Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+        taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+        pug.
+      </p> */}
+      <div className="flex mt-6 justify-center">
+        <div className="w-16 h-1 rounded-full bg-primary inline-flex" />
       </div>
     </div>
+    <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+      <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+            Apartment Management Systems
+          </h2>
+          <p className="leading-relaxed text-base">
+            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+            pug VHS try-hard.
+          </p>
+          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
+            Learn More
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a> */}
+        </div>
+      </div>
+      <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+          >
+            <circle cx={6} cy={6} r={3} />
+            <circle cx={6} cy={18} r={3} />
+            <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12" />
+          </svg>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+            Penanlty Systems
+          </h2>
+          <p className="leading-relaxed text-base">
+            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+            pug VHS try-hard.
+          </p>
+          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
+            Learn More
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a> */}
+        </div>
+      </div>
+      <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx={12} cy={7} r={4} />
+          </svg>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+            Complaint Management
+          </h2>
+          <p className="leading-relaxed text-base">
+            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+            pug VHS try-hard.
+          </p>
+          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
+            Learn More
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a> */}
+        </div>
+      </div>
+
+
+      <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx={12} cy={7} r={4} />
+          </svg>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+            Automated NOC & letters
+          </h2>
+          <p className="leading-relaxed text-base">
+            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+            pug VHS try-hard.
+          </p>
+          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
+            Learn More
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a> */}
+        </div>
+      </div>
+
+      <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx={12} cy={7} r={4} />
+          </svg>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+            Alert Systems
+          </h2>
+          <p className="leading-relaxed text-base">
+            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+            pug VHS try-hard.
+          </p>
+          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
+            Learn More
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a> */}
+        </div>
+      </div>
+
+      <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            className="w-10 h-10"
+            viewBox="0 0 24 24"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx={12} cy={7} r={4} />
+          </svg>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+          Cash voucher
+          </h2>
+          <p className="leading-relaxed text-base">
+            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
+            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
+            pug VHS try-hard.
+          </p>
+          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
+            Learn More
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              className="w-4 h-4 ml-2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a> */}
+        </div>
+      </div>
+
+    </div>
+    {/* <button className="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+      Button
+    </button> */}
+  </div>
+</section>
+
 
 
 <div className="hero" style={{backgroundImage: 'url(/images/apartment1.jpg)'}}>
-  <div className="hero-overlay bg-opacity-40"></div>
+  <div className="hero-overlay bg-opacity-20"></div>
   <div className="py-16 text-center">
     <div className="glass bg-opacity-60 p-8 rounded-xl">
       <h1 className="mb-5 text-5xl font-bold">What are you waiting for ?</h1>
-      <h1 className="mb-5 text-5xl font-bold text-secondary">
-      
-      
-
-
+      <h1 className="mb-5 text-5xl font-bold text-primary">
       Call - 9518901902
       </h1>
       {/* <button className="btn btn-primary">Get Started</button> */}

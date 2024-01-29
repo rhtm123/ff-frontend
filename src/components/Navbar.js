@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
-  const { token, login, logout } = useAuth();
+  const { token, logout } = useAuth();
 
   return (
     <div
@@ -14,9 +14,9 @@ const Navbar = () => {
       <div className="flex-1">
         <Link
           href={token ? "/dashboard" : "/"}
-          className="btn btn-ghost normal-case text-xl"
+          className="btn btn-ghost normal-case text-xl text-primary"
         >
-          Society Sathi
+          SocietySathi
         </Link>
       </div>
       <div className="flex-none">
@@ -42,7 +42,7 @@ const Navbar = () => {
               >
                 <div className="w-10 rounded-full">
                   <img
-                    alt="Tailwind CSS Navbar component"
+                    alt="Member Profile"
                     src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                   />
                 </div>
@@ -52,11 +52,14 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/profile" className="justify-between">
+                    Profile
+                    {/* <span className="badge">New</span> */}
+                  </Link>
                 </li>
-                <li>
+                {/* <li>
                   <a>Settings</a>
-                </li>
+                </li> */}
                 <li>
                   <button onClick={logout}>Logout</button>
                 </li>

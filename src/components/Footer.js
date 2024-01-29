@@ -23,7 +23,7 @@ const Footer = () => {
             className="flex-none text-xl font-semibold"
             aria-label="Brand"
           >
-           Team Coding Chaska
+           SocietySathi
           </h1>
         {/* End Col */}
 
@@ -38,7 +38,7 @@ const Footer = () => {
             </a>{' '}
             family.
           </p> */}
-          <p className="">Copyright © 2024 - All right reserved by Society Sathi</p>
+          <p className="">Copyright © 2024 - All right reserved by Learning Setu Private Limited</p>
         </div>
 
         {/* Social Brands */}
