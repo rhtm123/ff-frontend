@@ -1,4 +1,3 @@
-// pages/Complaint.js
 import React, { useState } from "react";
 import { myFetch } from "@/utils/myFetch"; // Update the path based on your project structure
 
@@ -10,6 +9,7 @@ const Complaint = () => {
   });
   const [errorMessage, setErrorMessage] = useState(null); // New state for error message
   const [submitting, setSubmitting] = useState(false); // New state for submitting
+
 
   const handleInputChange = (e) => {
     setErrorMessage("");
@@ -59,6 +59,7 @@ const Complaint = () => {
         mobile: "",
       });
       setErrorMessage(null);
+    
     } catch (error) {
       console.error("Error creating complaint:", error);
     } finally {
@@ -67,53 +68,73 @@ const Complaint = () => {
   };
 
   return (
-    <div className="container mx-auto my-8">
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Create New Complaint</h2>
-        <form onSubmit={handleSubmit} className="max-w-md">
-          <label className="block text-sm font-medium mb-1">Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={newComplaint.title}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-2 mb-4 w-full"
-          />
+    <div className="min-h-screen px-6 py-3 mx-auto">
 
-          <label className="block text-sm font-medium mb-1">Details:</label>
-          <textarea
-            name="details"
-            value={newComplaint.details}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-2 mb-4 w-full"
-          />
 
-          <label className="block text-sm font-medium mb-1">Mobile Number:</label>
-          <input
-            type="text"
-            name="mobile"
-            value={newComplaint.mobile}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-2 mb-4 w-full"
-          />
+      <div className="lg:flex">
+        <div className="lg:w-1/2 lg:mx-10">
+          <h2 className="text-2xl font-semibold lg:text-3xl mt-4">Create New Complaint</h2>
 
-          {errorMessage && (
-            <p className="text-red-500 mb-4" style={{ padding: "0.5rem" }}>
-              {errorMessage}
-            </p>
-          )}
+          <form onSubmit={handleSubmit} className="mt-12">
+            <div className="mb-6">
+              <label className="block mb-2 text-sm">Title</label>
+              <input
+                type="text"
+                name="title"
+                value={newComplaint.title}
+                onChange={handleInputChange}
+                placeholder=""
+                className=" py-5 input input-bordered input-xs w-full"
+              />
+            </div>
 
-          <button type="submit" className={`btn ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={submitting}>
-            {submitting ? (
-              <>
-                <span className="loading loading-spinner"></span>
-                Submitting...
-              </>
-            ) : (
-              "Submit Complaint"
+            <div className="mb-4">
+              <label className="block mb-2 text-sm">Details</label>
+              <textarea
+                name="details"
+                value={newComplaint.details}
+                onChange={handleInputChange}
+                className=" py-3 textarea textarea-bordered textarea-xs w-full"
+                placeholder=""
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block mb-4 text-sm">Mobile Number</label>
+              <input
+                type="text"
+                name="mobile"
+                value={newComplaint.mobile}
+                onChange={handleInputChange}
+                placeholder=""
+                className=" py-5 input input-bordered input-xs w-full"
+              />
+            </div>
+
+            {errorMessage && (
+              <p className="text-red-500 mb-4" style={{ padding: "0.5rem" }}>
+                {errorMessage}
+              </p>
             )}
-          </button>
-        </form>
+
+            <div className="mb-4">
+              <button
+                type="submit"
+                className={`btn ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={submitting}
+              >
+                {submitting ? (
+                  <>
+                    <span className="loading loading-spinner"></span>
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Complaint"
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
