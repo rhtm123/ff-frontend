@@ -1,30 +1,18 @@
 // pages/Complaint.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { myFetch } from "@/utils/myFetch"; // Update the path based on your project structure
 
 const Complaint = () => {
-  const [complaints, setComplaints] = useState([]);
   const [newComplaint, setNewComplaint] = useState({
     title: "",
     details: "",
-    memberId: "", // Assuming you have a way to get the member ID
+    mobile: "",
   });
-
-  useEffect(() => {
-    // Fetch complaints when the component mounts
-    fetchComplaints();
-  }, []);
-
-  const fetchComplaints = async () => {
-    try {
-      const response = await fetch("/api/complaints");
-      const data = await response.json();
-      setComplaints(data.complaints);
-    } catch (error) {
-      console.error("Error fetching complaints:", error);
-    }
-  };
+  const [errorMessage, setErrorMessage] = useState(null); // New state for error message
+  const [submitting, setSubmitting] = useState(false); // New state for submitting
 
   const handleInputChange = (e) => {
+    setErrorMessage("");
     const { name, value } = e.target;
     setNewComplaint((prevComplaint) => ({
       ...prevComplaint,
@@ -34,42 +22,56 @@ const Complaint = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (newComplaint.mobile === "") {
+      setErrorMessage("Please enter a mobile number");
+      return;
+    }
+
+    setSubmitting(true); // Set submitting to true when the form is being submitted
+
+    let ownerId = null;
+
     try {
-      await fetch("/api/complaints", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newComplaint),
+      // Fetch owner details based on the mobile number
+      let url = process.env.API_URL + "api/owners?mobile=" + newComplaint.mobile;
+      let ownersData = await myFetch(url);
+
+      // Use ownerId from ownersData (assuming ownerId is available in ownersData)
+      if (ownersData.owners.length > 0) {
+        ownerId = ownersData.owners[0]?._id;
+      } else {
+        setErrorMessage("This Mobile number is not registered");
+        return;
+      }
+
+      // Submit the complaint with ownerId, title, and details
+      await myFetch(process.env.API_URL + "api/complaints", "POST", {
+        ownerId: ownerId,
+        title: newComplaint.title,
+        details: newComplaint.details,
       });
-      // After successful submission, fetch updated complaints
-      fetchComplaints();
-      // Reset the form
+
+      // Reset the form and clear the error
       setNewComplaint({
         title: "",
         details: "",
-        memberId: "",
+        mobile: "",
       });
+      setErrorMessage(null);
     } catch (error) {
       console.error("Error creating complaint:", error);
+    } finally {
+      setSubmitting(false); // Set submitting back to false after the form is submitted
     }
   };
 
   return (
     <div className="container mx-auto my-8">
-      <ul className="list-disc pl-6">
-        {complaints.map((complaint) => (
-          <li key={complaint._id} className="mb-2">
-            {complaint.title}
-          </li>
-        ))}
-      </ul>
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Create New Complaint</h2>
         <form onSubmit={handleSubmit} className="max-w-md">
-          <label className="block text-sm font-medium mb-1">
-            Title:
-          </label>
+          <label className="block text-sm font-medium mb-1">Title:</label>
           <input
             type="text"
             name="title"
@@ -78,9 +80,7 @@ const Complaint = () => {
             className="border border-gray-300 p-2 mb-4 w-full"
           />
 
-          <label className="block text-sm font-medium mb-1">
-            Details:
-          </label>
+          <label className="block text-sm font-medium mb-1">Details:</label>
           <textarea
             name="details"
             value={newComplaint.details}
@@ -88,9 +88,7 @@ const Complaint = () => {
             className="border border-gray-300 p-2 mb-4 w-full"
           />
 
-          <label className="block text-sm font-medium  mb-1">
-            Mobile Number:
-          </label>
+          <label className="block text-sm font-medium mb-1">Mobile Number:</label>
           <input
             type="text"
             name="mobile"
@@ -98,9 +96,22 @@ const Complaint = () => {
             onChange={handleInputChange}
             className="border border-gray-300 p-2 mb-4 w-full"
           />
-          <button type="submit" className="btn">
-            {" "}
-            Submit Complaint
+
+          {errorMessage && (
+            <p className="text-red-500 mb-4" style={{ padding: "0.5rem" }}>
+              {errorMessage}
+            </p>
+          )}
+
+          <button type="submit" className={`btn ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={submitting}>
+            {submitting ? (
+              <>
+                <span className="loading loading-spinner"></span>
+                Submitting...
+              </>
+            ) : (
+              "Submit Complaint"
+            )}
           </button>
         </form>
       </div>
