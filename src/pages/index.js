@@ -66,7 +66,7 @@ export default function Home() {
     <div className="relative bg-base-200">
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="max-w-2xl text-center mx-auto">
-          <h1 className="block text-3xl font-bold sm:text-4xl md:text-5xl">Designed to solve all critical problems of a <span className="text-primary">Society</span></h1>
+          <h1 className="block text-3xl font-bold sm:text-4xl md:text-5xl leading-tight">Designed to solve all critical problems of a <span className="text-primary">Society</span></h1>
           <p className="mt-3 text-lg">Integrate your society with us. We will take care of everything.</p>
         </div>
 

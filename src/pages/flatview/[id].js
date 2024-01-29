@@ -9,7 +9,6 @@ import Loading from "@/components/Loading";
 
 import TenantCard from "@/components/TenantCard";
 import { myFetch } from "@/utils/myFetch";
-import AlertCard from "@/components/AlertCard";
 
 import dynamic from "next/dynamic";
 
