@@ -1,5 +1,3 @@
-
-
 import ComplaintCard from "@/components/ComplaintCard";
 import { myFetch } from "@/utils/myFetch";
 import React, { useState, useEffect } from "react";
@@ -13,6 +11,8 @@ const ComplaintList = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState(null); // New state for error message
+
 
 
   const { authMember } = useAuth();
