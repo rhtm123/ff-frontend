@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { SignIn, User } from "@phosphor-icons/react";
 
 const Navbar = () => {
   const { token, logout } = useAuth();
@@ -21,15 +22,20 @@ const Navbar = () => {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal items-center px-1">
+          {token && 
           <li>
             <Link href="/dashboard">Dashboard</Link>
           </li>
+          }
+
           <li>
             <Link href="/contact">Contact</Link>
           </li>
           {!token && (
             <li>
-              <Link href="/login">Login</Link>
+              <Link href="/login">
+                Login
+              </Link>
             </li>
           )}
 
@@ -40,12 +46,11 @@ const Navbar = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full">
-                  <img
+                  <User size={24} />
+                  {/* <img
                     alt="Member Profile"
                     src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
-                </div>
+                  /> */}
               </div>
               <ul
                 tabIndex={0}

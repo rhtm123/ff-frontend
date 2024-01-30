@@ -6,6 +6,7 @@ import { myFetch } from "@/utils/myFetch";
 import { deleteMember } from "@/utils/deleteMember";
 
 import dynamic from "next/dynamic";
+import { Trash } from "@phosphor-icons/react";
 
 const AddUpdateFamilyModal = dynamic(() => import('./AddUpdateFamilyModal'));
 
@@ -114,8 +115,8 @@ export default function Family({flatMember, type="owner"}) {
     <thead>
       <tr>
         <th>Name</th>
-        <th>Age</th>
         <th>Relation</th>
+        <th>Age</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -137,9 +138,9 @@ export default function Family({flatMember, type="owner"}) {
       <tr key={index}>
         <td>{familyMember?.memberId.name}</td>
         <td>{familyMember?.relation}</td>
-        <td>{`${new Date().getFullYear()- familyMember?.memberId.birthYear} years old`}</td>
+        <td>{`${new Date().getFullYear()- familyMember?.memberId.birthYear}`}</td>
         <td>
-            <button onClick={()=>deleteFamilyMember(familyMember._id)}>Delete</button>
+              <Trash className="cursor-pointer text-error" onClick={()=>deleteFamilyMember(familyMember._id)} size={18} />
         </td>
         </tr>
       )}

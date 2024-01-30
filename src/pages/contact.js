@@ -61,7 +61,7 @@ function contact() {
                   Ask us everything and we would love to hear from you
                 </p>
 
-                <form className="mt-12" onSubmit={handleSubmit}>
+                <form className="mt-8" onSubmit={handleSubmit}>
                   <div className="">
                     <label className="block mb-2 text-sm "> Name</label>
                     <input
@@ -71,7 +71,7 @@ function contact() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder=""
-                      className="block w-full px-5 py-3 mt-2 input input-bordered"
+                      className="block w-full mt-2 input input-bordered"
                     />
                   </div>
 
@@ -84,7 +84,7 @@ function contact() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder=""
-                      className="block w-full px-5 py-3 mt-2 input input-bordered"
+                      className="block w-full mt-2 input input-bordered"
                     />
                   </div>
                   <div className=" mt-4">
@@ -96,7 +96,7 @@ function contact() {
                       value={formData.mobile}
                       onChange={handleChange}
                       placeholder=""
-                      className="block w-full px-5 py-3 mt-2 input input-bordered"
+                      className="block w-full mt-2 input input-bordered"
                     />
                   </div>
 
@@ -111,7 +111,7 @@ function contact() {
                       placeholder="Message"
                     ></textarea>
 
-                    {!submitting && <input type="submit" className="btn" />}
+                    {!submitting && <input type="submit" className="btn mt-4" />}
 
                     {submitting && (
                       <button className="btn px-6 py-3 mt-4">

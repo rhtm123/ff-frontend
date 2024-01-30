@@ -9,7 +9,7 @@ export function showAlert(msg, type = "success") {
 
 
 
-    toastDiv.style.cssText = 'position: absolute; z-index: 50; bottom: 2rem; right: 2rem;';
+    toastDiv.style.cssText = 'position: absolute; z-index: 50; bottom: 1rem; right: 1rem;';
 
     alertDiv.className = 'text-md rounded-xl shadow-lg';
     
@@ -20,6 +20,7 @@ export function showAlert(msg, type = "success") {
     } else {
         alertDiv.style.backgroundColor = "yellow";
     }
+    
     contentDiv.className = 'flex p-4';
     contentDiv.style.alignItems = 'center';
 

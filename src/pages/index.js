@@ -3,6 +3,8 @@ import { useAuth } from "@/context/AuthContext";
 
 import { useRouter } from "next/router";
 
+import { Buildings, Gavel, Notebook, PhoneCall, Robot, Scroll, Warning } from "@phosphor-icons/react";
+
 export default function Home() {
   const {token} = useAuth();
   const router = useRouter();
@@ -71,15 +73,15 @@ export default function Home() {
         </div>
 
         <div className="mt-10 relative max-w-5xl mx-auto">
-          <div className="w-full object-cover h-96 sm:h-[480px] bg-[url('https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80')] bg-no-repeat bg-center bg-cover rounded-xl"></div>
+          <div className="w-full object-cover h-96 sm:h-[480px] bg-[url('/images/dashboard.jpg')] bg-no-repeat bg-center bg-cover rounded-xl"></div>
 
           <div className="absolute inset-0 w-full h-full">
             <div className="flex flex-col justify-center items-center w-full h-full">
 
-              <button onClick={()=>document.getElementById('my_modal_1').showModal()}  className="btn btn-secondary">
+              {/* <button onClick={()=>document.getElementById('my_modal_1').showModal()}  className="btn btn-secondary">
                 <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                   Play the overview
-              </button>
+              </button> */}
 
               <dialog id="my_modal_1" className="modal">
               <div className="modal-box p-0 max-w-none w-auto">
@@ -264,10 +266,10 @@ export default function Home() {
     </div> */}
 
 
-<section className="text-gray-600 body-font">
+<section className="body-font">
   <div className="container px-5 py-24 mx-auto">
     <div className="text-center mb-20">
-      <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">
+      <h1 className="sm:text-5xl text-2xl leading-tight font-bold title-font mb-4">
         Every Society loves these features
       </h1>
       {/* <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
@@ -281,68 +283,32 @@ export default function Home() {
     </div>
     <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
       <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
-        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-10 h-10"
-            viewBox="0 0 24 24"
-          >
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-base-300 text-primary mb-5 flex-shrink-0">
+
+          <Buildings size={40} />
+
         </div>
         <div className="flex-grow">
-          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+          <h2 className="text-lg title-font font-medium mb-3">
             Apartment Management Systems
           </h2>
-          <p className="leading-relaxed text-base">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug VHS try-hard.
+          <p className="leading-relaxed opacity-80">
+          Effortlessly organize flat details and documents for owners and tenants, fostering transparent communication and smooth community living.
           </p>
-          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
-            Learn More
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              className="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a> */}
+        
         </div>
       </div>
       <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
-        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-10 h-10"
-            viewBox="0 0 24 24"
-          >
-            <circle cx={6} cy={6} r={3} />
-            <circle cx={6} cy={18} r={3} />
-            <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12" />
-          </svg>
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-base-300 text-primary mb-5 flex-shrink-0">
+         
+         <Gavel size={40} />
         </div>
         <div className="flex-grow">
-          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+          <h2 className="text-lg title-font font-medium mb-3">
             Penanlty Systems
           </h2>
-          <p className="leading-relaxed text-base">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug VHS try-hard.
+          <p className="leading-relaxed opacity-80">
+          Enable the committee to uphold community standards with a fair and transparent Penalty System, ensuring accountability and responsible living.
           </p>
           {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
             Learn More
@@ -361,28 +327,15 @@ export default function Home() {
         </div>
       </div>
       <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
-        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-10 h-10"
-            viewBox="0 0 24 24"
-          >
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx={12} cy={7} r={4} />
-          </svg>
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-base-300 text-primary mb-5 flex-shrink-0">
+          <Notebook size={40} />
         </div>
         <div className="flex-grow">
-          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+          <h2 className="text-lg title-font font-medium mb-3">
             Complaint Management
           </h2>
-          <p className="leading-relaxed text-base">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug VHS try-hard.
+          <p className="leading-relaxed opacity-80">
+          Easily register and track complaints for efficient resolution, promoting a responsive and well-maintained living environment.
           </p>
           {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
             Learn More
@@ -403,28 +356,15 @@ export default function Home() {
 
 
       <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
-        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-10 h-10"
-            viewBox="0 0 24 24"
-          >
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx={12} cy={7} r={4} />
-          </svg>
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-base-300 text-primary mb-5 flex-shrink-0">
+          <Robot size={40} />
         </div>
         <div className="flex-grow">
           <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
             Automated NOC & letters
           </h2>
           <p className="leading-relaxed text-base">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug VHS try-hard.
+          Save time with automated generation of NOCs and letters, reducing paperwork and streamlining administrative processes.
           </p>
           {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
             Learn More
@@ -444,84 +384,32 @@ export default function Home() {
       </div>
 
       <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
-        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-10 h-10"
-            viewBox="0 0 24 24"
-          >
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx={12} cy={7} r={4} />
-          </svg>
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-base-300 text-primary mb-5 flex-shrink-0">
+          <Warning size={40} />
         </div>
         <div className="flex-grow">
-          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
-            Alert Systems
+          <h2 className="text-lg title-font font-medium mb-3">
+            Alert System
           </h2>
-          <p className="leading-relaxed text-base">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug VHS try-hard.
+          <p className="leading-relaxed opacity-80">
+          Stay informed with timely notifications on important events, meetings, and critical updates, enhancing community engagement.
           </p>
-          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
-            Learn More
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              className="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a> */}
+
         </div>
       </div>
 
       <div className="p-4 md:w-1/3 flex flex-col text-center items-center">
-        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            className="w-10 h-10"
-            viewBox="0 0 24 24"
-          >
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx={12} cy={7} r={4} />
-          </svg>
+        <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-base-300 text-primary mb-5 flex-shrink-0">
+          <Scroll size={40} />
         </div>
         <div className="flex-grow">
-          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
-          Cash voucher
+          <h2 className="text-lg title-font font-medium mb-3">
+          Maintenance Collection
           </h2>
-          <p className="leading-relaxed text-base">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug VHS try-hard.
+          <p className="leading-relaxed opacity-80">
+          Simplify maintenance fee collection, ensuring smooth operations and organized management of essential services within the society.
           </p>
-          {/* <a className="mt-3 text-indigo-500 inline-flex items-center">
-            Learn More
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              className="w-4 h-4 ml-2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a> */}
+          
         </div>
       </div>
 
@@ -539,9 +427,12 @@ export default function Home() {
   <div className="py-16 text-center">
     <div className="glass bg-opacity-60 p-8 rounded-xl">
       <h1 className="mb-5 text-5xl font-bold">What are you waiting for ?</h1>
-      <h1 className="mb-5 text-5xl font-bold text-primary">
-      Call - 9518901902
+      <div className="flex justify-center items-center gap-4">
+      <PhoneCall size={48} className="mt-2 text-accent" />
+      <h1 className="text-5xl font-bold text-primary">
+         9518901902
       </h1>
+      </div>
       {/* <button className="btn btn-primary">Get Started</button> */}
     </div>
   </div>
