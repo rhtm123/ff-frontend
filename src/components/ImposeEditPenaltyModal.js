@@ -5,7 +5,7 @@ import { showAlert } from "@/utils/showAlert";
 
 export default function ImposeEditPenaltyModal({modalName, owner}){
   const [penalties, setPenalties] = React.useState([]);
-  const [selectedPenalty, setSelectedPenalty] = React.useState(null);
+  const [selectedPenalty, setSelectedPenalty] = React.useState("");
   const [details, setDetails] = React.useState("");
   const [submitting, setSubmitting] = useState(false);
 
