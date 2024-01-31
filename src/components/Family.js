@@ -7,6 +7,9 @@ import { deleteMember } from "@/utils/deleteMember";
 
 import dynamic from "next/dynamic";
 
+import { PiTrash } from "react-icons/pi";
+
+
 const AddUpdateFamilyModal = dynamic(() => import('./AddUpdateFamilyModal'));
 
 
@@ -139,7 +142,8 @@ export default function Family({flatMember, type="owner"}) {
         <td>{familyMember?.relation}</td>
         <td>{`${new Date().getFullYear()- familyMember?.memberId.birthYear}`}</td>
         <td>
-          <button className="btn" onClick={()=>deleteFamilyMember(familyMember._id)}>Delete</button>
+          <PiTrash size={24} className="text-error cursor-pointer" onClick={()=>deleteFamilyMember(familyMember._id)} />
+          {/* <button className="btn" >Delete</button> */}
         </td>
         </tr>
       )}
