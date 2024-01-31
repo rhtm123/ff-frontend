@@ -1,5 +1,5 @@
 import { myFetch } from "@/utils/myFetch";
-import { Medal, PencilSimple } from "@phosphor-icons/react";
+// import { Medal, PencilSimple } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 // import { useAuth } from "@/context/AuthContext";
 
@@ -62,7 +62,8 @@ export default function OwnerTenantInfoCard({
     <tr>
       <th>
         <div className="flex items-center gap-3">
-          <Medal size={32}  weight="thin" className="text-accent" />
+          <span>Medal</span>
+          {/* <Medal size={32}  weight="thin" className="text-accent" /> */}
           <div>
             <div className="font-bold">{member?.name}</div>
             <div className="text-sm opacity-70">{flat?.wingName} {flat?.name}</div>
@@ -116,7 +117,8 @@ export default function OwnerTenantInfoCard({
       {editAllow && (
         <td>
           {!editMode ? (
-            <PencilSimple size={20} className="cursor-pointer" />
+            <span className="cursor-pointer">Pencil</span>
+            // <PencilSimple size={20} className="cursor-pointer" />
           ) : (
             <button onClick={changeMember} class="btn btn-sm">
               {submitting ? (

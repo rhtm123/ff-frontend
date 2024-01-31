@@ -6,7 +6,6 @@ import { myFetch } from "@/utils/myFetch";
 import { deleteMember } from "@/utils/deleteMember";
 
 import dynamic from "next/dynamic";
-// import { Trash } from "@phosphor-icons/react";
 
 const AddUpdateFamilyModal = dynamic(() => import('./AddUpdateFamilyModal'));
 
