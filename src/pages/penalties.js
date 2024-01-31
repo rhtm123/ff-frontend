@@ -7,13 +7,52 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { getCookie } from "@/utils/myCookie";
 
+import { useData } from "@/context/DataContext";
+import Loading from "@/components/Loading";
+
+
 export default function Penalty() {
+
+  const {ownerPenaltyData} = useData();
+  // console.log(ownerPenaltyData);
   const [penalties, setPenalties] = React.useState([]);
+
   const [ownerPenalties, setOwnerPenanlties ] = React.useState([]);
   const [page, setPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState();
   const { authMember } = useAuth();
+  const [loading, setLoading] = React.useState(true);
   const router = useRouter();
+
+
+  const getAllPenalties = async () => {
+    let url = process.env.API_URL + "api/penalties";
+    let data = await myFetch(url);
+    // console.log(data);
+    localStorage.setItem("penalties", JSON.stringify(data.penalties));
+    setPenalties(data.penalties);
+  };
+
+
+  React.useEffect(() => {
+    let storedPenalties = localStorage.getItem("penalties")
+    if (storedPenalties) {
+      setPenalties(JSON.parse(storedPenalties));
+    } else {
+      getAllPenalties();
+    }
+  }, []);
+
+
+  React.useEffect(()=> {
+      if (ownerPenaltyData) {
+        console.log("this is if", ownerPenaltyData.ownerPenalties);
+        setOwnerPenanlties(ownerPenaltyData.ownerPenalties);
+        setTotalPages(ownerPenaltyData.totalPages);
+        setLoading(false);
+      }
+    
+  }, [ownerPenaltyData])
 
 
   const initialPostData = {
@@ -25,14 +64,6 @@ export default function Penalty() {
   const [submitting, setSubmitting] = React.useState(false);
   const [deletedLoading, setDeletedLoading] = React.useState(false);
   
-
-  const getAllPenalties = async () => {
-    let url = process.env.API_URL + "api/penalties";
-    let data = await myFetch(url);
-    // console.log(data);
-    localStorage.setItem("penalties", JSON.stringify(data.penalties));
-    setPenalties(data.penalties);
-  };
 
   const handleInputChange = (e) => {
     // Update the postData state when input fields change
@@ -61,15 +92,6 @@ export default function Penalty() {
     }
   };
 
-  React.useEffect(() => {
-    let storedPenalties = localStorage.getItem("penalties")
-    if (storedPenalties) {
-      setPenalties(JSON.parse(storedPenalties));
-    } else {
-      getAllPenalties();
-    }
-  }, []);
-
   const deletePenalty = async (penalty) => {
     try {
       setDeletedLoading(true);
@@ -88,15 +110,17 @@ export default function Penalty() {
   };
 
   const getImposePenalties = async (page) => {
+    setLoading(true);
     let url = process.env.API_URL + `api/ownerPenalties?page=${page}societyId=`+authMember?.societyId;
     let data = await myFetch(url); 
     // setOwnerPenanlties(data.OwnerPenalties);
-    setOwnerPenanlties((ownerPenalties) => [...ownerPenalties, ...data.OwnerPenalties]);
+    setOwnerPenanlties((ownerPenalties) => [...ownerPenalties, ...data.ownerPenalties]);
 
     setPage(data.page);
-    setTotalPages(data.totalPages);
+    setLoading(false);
+    // setTotalPages(data.totalPages);
     // localStorage.setItem('ownerPenalties', data);
-    console.log(data);
+    // console.log(data);
   }
 
   const loadMoreOwnerPenalties = async () => {
@@ -104,9 +128,9 @@ export default function Penalty() {
     getImposePenalties(page+1);
   }
 
-  React.useEffect(()=>{
-    getImposePenalties(1);
-  }, [])
+  // React.useEffect(()=>{
+  //   getImposePenalties(1);
+  // }, [])
 
   React.useEffect(() => {
     // console.log("token", token);
@@ -142,12 +166,16 @@ export default function Penalty() {
               <th>Date</th>
             </tr>
           </thead>
+            
             <tbody>
               {ownerPenalties.map((ownerPenanlty)=> <OwnerPenanlty ownerPenalty={ownerPenanlty} />)}
             </tbody>
+
+
           </table>
             
-            {(page<totalPages) && 
+            {loading && <Loading />}
+            {(page<totalPages && !loading) && 
             <button onClick={loadMoreOwnerPenalties} className="btn btn-sm mt-2">Load More</button>
             }
             
@@ -157,7 +185,7 @@ export default function Penalty() {
         <div className="p-8">
           {/* Open the modal using document.getElementById('ID').showModal() method */}
           <button
-            className="btn bg-accent"
+            className="btn btn-secondary"
             onClick={() => document.getElementById("my_modal_2").showModal()}
           >
             Add Penalty

@@ -5,7 +5,7 @@ import { AuthProvider } from '@/context/AuthContext';
 
 import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
-
+import { DataProvider } from '@/context/DataContext';
 
 
 export default function App({ Component, pageProps }) {
@@ -16,9 +16,11 @@ export default function App({ Component, pageProps }) {
     
   <ThemeProvider >
   <AuthProvider>
+    <DataProvider>
     <Layout>
     <Component {...pageProps} />
     </Layout>
+    </DataProvider>
   </AuthProvider>
   </ThemeProvider>
   </>

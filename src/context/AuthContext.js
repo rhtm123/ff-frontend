@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     setAuthMember(null);
     removeCookie("token");
     removeCookie("authMember")
+    localStorage.clear()
     
     router.push("/");
   };

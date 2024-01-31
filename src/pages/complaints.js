@@ -6,13 +6,32 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { getCookie } from "@/utils/myCookie";
 import { useRouter } from "next/router";
+import { useData } from "@/context/DataContext";
 
 const ComplaintList = () => {
+
+  const { complaintData } = useData();
   const [complaints, setComplaints] = useState([]);
+
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState();
+
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null); // New state for error message
 
+
+  useEffect(() => {
+
+    if (complaintData) {
+      console.log(complaintData);
+      setComplaints(complaintData.complaints);
+      setTotalPages(complaintData.totalPages);
+      setLoading(false);
+
+    }
+
+  }, complaintData)
 
 
   const { authMember } = useAuth();
@@ -27,19 +46,18 @@ const ComplaintList = () => {
     }
   }, []);
 
-  useEffect(() => {
-    // Fetch complaints when the component mounts
-    // In this example, fetching from an API
-    fetchComplaints();
-  }, [authMember]);
 
-  const fetchComplaints = async () => {
+  const fetchMoreComplaints = async (page) => {
     setLoading(true);
     try {
       const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember?._id);
-      console.log(data);
+      // console.log(data);
+
+      setComplaints((complaints) => [...complaints, ...data.complaints]);
+
+      setPage(page+1);
       
-      setComplaints(data.complaints);
+      // setComplaints(data.complaints);
       setLoading(false); // Set loading to false in case of an error
     } catch (error) {
       console.error("Error fetching complaints:", error);
@@ -47,6 +65,11 @@ const ComplaintList = () => {
 
     }
   };
+
+  const loadMoreComplaints = async () => {
+    
+    fetchMoreComplaints(page+1);
+  }
 
   return (
     <>
@@ -63,14 +86,23 @@ const ComplaintList = () => {
       <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 ">
 
 
-      {loading && <Loading />}
       
         {complaints.map(
           (complaint) => (
             <ComplaintCard key={complaint._id} complaint={complaint}/>
           )
         )}
+
+        
       </div>
+
+      {loading && <Loading />}
+
+
+      {(page<totalPages && !loading) && 
+            <button onClick={loadMoreComplaints} className="btn btn-sm mt-2">Load More</button>
+      }
+
       <br />
     </div>
     </>

@@ -7,17 +7,31 @@ export default function OwnerPenanlty({ownerPenalty}){
 
     // console.log(ownerPenalty);
 
-    React.useEffect(()=>{
+    const getOwner = async () => {
         let url = process.env.API_URL + "api/owners/"+ownerPenalty.ownerId?._id;
 
-        const getOwner = async () => {
-            let data = await myFetch(url);
-            setOwner(data);
-            // console.log(data);
+        let data = await myFetch(url);
+        setOwner(data);
+        localStorage.setItem(ownerPenalty.ownerId?._id, JSON.stringify(data));
+        // console.log(data);
+    }
+
+    React.useEffect(()=>{
+
+        let storedData = localStorage.getItem(ownerPenalty.ownerId?._id);
+        if (storedData) { 
+            setOwner(JSON.parse(storedData))
+        } else {
+            getOwner();
         }
-        getOwner();
         
     },[])
+
+    if (!owner) return (
+        <tr>
+            <span className="loading loading-dots loading-md"></span>
+        </tr>
+    )
 
     return(
         <tr>
