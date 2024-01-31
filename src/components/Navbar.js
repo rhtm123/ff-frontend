@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-// import { User } from "@phosphor-icons/react";
+import { PiUser } from "react-icons/pi";
 
 const Navbar = () => {
   const { token, logout } = useAuth();
@@ -46,8 +46,7 @@ const Navbar = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                  {/* <User size={24} /> */}
-                  <span>User</span>
+                  <PiUser size={24} />
                   {/* <img
                     alt="Member Profile"
                     src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
