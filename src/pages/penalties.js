@@ -9,6 +9,7 @@ import { getCookie } from "@/utils/myCookie";
 
 import { useData } from "@/context/DataContext";
 import Loading from "@/components/Loading";
+import SocietyPenalty from "@/components/SocietyPenalty";
 
 
 export default function Penalty() {
@@ -46,7 +47,7 @@ export default function Penalty() {
 
   React.useEffect(()=> {
       if (ownerPenaltyData) {
-        console.log("this is if", ownerPenaltyData.ownerPenalties);
+        // console.log("this is if", ownerPenaltyData.ownerPenalties);
         setOwnerPenanlties(ownerPenaltyData.ownerPenalties);
         setTotalPages(ownerPenaltyData.totalPages);
         setLoading(false);
@@ -92,22 +93,6 @@ export default function Penalty() {
     }
   };
 
-  const deletePenalty = async (penalty) => {
-    try {
-      setDeletedLoading(true);
-      let url = process.env.API_URL + "api/penalties/" + penalty._id;
-      let deletedPenalty = await myFetch(url, "DELETE");
-      console.log(deletedPenalty);
-      let dataArray = penalties.filter(
-        (item) => item._id !== deletedPenalty.penalty._id
-      );
-      setPenalties(dataArray);
-      localStorage.setItem("penalties", JSON.stringify(dataArray));
-      setDeletedLoading(false);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   const getImposePenalties = async (page) => {
     setLoading(true);
@@ -149,30 +134,17 @@ export default function Penalty() {
           <li>Penalties</li>
         </ul>
       </div>
-      <div className="grid lg:grid-cols-2">
+      <div className="grid px-8 lg:grid-cols-2 gap-8">
         {/* left section */}
-        <div className="p-8">
+        <div className="py-2">
           
           
-          <p className="text-3xl py-4">Imposed Penalties</p>
+          <p className="text-3xl my-4">Imposed Penalties</p>
           <div className="mx-auto">
 
-          <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Flat</th>
-              <th>Penalty</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-            
-            <tbody>
-              {ownerPenalties.map((ownerPenanlty)=> <OwnerPenanlty ownerPenalty={ownerPenanlty} />)}
-            </tbody>
+          
+          {ownerPenalties.map((ownerPenalty)=> <OwnerPenanlty ownerPenalty={ownerPenalty} />)}
 
-
-          </table>
             
             {loading && <Loading />}
             {(page<totalPages && !loading) && 
@@ -182,8 +154,16 @@ export default function Penalty() {
           </div>
         </div>
 
-        <div className="p-8">
+        <div className="py-2">
           {/* Open the modal using document.getElementById('ID').showModal() method */}
+          
+          <p className="text-3xl my-4">Society's Penalty List</p>
+          <div className="mx-auto">
+            {penalties.map((penalty) => (
+              <SocietyPenalty penalty_={penalty} getAllPenalties={getAllPenalties} />
+            ))}
+
+          
           <button
             className="btn btn-secondary"
             onClick={() => document.getElementById("my_modal_2").showModal()}
@@ -252,39 +232,13 @@ export default function Penalty() {
 
             {/* Display added tenants */}
           </dialog>
-          <p className="text-4xl py-4">Penalty List</p>
-          <div className="container mx-auto">
-            {penalties.map((penalty) => (
-              <div
-                key={penalty._id}
-                className="card w-100 bg-base-200 border my-4"
-              >
-                
-                <div className="card-body p-4 justify-between flex-row">
-                  <div>
-                  <p className="card-title">
-                    {penalty.name} 
-                  </p>
-                  <p className="subtitle">
-                    {penalty.amount} Rs
-                  </p>
-                  </div>
-                  <div className="justify-end">
-                    <button
-                    className="btn"
-                    onClick={() => deletePenalty(penalty)}
-                  >
-                    Delete
-                  </button>
-
-                  </div>
-                </div>
-              </div>
-            ))}
+          
           </div>
         </div>
+
+        <br />
       </div>
-      <div className="grid lg:grid-cols-3"></div>
+
     </div>
   );
 }

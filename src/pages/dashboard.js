@@ -10,6 +10,7 @@ import Submenu from "@/components/Submenu";
 import { myFetch } from "@/utils/myFetch";
 // import AddCommitteeMemberModal from "@/components/AddCommitteeMemberModal";
 import OwnerTenantInfoCard from "@/components/OwnerTenantInfoCard";
+import OwnerPenanlty from "@/components/OwnerPenalty";
 
 
 import dynamic from "next/dynamic";
@@ -17,7 +18,7 @@ import dynamic from "next/dynamic";
 const AddCommitteeMemberModal = dynamic(() => import('@/components/AddCommitteeMemberModal'));
 // const AddUpdateTenantModal = dynamic(() => import('@/components/AddUpdateTenantModal'));
 
-
+import { useData } from "@/context/DataContext";
 
 
 export default function Dashboard() {
@@ -29,6 +30,19 @@ export default function Dashboard() {
   const { authMember } = useAuth();
   const [searchText, setSearchText] = React.useState("");
   const [committeeRefreshCount, setCommitteeRefreshCount] = React.useState(0);
+
+
+  const {ownerPenaltyData} = useData();
+  const [ownerPenalties, setOwnerPenanlties ] = React.useState([]);
+
+
+
+  React.useEffect(()=> {
+    if (ownerPenaltyData) {
+      setOwnerPenanlties(ownerPenaltyData.ownerPenalties);
+    }
+}, [ownerPenaltyData])
+
 
   React.useEffect(() => {
     // console.log("token", token);
@@ -224,56 +238,18 @@ export default function Dashboard() {
 
         <div className="max-h-96 overflow-y-auto">
 
+
+        {ownerPenalties.map((ownerPenalty)=> <OwnerPenanlty ownerPenalty={ownerPenalty} />)}
+
+
+
+
+
+
         
-	        <div className="pb-4">
-            <div className="flex items-center">
-              <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between space-x-4 ">
+	        
 
-
-                  <div className="badge badge-info gap-2">
-                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                    info
-                  </div>
-                  
-                  <span className="text-xs whitespace-nowrap">10h ago</span>
-                </div>
-                
-              </div>
-            </div>
-
-            <div>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-          </div>
-
-          <div className="pb-4">
-            <div className="flex items-center">
-              <p className="flex items-center h-8 mr-2 text-sm ">v3.2.0</p>
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between space-x-4 ">
-
-
-                  <div className="badge badge-info gap-2">
-                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary"></span>
-                    info
-                  </div>
-                  
-                  <span className="text-xs whitespace-nowrap">10h ago</span>
-                </div>
-                
-              </div>
-            </div>
-
-            <div>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-          </div>
+         
 
 
           </div>
