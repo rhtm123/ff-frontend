@@ -58,7 +58,7 @@ export default function OwnerTenantInfoCard({
   };
 
   return (
-    <tr>
+    <tr className="border-b border-base-300">
       <th>
         <div className="flex items-center gap-3">
           <PiMedal size={32}  weight="thin" className="text-accent" />

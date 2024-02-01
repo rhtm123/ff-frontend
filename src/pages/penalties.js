@@ -63,7 +63,7 @@ export default function Penalty() {
 
   const [postData, setPostData] = React.useState(initialPostData);
   const [submitting, setSubmitting] = React.useState(false);
-  const [deletedLoading, setDeletedLoading] = React.useState(false);
+  // const [deletedLoading, setDeletedLoading] = React.useState(false);
   
 
   const handleInputChange = (e) => {

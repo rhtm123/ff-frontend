@@ -138,9 +138,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div className="grid lg:grid-cols-3">
         <Submenu />
-      </div>
       <div className="grid lg:grid-cols-3">
         {/* left section */}
         <div className="col-span-2 p-8">
@@ -192,9 +190,9 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold py-4">Committee Members</h1>
             <div className="overflow-x-auto">
 
-            <table className="table">
+            <table className="table bg-base-200">
             <thead>
-              <tr>
+              <tr className="border-b border-base-300">
                 <th>Name</th>
                 <th>Role</th>
                 <th>Committee Member</th>
@@ -241,15 +239,6 @@ export default function Dashboard() {
 
         {ownerPenalties.map((ownerPenalty)=> <OwnerPenanlty ownerPenalty={ownerPenalty} />)}
 
-
-
-
-
-
-        
-	        
-
-         
 
 
           </div>

@@ -10,7 +10,7 @@ export default function ComplaintCard({ complaint }) {
 
     const [owner, setOwner] = React.useState(null);
 
-    console.log(complaint);
+    // console.log(complaint);
 
     const getOwner = async () => {
       let url = process.env.API_URL + "api/owners/"+complaint.ownerId?._id;

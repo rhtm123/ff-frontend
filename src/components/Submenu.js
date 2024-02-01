@@ -6,20 +6,20 @@ const Submenu = () => {
 
 
   return (
-    <div className="px-8 py-2">
+    <div className="px-8 py-2 flex gap-2">
 
-    <ul className="menu menu-horizontal rounded-box bg-base-200">
-      <li>
         <Link href="/penalties">
+        <button className="btn btn-sm">
+
               Penalties
+        </button>
+
         </Link>
-      </li>
-      <li>
          <Link href="/complaints">
+              <button className="btn btn-sm">
               Complaints
+              </button>
             </Link>
-      </li>
-    </ul>
 
     </div>
   );

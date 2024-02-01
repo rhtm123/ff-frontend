@@ -31,9 +31,7 @@ export default function OwnerPenanlty({ownerPenalty}){
     },[])
 
     if (!owner) return (
-        <tr>
-            <span className="loading loading-dots loading-md"></span>
-        </tr>
+            <span className="loading loading-dots py-4 loading-md"></span>
     )
 
     return(
