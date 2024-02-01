@@ -1,6 +1,7 @@
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-
+import { useState } from 'react';
 import dynamic from "next/dynamic";
+import { useAuth } from '@/context/AuthContext';
 
 // Dynamically import PDFViewer
 const PDFViewer = dynamic(
@@ -17,7 +18,32 @@ const PDFDownloadLink = dynamic(
   }
 );
 
-export default function NOCLOAN() {
+export default function NOCLOAN({ flatMember, isOwner }) {
+
+  const { authSociety } = useAuth();
+  console.log(flatMember);
+  // console.log(isOwner);
+  //  console.log(authSociety);
+
+  const [formData, setFormData] = useState({
+    bankName: '',
+    bankAddress: '',
+    ccNumber: '',
+    ccDate: '',
+    flatCost: '',
+  });
+  const handleInputChange = (fieldName, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Handle form submission logic here
+  // };
+
   const PDF = () => (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -30,39 +56,39 @@ export default function NOCLOAN() {
               textTransform: "uppercase",
             }}
           >
-            Sunteck Tower 2 Society
+            {authSociety?.name}
           </Text>
 
           <Text
             style={{ textAlign: "center", fontSize: "14px", margin: "1px 0px" }}
           >
-            REGN. NO : 429048329049023490432
+            REGN. NO : {authSociety?.registrationNumber}
           </Text>
 
           <Text
             style={{ textAlign: "center", fontSize: "14px", margin: "1px 0px" }}
           >
-            Tiwri Road
+            {authSociety?.address?.address1}
           </Text>
 
           <Text
             style={{ textAlign: "center", fontSize: "14px", margin: "1px 0px" }}
           >
-            Naigaon East
+            {authSociety?.address?.address2}
           </Text>
 
           <Text
             style={{ textAlign: "right", fontSize: "14px", margin: "14px 0px" }}
           >
-            Date: 18 Jan, 2024
+            Date: {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
           </Text>
 
           <Text
             style={{ textAlign: "left", fontSize: "14px", margin: "14px 0px" }}
           >
-            To AUTHORISED_NAME,{"\n"}
-            BANK_NAME,{"\n"}
-            BANK_ADDRESS
+           To {formData.authorizedName || 'AUTHORISED_NAME'},{'\n'}
+            {formData.bankName || 'BANK_NAME'},{'\n'}
+            {formData.bankAddress || 'BANK_ADDRESS'}
           </Text>
 
           <Text
@@ -73,14 +99,14 @@ export default function NOCLOAN() {
           <Text
             style={{ textAlign: "left", fontSize: "14px", margin: "4px 0px" }}
           >
-            We, SOCIETY_NAME, hereby certify that:
+            We, {authSociety?.name}, hereby certify that:
           </Text>
           <View style={{ margin: "20px 0px" }}>
             <Text style={{ fontSize: "14px", marginLeft: "20px" }}>
               <Text style={{ fontWeight: "bold" }}>1. </Text>
               <Text>
-                FLAT_NUMBER in ADDRESS_LINE_1, ADDRESS_LINE_2 has been allotted
-                to OWNER_NAME
+                Flat {' '}{flatMember?.flatId?.wingName}/{flatMember?.flatId?.name} in {authSociety?.address?.address1}, {authSociety?.address?.address2} has been allotted
+                to {flatMember?.memberId?.name}.
               </Text>
             </Text>
             {"\n"}
@@ -163,7 +189,58 @@ export default function NOCLOAN() {
 
   return (
     <div className="grid grid-cols-2">
-      <div className="py-2">This is NOC - Bank Loan</div>
+      <div className="py-2">
+        This is NOC - Bank Loan
+      {/* Input Form */}
+      <form >
+          <div className="mb-4">
+            <label htmlFor="authorizedName" className="block text-sm mb-2">
+              Authorized Name
+            </label>
+            <input
+              type="text"
+              id="authorizedName"
+              name="authorizedName"
+              value={formData.authorizedName}
+              onChange={(e) => handleInputChange('authorizedName', e.target.value)}
+              className="input input-bordered rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="bankName" className="block text-sm mb-2">
+              Bank Name
+            </label>
+            <input
+              type="text"
+              id="bankName"
+              name="bankName"
+              value={formData.bankName}
+              onChange={(e) => handleInputChange('bankName', e.target.value)}
+              className="input input-bordered rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="bankaddress" className="block text-sm mb-2">
+              Bank Address
+            </label>
+            <input
+              type="text"
+              id="bankAddress"
+              name="bankAddress"
+              value={formData.bankAddress}
+              onChange={(e) => handleInputChange('bankAddress', e.target.value)}
+              className="input input-bordered rounded-md w-full"
+            />
+          </div>
+          {/* Add more form fields as needed */}
+          {/* <button
+            type="submit"
+            className="btn btn-accent"
+          >
+            Submit
+          </button> */}
+        </form>
+      </div>
 
       <div children="py-2">
         <PDFDownloadLink document={<PDF />} fileName="sample.pdf">

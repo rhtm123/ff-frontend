@@ -16,8 +16,9 @@ const PDFDownloadLink = dynamic(() => import('@react-pdf/renderer').then((module
 export default function Passport({ flatMember, isOwner }) {
 
     const { authSociety } = useAuth();
-    console.log(flatMember);
-    // console.log(authSociety);
+    // console.log(flatMember);
+    // console.log(isOwner);
+     console.log(authSociety);
 
     const PDF = () =>   <Document>
     <Page size="A4" style={styles.page}>
@@ -27,19 +28,19 @@ export default function Passport({ flatMember, isOwner }) {
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>
-            REGN. NO : 429048329049023490432
+            REGN. NO : {authSociety?.registrationNumber}
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>
-            Tiwri Road
+            {authSociety?.address?.address1}
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>
-            Naigaon East
+            {authSociety?.address?.address2}
         </Text>
 
         <Text style={{ textAlign:"right", fontSize:"14px", margin:"1px 0px" }}>
-            Date: 18 Jan, 2024
+        Date: {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
         </Text>
         
 
@@ -49,11 +50,11 @@ export default function Passport({ flatMember, isOwner }) {
 
 
         <Text style={{ textAlign:"left", fontSize:"14px", margin:"4px 0px" }}>
-        This is to certify that APPLIER_NAME, RELATION_WITH_OWNER of OWNER_NAME, who is a bonafide member of our society and staying at OWNER_ADDRESS, since SINCE_STAYING_DATE
+        This is to certify that{' '} <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: '14px' }}>{flatMember?.memberId?.name}</Text>{' '}, who is a bonafide owner of a property in our society located at {authSociety?.address?.address1}, since {' '}{new Date(flatMember?.possessionDate).toLocaleDateString('en-US')}
         </Text>
 
         <Text style={{ textAlign:"left", fontSize:"14px", margin:"4px 0px" }}>
-        This certificate is issued to HIM_HER on HIS_HER request to enable HIM_HER to apply for the passport from Regional Passport Office, SOCIETY_CITY.
+        This certificate is issued to HIM_HER on HIS_HER request to enable HIM_HER to apply for the passport from Regional Passport Office, {authSociety?.address?.state}.
         </Text>
 
 

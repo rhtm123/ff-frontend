@@ -1,6 +1,7 @@
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 import dynamic from 'next/dynamic';
+import { useAuth } from '@/context/AuthContext';
 
 // Dynamically import PDFViewer
 const PDFViewer = dynamic(() => import('@react-pdf/renderer').then((module) => module.PDFViewer), {
@@ -12,30 +13,35 @@ const PDFDownloadLink = dynamic(() => import('@react-pdf/renderer').then((module
 });
 
 
-export default function Domicile() {
+export default function Domicile( {flatMember, isOwner} ) {
 
+
+  const { authSociety } = useAuth();
+   console.log("domicile", flatMember);
+  // console.log(isOwner);
+  //  console.log(authSociety);
 
     const PDF = () =>   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={{ margin:"4px 0px", textAlign:"center", fontSize:"16px", textTransform:"uppercase" }}>
-            Sunteck Tower 2 Society
+        {authSociety?.name}
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>
-            REGN. NO : 429048329049023490432
+            REGN. NO : {authSociety?.registrationNumber}
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>
-            Tiwri Road
+        {authSociety?.address?.address1}
         </Text>
 
         <Text style={{ textAlign:"center", fontSize:"14px", margin:"1px 0px" }}>
-            Naigaon East
+        {authSociety?.address?.address2}
         </Text>
 
         <Text style={{ textAlign:"right", fontSize:"14px", margin:"1px 0px" }}>
-            Date: 18 Jan, 2024
+            Date: {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
         </Text>
         
 
@@ -45,7 +51,7 @@ export default function Domicile() {
 
 
         <Text style={{ textAlign:"left", fontSize:"14px", margin:"4px 0px" }}>
-        This is to certify that APPLIER_NAME, RELATION_WITH_OWNER of OWNER_NAME, who is a bonafide member of our society and staying at OWNER_ADDRESS, since SINCE_STAYING_DATE
+        This is to certify that{' '} <Text style={{ fontFamily: 'Helvetica-Bold', fontSize: '14px' }}>{flatMember?.memberId?.name}</Text>{' '}, who is a bonafide owner of a property in our society located at {authSociety?.address?.address1}, since {' '}{new Date(flatMember?.possessionDate).toLocaleDateString('en-US')}
         </Text>
 
         <Text style={{ textAlign:"left", fontSize:"14px", margin:"4px 0px" }}>
@@ -79,7 +85,7 @@ export default function Domicile() {
     return (
         <div className="grid grid-cols-2">
             <div className='py-2'>
-                This is Domicile
+                This is Domicile 
             </div>
 
 

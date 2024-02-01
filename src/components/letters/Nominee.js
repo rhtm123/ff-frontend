@@ -1,6 +1,8 @@
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { useState } from "react";
 
 import dynamic from "next/dynamic";
+import { useAuth } from "@/context/AuthContext";
 
 // Dynamically import PDFViewer
 const PDFViewer = dynamic(
@@ -17,7 +19,30 @@ const PDFDownloadLink = dynamic(
   }
 );
 
-export default function Nominee() {
+export default function Nominee({ flatMember, isOwner }) {
+  const { authSociety } = useAuth();
+  //  console.log(flatMember);
+  // console.log(isOwner);
+  console.log(authSociety);
+
+  const [formData, setFormData] = useState({
+    nominationId: "",
+    nomineeName: "",
+    witnessName1: "",
+    witnessName2: "",
+    witnessAddress1: "",
+    witnessAddress2: "",
+  });
+
+  const [nominationList, setNominationList] = useState([]);
+
+  const handleInputChange = (fieldName, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
+
   const PDF = () => (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -30,25 +55,25 @@ export default function Nominee() {
               textTransform: "uppercase",
             }}
           >
-            Sunteck Tower 2 Society
+            {authSociety?.name}
           </Text>
 
           <Text
             style={{ textAlign: "center", fontSize: "14px", margin: "1px 0px" }}
           >
-            REGN. NO : 429048329049023490432
+            REGN. NO : {authSociety?.registrationNumber}
           </Text>
 
           <Text
             style={{ textAlign: "center", fontSize: "14px", margin: "1px 0px" }}
           >
-            Tiwri Road
+            {authSociety?.address?.address1}
           </Text>
 
           <Text
             style={{ textAlign: "center", fontSize: "14px", margin: "1px 0px" }}
           >
-            Naigaon East
+            {authSociety?.address?.address2}
           </Text>
 
           <View style={styles.table}>
@@ -92,11 +117,11 @@ export default function Nominee() {
             {"\n"}
             The Secretary,
             {"\n"}
-            SOCIETY_NAME
+            {authSociety?.name}
             {"\n"}
-            ADDRESS_LINE_1
+            {authSociety?.address?.address1}
             {"\n"}
-            ADDRESS_LINE_2
+            {authSociety?.address?.address2}
           </Text>
 
           <Text style={{ fontSize: "16px" }}>
@@ -108,9 +133,10 @@ export default function Nominee() {
             <Text
               style={{ textAlign: "left", fontSize: "14px", margin: "4px 0px" }}
             >
-              1. I OWNER_NAME, am the member of the{" "}
-              <Text style={{ fontWeight: "bold" }}>SOCIETY_NAME</Text>, having
-              address at ADDRESS_LINE_1, ADDRESS_LINE_2.
+              1. I {flatMember?.memberId?.name}, am the member of the{" "}
+              <Text style={{ fontWeight: "bold" }}>{authSociety?.name}</Text>,
+              having address at {authSociety?.address?.address1},{" "}
+              {authSociety?.address?.address2}.
             </Text>
             <Text
               style={{ textAlign: "left", fontSize: "14px", margin: "0px 0px" }}
@@ -128,8 +154,8 @@ export default function Nominee() {
             <Text
               style={{ textAlign: "left", fontSize: "14px", margin: "4px 0px" }}
             >
-              3. I also hold the FLAT_NAME admeasuring TOTAL_AREA in the said
-              Society.
+              3. I also hold the {flatMember?.flatId?.name} admeasuring
+              TOTAL_AREA in the said Society.
             </Text>
             <Text
               style={{
@@ -149,7 +175,7 @@ export default function Nominee() {
                 margin: "1px 18px",
               }}
             >
-              NOMINATION_LIST
+              Nomination List: {formData.nomineeName || "NOMINEE_NAME"}
             </Text>
           </View>
 
@@ -162,7 +188,7 @@ export default function Nominee() {
               in the flat, the details of which are given above, should be
               transferred to{" "}
               <Text style={{ fontWeight: "bold" }}>
-                FIRST_NOMINEE_MR_MRS FIRST_NOMINEE_NAME
+                Mr/Ms {formData.nomineeName || "NOMINEE_NAME"}
               </Text>
               , the first named nominee, on his/her complying with the
               provisions of the Bye-laws of the Society regarding requirements
@@ -179,9 +205,9 @@ export default function Nominee() {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.witnessCell}>
                 <Text align="left" fontWeight="bold">
-                  1.<Text>WITNESS_NAME_1</Text>
+                  1.<Text>{formData.witnessName1 || "WITNESS_NAME_1"}</Text>
                   {"\n"}
-                  <Text>WITNESS_ADDRESS_1</Text>
+                  <Text>{formData.witnessAddress1 || "WITNESS_ADDRESS_1"}</Text>
                 </Text>
 
                 <Text
@@ -194,9 +220,11 @@ export default function Nominee() {
               </View>
               <View style={styles.witnessCell}>
                 <Text align="left" fontWeight="bold">
-                  2.<Text>WITNESS_NAME_2</Text>
+                  2.<Text>{formData.witnessName2 || "WITNESS_NAME_2"}</Text>
                   {"\n"}
-                  <Text align="centre" marginLeft="4px" >WITNESS_ADDRESS_2</Text>
+                  <Text align="centre" marginLeft="4px">
+                    {formData.witnessAddress2 || "WITNESS_ADDRESS_2"}
+                  </Text>
                 </Text>
                 <Text
                   align="right"
@@ -215,7 +243,7 @@ export default function Nominee() {
             <Text align="left" fontWeight="bold">
               Place:
             </Text>
-            SOCIETY_NAME
+            {authSociety?.name}
           </Text>
 
           <Text
@@ -250,7 +278,97 @@ export default function Nominee() {
 
   return (
     <div className="grid grid-cols-2">
-      <div className="py-2">This is Nominee</div>
+      <div className="py-2">
+        This is Nominee
+        {/* Input Form */}
+        <form>
+          <div className="mb-4">
+            <label htmlFor="nomineeName" className="block text-sm font-medium ">
+              Nominee Name
+            </label>
+            <input
+              type="text"
+              id="nomineeName"
+              name="nomineeName"
+              value={formData.nomineeName}
+              onChange={(e) => handleInputChange("nomineeName", e.target.value)}
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="witnessName1"
+              className="block text-sm font-medium "
+            >
+              Witness Name 1
+            </label>
+            <input
+              type="text"
+              id="witnessName1"
+              name="witnessName1"
+              value={formData.witnessName1}
+              onChange={(e) =>
+                setFormData({ ...formData, witnessName1: e.target.value })
+              }
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="witnessAddress1"
+              className="block text-sm font-medium "
+            >
+              Witness Address 1
+            </label>
+            <input
+              type="text"
+              id="witnessAddress1"
+              name="witnessAddress1"
+              value={formData.witnessAddress1}
+              onChange={(e) =>
+                setFormData({ ...formData, witnessAddress1: e.target.value })
+              }
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="witnessName2"
+              className="block text-sm font-medium "
+            >
+              Witness Name 2
+            </label>
+            <input
+              type="text"
+              id="witnessName2"
+              name="witnessName2"
+              value={formData.witnessName2}
+              onChange={(e) =>
+                setFormData({ ...formData, witnessName2: e.target.value })
+              }
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="witnessAddress2"
+              className="block text-sm font-medium "
+            >
+              Witness Address 2
+            </label>
+            <input
+              type="text"
+              id="witnessAddress2"
+              name="witnessAddress2"
+              value={formData.witnessAddress2}
+              onChange={(e) =>
+                setFormData({ ...formData, witnessAddress2: e.target.value })
+              }
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+        </form>
+      </div>
 
       <div children="py-2">
         <PDFDownloadLink document={<PDF />} fileName="sample.pdf">
@@ -298,6 +416,11 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: "14",
   },
+  nominationList: {
+    marginLeft: 20,
+    marginTop: 5,
+  },
+
   tableColumn2: {
     width: "60%",
     borderCollapse: "collapse",
