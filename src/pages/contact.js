@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { myFetch } from "@/utils/myFetch";
+import { showAlert } from "@/utils/showAlert";
 
 function contact() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,9 @@ function contact() {
 
       let data = await myFetch(url, "POST", formData);
       console.log("Successful:", data);
+      showAlert("Form Submission Successful")
       setSubmitSuccess(true);
+      
 
       //   const response = await fetch(url, {
       //     method: 'POST',
@@ -127,7 +130,7 @@ function contact() {
             {submitSuccess && (
               <div className="lg:w-2/3 lg:mx-10">
                 <p className="mt-4 ">
-                  <h3>Thank you.. Out Team will contact you soon.</h3>
+                  <h3>Thank you.. Our Team will contact you soon.</h3>
                 </p>
               </div>
             )}

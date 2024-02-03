@@ -48,10 +48,12 @@ const ComplaintList = () => {
 
 
   const fetchMoreComplaints = async (page) => {
+    console.log(page);
     setLoading(true);
     try {
-      const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember?._id);
+      const data = await myFetch(process.env.API_URL+"api/complaints?societyId="+authMember?._id+"&page="+page);
       // console.log(data);
+      console.log(data.complaints)
 
       setComplaints((complaints) => [...complaints, ...data.complaints]);
 
