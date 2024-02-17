@@ -26,7 +26,7 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
 
 
   const addToOwnerTenant = async (addedMember) => {
-    let url = type=="owner" ? 'https://flatfolio.onrender.com/api/ownerFamilies':'https://flatfolio.onrender.com/api/tenantFamilies'
+    let url = type=="owner" ? process.env.API_URL + 'api/ownerFamilies': process.env.API_URL + 'api/tenantFamilies'
     // let ownerOrTenantId = type=="owner"?"ownerId":"tenantId"
     // console.log(ownerOrTenantId)
     let data = {
@@ -59,7 +59,7 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
     setSubmitting(true);
     try {
       const addedMember = await myFetch(
-        'https://flatfolio.onrender.com/api/members',
+        process.env.API_URL+ 'api/members',
         "POST",
         {
           societyId: authMember?.societyId,
@@ -70,24 +70,7 @@ const AddUpdateFamilyModal = ({ type="owner", flatMemberId, modalName, familyMem
 
       );
 
-      // const response = await fetch('https://flatfolio.onrender.com/api/members', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     Authorization: `${token}`,
-      //   },
-      //   body: JSON.stringify({
-      //     societyId: authMember?.societyId,
-      //     username: newFamily.mobile,
-      //     name: newFamily.name,
-      //     mobile: newFamily.mobile,
-      //     birthYear: newFamily.birthYear
-      //   }),
-      // });
-
-      // if (response.ok) {
-      //   const addedMember = await response.json();
-        // console.log('Tenant added successfully:', addedMember);
+ 
         addToOwnerTenant(addedMember);
 
         setNewFamily({

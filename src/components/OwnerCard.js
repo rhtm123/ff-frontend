@@ -19,7 +19,7 @@ export default function OwnerCard({owner_, flatOwners, setFlatOwners, deletedOwn
 
   const deleteOwner = async () => {
     setDeletedLoading(true);
-    let url = "https://flatfolio.onrender.com/api/owners/"+owner._id;
+    let url = process.env.API_URL+"api/owners/"+owner._id;
 
     try {
 

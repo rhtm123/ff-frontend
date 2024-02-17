@@ -34,7 +34,7 @@ const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwner
   };
 
   const addUpdateToFlat = async (addedMember) => {
-    let url = owner? 'https://flatfolio.onrender.com/api/owners/'+owner._id:'https://flatfolio.onrender.com/api/owners'
+    let url = owner? process.env.API_URL+'api/owners/'+owner._id: process.env.API_URL+'api/owners'
     try {
       const response = await fetch(url, {
         method: owner? 'PUT':'POST',
@@ -80,7 +80,7 @@ const AddUpdateOwnerModal = ({ owner, setOwner, flatId, flatOwners, setFlatOwner
   const addUpdateMember = async () => {
     console.log(newOwner.isLiving, typeof newOwner.isLiving)
     setSubmitting(true);
-    let url = owner? "https://flatfolio.onrender.com/api/members/"+owner.memberId._id: "https://flatfolio.onrender.com/api/members"
+    let url = owner? process.env.API_URL+"api/members/"+owner.memberId._id: process.env.API_URL+"api/members"
     try {
       const response = await fetch(url, {
         method: owner?'PUT':'POST',

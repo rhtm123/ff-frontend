@@ -14,8 +14,10 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         // Fetch complaints when the component mounts
         // In this example, fetching from an API
-        fetchComplaints();
-        getImposePenalties();
+        if (authMember){
+          fetchComplaints();
+          getImposePenalties();
+        }
       }, [authMember]);
     
       const fetchComplaints = async () => {
@@ -32,7 +34,7 @@ export const DataProvider = ({ children }) => {
 
       const getImposePenalties = async (page) => {
         try {
-        let url = process.env.API_URL + `api/ownerPenalties?page=${page}societyId=`+authMember?.societyId;
+        let url = process.env.API_URL + `api/ownerPenalties?societyId=`+authMember?.societyId;
         let data = await myFetch(url); 
         setOwnerPenanltyData(data);
         } catch (error) {
