@@ -36,7 +36,7 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
 
   const deleteTenant = async () => {
     setDeletedLoading(true);
-    let url = "https://flatfolio.onrender.com/api/tenants/"+tenant._id;
+    let url = process.env.API_URL+ "api/tenants/"+tenant._id;
 
     try {
       

@@ -36,7 +36,6 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // let url = "https://flatfolio.onrender.com/api/members/login";
     let url = `${process.env.API_URL}api/members/login`;
   
     try {

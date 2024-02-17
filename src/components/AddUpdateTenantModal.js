@@ -43,7 +43,7 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
   };
 
   const addUpdateToFlat = async (addedMember) => {
-    let url = tenant? 'https://flatfolio.onrender.com/api/tenants/'+tenant._id:'https://flatfolio.onrender.com/api/tenants'
+    let url = tenant? process.env.API_URL+'api/tenants/'+tenant._id: process.env.API_URL+'api/tenants'
 
     try {
       const savedTenant = await myFetch(
@@ -96,7 +96,7 @@ const AddUpdateTenantModal = ({ tenant, setTenant, flatId, flatTenants, setFlatT
   const handleAddUpdateTenant = async () => {
     console.log("adding tenant..")
     setSubmitting(true);
-    let url = tenant? "https://flatfolio.onrender.com/api/members/"+tenant.memberId._id: "https://flatfolio.onrender.com/api/members"
+    let url = tenant? process.env.API_URL+"api/members/"+tenant.memberId._id: process.env.API_URL+"api/members"
 
     try {
 
