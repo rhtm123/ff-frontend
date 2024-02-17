@@ -33,9 +33,15 @@ export default function SocietyLetterModal({modalName,flatMember, isOwner}){
     {selected==="passport" && <Passport 
             flatMember={flatMember}
             isOwner={isOwner} />}
-    {selected==="domicile-certificate" && <Domicile />}
-    {selected==="noc-bankloan" && <NOCLOAN />}
-    {selected==="nominee" && <Nominee />}
+    {selected==="domicile-certificate" && <Domicile 
+    flatMember={flatMember}
+    isOwner={isOwner} />}
+    {selected==="noc-bankloan" && <NOCLOAN
+    flatMember={flatMember}
+    isOwner={isOwner} />}
+    {selected==="nominee" && <Nominee 
+    flatMember={flatMember}
+    isOwner={isOwner} />}
 
 
   </div>

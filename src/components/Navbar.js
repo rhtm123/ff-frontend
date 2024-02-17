@@ -3,10 +3,15 @@ import React from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { PiUser } from "react-icons/pi";
+import { useState } from 'react';
 
 const Navbar = () => {
   const { token, logout } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
   return (
     <div
       className="navbar bg-base-200"
@@ -40,11 +45,13 @@ const Navbar = () => {
           )}
 
           {token && (
+            <div className="dropdown dropdown-hover">
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
+                onClick={toggleDropdown}
               >
                   <PiUser size={24} />
                   {/* <img
@@ -52,12 +59,13 @@ const Navbar = () => {
                     src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                   /> */}
               </div>
+              {dropdownOpen && (
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <Link href="/profile" className="justify-between">
+                  <Link href="/profile" className="justify-between" onClick={toggleDropdown}>
                     Profile
                     {/* <span className="badge">New</span> */}
                   </Link>
@@ -69,6 +77,8 @@ const Navbar = () => {
                   <button onClick={logout}>Logout</button>
                 </li>
               </ul>
+              )}
+            </div>
             </div>
           )}
         </ul>

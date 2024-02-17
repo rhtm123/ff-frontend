@@ -5,6 +5,7 @@ import { myFetch } from "@/utils/myFetch";
 import dynamic from "next/dynamic";
 
 const AddUpdateTenantModal = dynamic(() => import('./AddUpdateTenantModal'));
+const TenantDocumentModal = dynamic(() => import('./TenantDocumentModal'));
 
 
 
@@ -66,6 +67,7 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
         <div tabIndex={0} role="button" className="btn btn-sm btn-primary">Action</div>
         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
           <li><button onClick={() => document.getElementById("modal#"+tenant._id).showModal()}>Update</button></li>
+          <li><button onClick={() => document.getElementById("modaldocument#"+tenant._id).showModal()}>Documents</button></li>
           
           <li>
             {deletedLoading ?
@@ -83,6 +85,11 @@ export default function TenantCard({tenant_, flatTenants, setFlatTenants, delete
               setTenant={setTenant}
               modalName={"modal#"+tenant._id}
             />
+        <TenantDocumentModal 
+           tenant={tenant}
+           setTenant={setTenant}
+            modalName={"modaldocument#"+tenant._id}
+         />    
       </div>
 
       </div>
@@ -137,6 +144,21 @@ year: 'numeric',
   {monthsLeft} months left
 </div>
 }
+
+{tenant?.agreementFile && 
+<div className="badge badge-outline badge-info">
+  <svg
+      viewBox="0 0 1024 1024"
+      fill="currentColor"
+      height="1em"
+      width="1em"
+    >
+      <path d="M854.6 288.6L639.4 73.4c-6-6-14.1-9.4-22.6-9.4H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V311.3c0-8.5-3.4-16.7-9.4-22.7zM790.2 326H602V137.8L790.2 326zm1.8 562H232V136h302v216a42 42 0 0042 42h216v494z" />
+    </svg>
+     agreement uploaded
+</div>
+}
+
 </div>
 
 
