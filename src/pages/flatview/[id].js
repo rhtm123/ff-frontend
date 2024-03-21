@@ -12,9 +12,10 @@ import { myFetch } from "@/utils/myFetch";
 
 import dynamic from "next/dynamic";
 
-const AddUpdateOwnerModal = dynamic(() => import('@/components/AddUpdateOwnerModal'));
-const AddUpdateTenantModal = dynamic(() => import('@/components/AddUpdateTenantModal'));
-
+// const AddUpdateOwnerModal = dynamic(() => import('@/components/AddUpdateOwnerModal'));
+// const AddUpdateTenantModal = dynamic(() => import('@/components/AddUpdateTenantModal'));
+import AddUpdateOwnerModal from "@/components/AddUpdateOwnerModal";
+import AddUpdateTenantModal from "@/components/AddUpdateTenantModal";
 
 
 export default function FlatView({ flat, error }) {
