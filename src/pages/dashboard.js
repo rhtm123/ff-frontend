@@ -64,6 +64,8 @@ export default function Dashboard() {
     try {
       let url = `${process.env.API_URL}api/flats?societyId=${authMember?.societyId}&search=${searchText}`
       let data = await myFetch(url);
+      console.log(url);
+      console.log(data);
       setFlats(data.flats);
       setTotalPages(data.totalPages);
       setLoading(false);

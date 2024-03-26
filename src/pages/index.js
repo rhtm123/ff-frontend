@@ -205,7 +205,7 @@ export default function Home() {
           <PiRobot size={40} />
         </div>
         <div className="flex-grow">
-          <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+          <h2 className="text-lg title-font font-medium mb-3">
             Automated NOC & letters
           </h2>
           <p className="leading-relaxed text-base">
