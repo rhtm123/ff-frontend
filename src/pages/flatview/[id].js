@@ -10,7 +10,7 @@ import Loading from "@/components/Loading";
 import TenantCard from "@/components/TenantCard";
 import { myFetch } from "@/utils/myFetch";
 
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
 // const AddUpdateOwnerModal = dynamic(() => import('@/components/AddUpdateOwnerModal'));
 // const AddUpdateTenantModal = dynamic(() => import('@/components/AddUpdateTenantModal'));

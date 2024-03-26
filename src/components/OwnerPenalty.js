@@ -63,7 +63,7 @@ export default function OwnerPenanlty({ownerPenalty}){
         <div className="card-body p-4 justify-between flex-row">
         <div>
         <p className="card-title">
-        {owner?.memberId.name} ( {owner?.flatId?.wingName} {owner?.flatId.name} )
+        {owner?.memberId?.name} ( {owner?.flatId?.wingName} {owner?.flatId?.name} )
         </p>
         <p className="subtitle">
         {ownerPenalty?.penaltyId?.name} | ₹ {ownerPenalty?.penaltyId?.amount}

@@ -237,7 +237,7 @@ export default function Dashboard() {
         <div className="max-h-96 overflow-y-auto">
 
 
-        {ownerPenalties.map((ownerPenalty)=> <OwnerPenanlty ownerPenalty={ownerPenalty} />)}
+        {ownerPenalties.map((ownerPenalty)=> <OwnerPenanlty key={ownerPenalty._id} ownerPenalty={ownerPenalty} />)}
 
 
 
