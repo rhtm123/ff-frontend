@@ -36,12 +36,13 @@ export default function Penalty() {
 
 
   React.useEffect(() => {
-    let storedPenalties = localStorage.getItem("penalties")
-    if (storedPenalties) {
-      setPenalties(JSON.parse(storedPenalties));
-    } else {
-      getAllPenalties();
-    }
+    getAllPenalties();
+    // let storedPenalties = localStorage.getItem("penalties")
+    // if (storedPenalties) {
+    //   setPenalties(JSON.parse(storedPenalties));
+    // } else {
+    //   getAllPenalties();
+    // }
   }, []);
 
 
